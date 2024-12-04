@@ -1,7 +1,7 @@
-# Changelog v1.1
+# Changelog v1.1.1
 
 ## Additions
-- Added sort buttons to player inventory
+- Added safety break to prevent infinite loops crashing Minecraft, when something breaks during the sorting process
 
 ## Fixes
-- Sorting doesn't work properly with bundles
+- Sorting inventories with different maps causes an infinite loop

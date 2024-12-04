@@ -109,7 +109,13 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
 
     //TODO: Refactor
     private void swapItemsUntilSorted(Map<Integer, Integer> sortedItemMap, Minecraft minecraft, int containerId) {
+        int cycles = 1000;
+
         while (!sortedItemMap.isEmpty()) {
+            if (cycles <= 0) {
+                break;
+            }
+
             Iterator<Map.Entry<Integer, Integer>> slotsIterator = sortedItemMap.entrySet().iterator();
 
             if (slotsIterator.hasNext()) {
@@ -132,6 +138,8 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
 
                 sortedItemMap.put(targetSlot, targetSlot);
             }
+
+            cycles--;
         }
     }
 
@@ -177,8 +185,13 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
 
         int leftSlotIndex = 0;
         int rightSlotIndex = mapEntryList.size() - 1;
+        int cycles = 1000;
 
         while (leftSlotIndex < rightSlotIndex) {
+            if (cycles <= 0) {
+                break;
+            }
+
             Map.Entry<Integer, ItemStack> leftSlotEntry = mapEntryList.get(leftSlotIndex);
             Map.Entry<Integer, ItemStack> rightSlotEntry = mapEntryList.get(rightSlotIndex);
             Slot leftSlot = menu.slots.get(leftSlotEntry.getKey());
@@ -195,6 +208,8 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
             if (rightSlot.getItem().is(Items.AIR)) {
                 rightSlotIndex--;
             }
+
+            cycles--;
         }
     }
 
@@ -207,6 +222,10 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
             return hasCustomName(secondItemComponents) && matchesCustomName(firstItemComponents, secondItemComponents);
         }
 
+        if (hasMapId(firstItemComponents)) {
+            return hasMapId(secondItemComponents) && matchesMapId(firstItemComponents, secondItemComponents);
+        }
+
         return true;
     }
 
@@ -216,6 +235,14 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
 
     private boolean matchesCustomName(DataComponentMap firstItemComponents, DataComponentMap secondItemComponents) {
         return firstItemComponents.get(DataComponents.CUSTOM_NAME) == secondItemComponents.get(DataComponents.CUSTOM_NAME);
+    }
+
+    private boolean hasMapId(DataComponentMap components) {
+        return components.has(DataComponents.MAP_ID);
+    }
+
+    private boolean matchesMapId(DataComponentMap firstItemComponents, DataComponentMap secondItemComponents) {
+        return firstItemComponents.get(DataComponents.MAP_ID) == secondItemComponents.get(DataComponents.MAP_ID);
     }
 
     private void swapItems(MultiPlayerGameMode gameMode, int containerId, int slot, int targetSlot, LocalPlayer player) {
