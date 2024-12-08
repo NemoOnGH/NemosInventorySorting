@@ -11,8 +11,8 @@ public class SortAlphabeticallyButton extends AbstractSortAlphabeticallyButton {
     private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_inc");
     private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_inc_highlighted");
 
-    public SortAlphabeticallyButton(int x, int y, int xOffset, int width, int height, Component message, AbstractContainerScreen<?> containerScreen) {
-        super(x, y, xOffset, width, height, message, containerScreen);
+    public SortAlphabeticallyButton(int x, int y, int xOffset, int width, int height, Component component, AbstractContainerScreen<?> containerScreen) {
+        super(x, y, xOffset, width, height, component, containerScreen);
     }
 
     @Override

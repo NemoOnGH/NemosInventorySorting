@@ -1,7 +1,7 @@
-# Changelog v1.1.1
+# Changelog v1.2
 
 ## Additions
-- Added safety break to prevent infinite loops crashing Minecraft, when something breaks during the sorting process
+- Added tooltip to buttons
 
 ## Fixes
-- Sorting inventories with different maps causes an infinite loop
+- Button still exists in creative mode tab and sorts the content

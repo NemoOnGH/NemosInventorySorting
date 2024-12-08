@@ -10,13 +10,13 @@ import java.util.Map;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
-public class SortAlphabeticallyReversedButton extends AbstractSortAlphabeticallyButton {
+public class SortAlphabeticallyDescendingButton extends AbstractSortAlphabeticallyButton {
 
     private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_dec");
     private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_dec_highlighted");
 
-    public SortAlphabeticallyReversedButton(int x, int y, int xOffset, int width, int height, Component message, AbstractContainerScreen<?> containerScreen) {
-        super(x, y, xOffset, width, height, message, containerScreen);
+    public SortAlphabeticallyDescendingButton(int x, int y, int xOffset, int width, int height, Component component, AbstractContainerScreen<?> containerScreen) {
+        super(x, y, xOffset, width, height, component, containerScreen);
     }
 
     @Override

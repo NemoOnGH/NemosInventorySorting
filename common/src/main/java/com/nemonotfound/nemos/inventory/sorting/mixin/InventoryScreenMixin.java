@@ -1,7 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.SortAlphabeticallyButton;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.SortAlphabeticallyReversedButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.SortAlphabeticallyDescendingButton;
 import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -27,12 +27,13 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
         int y = this.topPos + 70;
         int size = 12;
 
-        //TODO: Change Component
-        SortAlphabeticallyButton sortAlphabeticallyButton = new SortAlphabeticallyButton(nemosInventorySorting$getLeftPosWithOffset(40), y, 40, size, size, Component.literal("S"), this);
-        SortAlphabeticallyReversedButton sortAlphabeticallyReversedButton = new SortAlphabeticallyReversedButton(nemosInventorySorting$getLeftPosWithOffset(22), y, 22, size, size, Component.literal("S"), this);
+        Component alphabeticallyComponent = Component.translatable("gui.nemosInventorySorting.sort_alphabetically");
+        Component alphabeticallyDescendingComponent = Component.translatable("gui.nemosInventorySorting.sort_alphabetically_descending");
+        SortAlphabeticallyButton sortAlphabeticallyButton = new SortAlphabeticallyButton(nemosInventorySorting$getLeftPosWithOffset(40), y, 40, size, size, alphabeticallyComponent, this);
+        SortAlphabeticallyDescendingButton sortAlphabeticallyDescendingButton = new SortAlphabeticallyDescendingButton(nemosInventorySorting$getLeftPosWithOffset(22), y, 22, size, size, alphabeticallyDescendingComponent, this);
 
         this.addRenderableWidget(sortAlphabeticallyButton);
-        this.addRenderableWidget(sortAlphabeticallyReversedButton);
+        this.addRenderableWidget(sortAlphabeticallyDescendingButton);
     }
 
     @Override
