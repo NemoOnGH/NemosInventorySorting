@@ -4,6 +4,7 @@ import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -28,19 +29,26 @@ import java.util.stream.IntStream;
 
 public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
 
-
     private final AbstractContainerScreen<?> containerScreen;
+    private final int x;
+    private final int y;
     private final int xOffset;
 
-    public AbstractSortAlphabeticallyButton(int x, int y, int xOffset, int width, int height, Component message, AbstractContainerScreen<?> containerScreen) {
-        super(x, y, width, height, message);
+    public AbstractSortAlphabeticallyButton(int x, int y, int xOffset, int width, int height, Component component, AbstractContainerScreen<?> containerScreen) {
+        super(x, y, width, height, component);
+        this.setTooltip(Tooltip.create(component));
         this.containerScreen = containerScreen;
+        this.x = x;
+        this.y = y;
         this.xOffset = xOffset;
     }
 
     @Override
     protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.setPosition(x, y);
+
         if (containerScreen instanceof CreativeModeInventoryScreen creativeModeInventoryScreen && !creativeModeInventoryScreen.isInventoryOpen()) {
+            this.setPosition(-10, -10);
             return;
         }
 
