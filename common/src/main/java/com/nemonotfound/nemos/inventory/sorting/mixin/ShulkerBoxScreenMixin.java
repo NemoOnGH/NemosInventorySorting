@@ -1,19 +1,20 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.SortAlphabeticallyButton;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.SortAlphabeticallyDescendingButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
+import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
+import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButtonFactory;
+import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescendingButtonFactory;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ShulkerBoxScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ShulkerBoxMenu;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(ShulkerBoxScreen.class)
-public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<ChestMenu> {
+public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<ShulkerBoxMenu> {
 
-    public ShulkerBoxScreenMixin(ChestMenu menu, Inventory playerInventory, Component title) {
+    public ShulkerBoxScreenMixin(ShulkerBoxMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 
@@ -21,20 +22,33 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Ches
     public void init() {
         super.init();
 
-        int y = this.topPos + 4;
-        int size = 12;
+        int shulkerBoxStartIndex = 0;
+        int shulkerBoxEndIndex = 27;
+        int inventoryStartIndex = 27;
+        int inventoryEndIndex = 54;
+        int xOffsetFirstButton = 22;
+        int xOffsetSecondButton = 40;
+        int xOffsetThirdButton = 58;
+        int yOffsetInventory = 71;
+        int yOffsetContainer = 5;
+        int size = 11;
 
-        Component alphabeticallyComponent = Component.translatable("gui.nemosInventorySorting.sort_alphabetically");
-        Component alphabeticallyDescendingComponent = Component.translatable("gui.nemosInventorySorting.sort_alphabetically_descending");
-        SortAlphabeticallyButton sortAlphabeticallyButton = new SortAlphabeticallyButton(nemosInventorySorting$getLeftPosWithOffset(40), y, 40, size, size, alphabeticallyComponent, this);
-        SortAlphabeticallyDescendingButton sortAlphabeticallyDescendingButton = new SortAlphabeticallyDescendingButton(nemosInventorySorting$getLeftPosWithOffset(22), y, 22, size, size, alphabeticallyDescendingComponent, this);
+        SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
+        SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
+        DropAllButtonFactory dropAllButtonFactory = DropAllButtonFactory.getInstance();
+
+        AbstractSortButton sortAlphabeticallyButton = sortAlphabeticallyButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetSecondButton, yOffsetContainer, imageWidth, size, size, this);
+        AbstractSortButton sortAlphabeticallyDescendingButton = sortAlphabeticallyDescendingButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetFirstButton, yOffsetContainer, imageWidth, size, size, this);
+        AbstractSortButton dropAllButton = dropAllButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetContainer, imageWidth, size, size, this);
+        AbstractSortButton inventorySortAlphabeticallyInButton = sortAlphabeticallyButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetSecondButton, yOffsetInventory, imageWidth, size, size, this);
+        AbstractSortButton inventorySortAlphabeticallyDescendingInButton = sortAlphabeticallyDescendingButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetFirstButton, yOffsetInventory, imageWidth, size, size, this);
+        AbstractSortButton inventoryDropAllButton = dropAllButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetInventory, imageWidth, size, size, this);
 
         this.addRenderableWidget(sortAlphabeticallyButton);
         this.addRenderableWidget(sortAlphabeticallyDescendingButton);
-    }
-
-    @Unique
-    private int nemosInventorySorting$getLeftPosWithOffset(int offset) {
-        return this.leftPos + this.imageWidth - offset;
+        this.addRenderableWidget(dropAllButton);
+        this.addRenderableWidget(inventorySortAlphabeticallyInButton);
+        this.addRenderableWidget(inventorySortAlphabeticallyDescendingInButton);
+        this.addRenderableWidget(inventoryDropAllButton);
     }
 }
