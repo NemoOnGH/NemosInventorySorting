@@ -1,24 +1,15 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
-import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
@@ -27,51 +18,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
+public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButton {
 
-    private final AbstractContainerScreen<?> containerScreen;
-    private final int x;
-    private final int y;
-    private final int xOffset;
-
-    public AbstractSortAlphabeticallyButton(int x, int y, int xOffset, int width, int height, Component component, AbstractContainerScreen<?> containerScreen) {
-        super(x, y, width, height, component);
-        this.setTooltip(Tooltip.create(component));
-        this.containerScreen = containerScreen;
-        this.x = x;
-        this.y = y;
-        this.xOffset = xOffset;
-    }
-
-    @Override
-    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.setPosition(x, y);
-
-        if (containerScreen instanceof CreativeModeInventoryScreen creativeModeInventoryScreen && !creativeModeInventoryScreen.isInventoryOpen()) {
-            this.setPosition(-10, -10);
-            return;
-        }
-
-        if (containerScreen instanceof InventoryScreen) {
-            int leftPos = ((GuiPosition) containerScreen).nemosInventorySorting$getLeftPos();
-            int imageWidth = ((GuiPosition) containerScreen).nemosInventorySorting$getImageWidth();
-
-            this.setX(leftPos + imageWidth - this.xOffset);
-        }
-
-        if (this.isHovered()) {
-            guiGraphics.blitSprite(RenderType::guiTextured, getButtonHoverTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-        } else {
-            guiGraphics.blitSprite(RenderType::guiTextured, getButtonTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-        }
-    }
-
-    protected abstract ResourceLocation getButtonHoverTexture();
-    protected abstract ResourceLocation getButtonTexture();
-
-    @Override
-    protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
-
+    public AbstractSortAlphabeticallyButton(Builder<? extends AbstractSortAlphabeticallyButton> builder) {
+        super(builder);
     }
 
     @Override
@@ -102,10 +52,9 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
     private Map<Integer, Integer> createSortedItemMap(AbstractContainerMenu menu) {
         List<Map.Entry<Integer, ItemStack>> itemMapEntries = getSortedSlotItems(menu);
         Map<Integer, Integer> sortedItemMap = new LinkedHashMap<>();
-        int containerStartIndex = getContainerStartIndex(menu);
 
         for (int i = 0; i < itemMapEntries.size(); i++) {
-            int newSlot = i + containerStartIndex;
+            int newSlot = i + startIndex;
             int currentSlot = itemMapEntries.get(i).getKey();
             if (currentSlot != newSlot) {
                 sortedItemMap.put(currentSlot, newSlot);
@@ -154,32 +103,12 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractWidget {
     private @NotNull List<Map.Entry<Integer, ItemStack>> getSortedSlotItems(AbstractContainerMenu menu) {
         NonNullList<Slot> slots = menu.slots;
 
-        return IntStream.range(getContainerStartIndex(menu), getContainerEndIndex(menu))
+        return IntStream.range(startIndex, endIndex)
                 .mapToObj(slotIndex -> Map.entry(slotIndex, slots.get(slotIndex).getItem()))
                 .filter(itemStackEntry -> !itemStackEntry.getValue().is(Items.AIR))
                 .sorted(compare())
                 .toList();
 
-    }
-
-    private int getContainerStartIndex(AbstractContainerMenu menu) {
-        if (menu instanceof InventoryMenu || menu instanceof CreativeModeInventoryScreen.ItemPickerMenu) {
-            return 9;
-        }
-
-        return 0;
-    }
-
-    private int getContainerEndIndex(AbstractContainerMenu menu) {
-        if (menu instanceof ChestMenu) {
-            return ((ChestMenu) menu).getContainer().getContainerSize();
-        } else if (menu instanceof ShulkerBoxMenu) {
-            return 27;
-        } else if (menu instanceof InventoryMenu || menu instanceof CreativeModeInventoryScreen.ItemPickerMenu) {
-            return 36;
-        }
-
-        return 0;
     }
 
     protected Comparator<Map.Entry<Integer, ItemStack>> compare() {
