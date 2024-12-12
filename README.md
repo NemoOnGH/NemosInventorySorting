@@ -3,6 +3,7 @@
 
 # Description
 Nemo's Inventory Sorting is a client-only mod that adds buttons to inventories to sort items.
+Sort your inventory from A-Z, Z-A, or drop the entire inventory with just a button click.
 <br>
 
 ### DISCLAIMER <br>

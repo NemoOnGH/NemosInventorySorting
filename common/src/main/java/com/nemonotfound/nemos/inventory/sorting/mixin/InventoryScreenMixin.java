@@ -1,6 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
+import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescendingButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
@@ -24,17 +25,25 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
 
     @Inject(method = "init", at = @At("RETURN"))
     public void init(CallbackInfo ci) {
-        int yOffset = 71;
+        int startIndex = 9;
+        int endIndex = 36;
+        int xOffsetFirstButton = 18;
+        int xOffsetSecondButton = 33;
+        int xOffsetThirdButton = 48;
+        int yOffset = 65;
         int size = 11;
 
         SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
         SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
+        DropAllButtonFactory dropAllButtonFactory = DropAllButtonFactory.getInstance();
 
-        AbstractSortButton sortAlphabeticallyButton = sortAlphabeticallyButtonFactory.createButton(9, 36, leftPos, topPos, 40, yOffset, imageWidth, size, size, this);
-        AbstractSortButton sortAlphabeticallyDescendingButton = sortAlphabeticallyDescendingButtonFactory.createButton(9, 36, leftPos, topPos, 22, yOffset, imageWidth, size, size, this);
+        AbstractSortButton sortAlphabeticallyButton = sortAlphabeticallyButtonFactory.createButton(startIndex, endIndex, leftPos, topPos, xOffsetFirstButton, yOffset, imageWidth, size, size, this);
+        AbstractSortButton sortAlphabeticallyDescendingButton = sortAlphabeticallyDescendingButtonFactory.createButton(startIndex, endIndex, leftPos, topPos, xOffsetSecondButton, yOffset, imageWidth, size, size, this);
+        AbstractSortButton dropAllButton = dropAllButtonFactory.createButton(startIndex, endIndex, leftPos, topPos, xOffsetThirdButton, yOffset, imageWidth, size, size, this);
 
         this.addRenderableWidget(sortAlphabeticallyButton);
         this.addRenderableWidget(sortAlphabeticallyDescendingButton);
+        this.addRenderableWidget(dropAllButton);
     }
 
     @Override

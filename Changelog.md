@@ -1,12 +1,7 @@
-# Changelog v1.2
+# Changelog v1.2.1
 
 ## Additions
-- Added drop all button
-- Added tooltip to buttons
-- Sort buttons for the inventory now shows also when in container menu (e.g. chest)
+- Added drop all button to player inventory
 
 ## Changes
-- Resized buttons
-
-## Fixes
-- Button still exists in creative mode tab and sorts the content
+- Slightly rearranged button position for player inventory
