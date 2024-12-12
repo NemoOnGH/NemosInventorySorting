@@ -6,6 +6,6 @@ import net.minecraftforge.fml.common.Mod;
 public class NemosInventorySortingForge {
 
     public NemosInventorySortingForge() {
-        CommonClass.init();
+        NemosInventorySortingCommon.init();
     }
 }

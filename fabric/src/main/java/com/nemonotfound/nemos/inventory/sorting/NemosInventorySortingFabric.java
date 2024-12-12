@@ -6,6 +6,6 @@ public class NemosInventorySortingFabric implements ModInitializer {
     
     @Override
     public void onInitialize() {
-        CommonClass.init();
+        NemosInventorySortingCommon.init();
     }
 }

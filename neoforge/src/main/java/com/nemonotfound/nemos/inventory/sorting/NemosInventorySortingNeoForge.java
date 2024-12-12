@@ -7,7 +7,7 @@ import net.neoforged.fml.common.Mod;
 public class NemosInventorySortingNeoForge {
 
     public NemosInventorySortingNeoForge() {
-        CommonClass.init();
+        NemosInventorySortingCommon.init();
 
     }
 }
