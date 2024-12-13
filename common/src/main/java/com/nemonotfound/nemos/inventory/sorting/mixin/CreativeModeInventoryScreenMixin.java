@@ -13,14 +13,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(CreativeModeInventoryScreen.class)
+// Deactivated until duplication bug is fixed
+//@Mixin(CreativeModeInventoryScreen.class)
 public abstract class CreativeModeInventoryScreenMixin extends AbstractContainerScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
 
     public CreativeModeInventoryScreenMixin(CreativeModeInventoryScreen.ItemPickerMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 
-    @Inject(method = "init", at = @At("RETURN"))
+    //@Inject(method = "init", at = @At("RETURN"))
     public void init(CallbackInfo ci) {
         int startIndex = 9;
         int endIndex = 36;
