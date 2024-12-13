@@ -5,3 +5,4 @@
 
 ## Changes
 - Slightly rearranged button position for player inventory
+- Removed buttons from creative mode inventory screen since it caused item duplication

@@ -8,8 +8,7 @@
   "client": [
     "ContainerScreenMixin",
     "ShulkerBoxScreenMixin",
-    "InventoryScreenMixin",
-    "CreativeModeInventoryScreenMixin"
+    "InventoryScreenMixin"
   ],
   "server": [],
   "injectors": {
