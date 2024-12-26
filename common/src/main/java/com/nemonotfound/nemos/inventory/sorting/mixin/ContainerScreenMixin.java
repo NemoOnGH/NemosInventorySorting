@@ -2,6 +2,7 @@ package com.nemonotfound.nemos.inventory.sorting.mixin;
 
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
 import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
+import com.nemonotfound.nemos.inventory.sorting.factory.MoveAllButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescendingButtonFactory;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -29,10 +30,12 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
         int xOffsetFirstButton = 22;
         int xOffsetSecondButton = 40;
         int xOffsetThirdButton = 58;
+        int xOffsetFourthButton = 76;
         int yOffsetInventory = 72;
         int yOffsetContainer = 5;
         int size = 11;
         int containerSize = this.getMenu().getContainer().getContainerSize();
+        int inventoryEndIndex = containerSize + 27;
 
         if (containerRows == 6) {
             yOffsetInventory = 126;
@@ -41,19 +44,24 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
         SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
         SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
         DropAllButtonFactory dropAllButtonFactory = DropAllButtonFactory.getInstance();
+        MoveAllButtonFactory moveAllButtonFactory = MoveAllButtonFactory.getInstance();
 
         AbstractSortButton sortAlphabeticallyButton = sortAlphabeticallyButtonFactory.createButton(0, containerSize, leftPos, topPos, xOffsetSecondButton, yOffsetContainer, imageWidth, size, size, this);
         AbstractSortButton sortAlphabeticallyDescendingButton = sortAlphabeticallyDescendingButtonFactory.createButton(0, containerSize, leftPos, topPos, xOffsetFirstButton, yOffsetContainer, imageWidth, size, size, this);
-        AbstractSortButton dropAllButton = dropAllButtonFactory.createButton(0, containerSize, leftPos, topPos, xOffsetThirdButton, yOffsetContainer, imageWidth, size, size, this);
-        AbstractSortButton inventorySortAlphabeticallyInButton = sortAlphabeticallyButtonFactory.createButton(containerSize, containerSize + 27, leftPos, topPos, xOffsetSecondButton, yOffsetInventory, imageWidth, size, size, this);
-        AbstractSortButton inventorySortAlphabeticallyDescendingInButton = sortAlphabeticallyDescendingButtonFactory.createButton(containerSize, containerSize + 27, leftPos, topPos, xOffsetFirstButton, yOffsetInventory, imageWidth, size, size, this);
-        AbstractSortButton inventoryDropAllButton = dropAllButtonFactory.createButton(containerSize, containerSize + 27, leftPos, topPos, xOffsetThirdButton, yOffsetInventory, imageWidth, size, size, this);
+        AbstractSortButton moveAllButton = moveAllButtonFactory.createButton(0, containerSize, leftPos, topPos, xOffsetThirdButton, yOffsetContainer, imageWidth, size, size, this);
+        AbstractSortButton dropAllButton = dropAllButtonFactory.createButton(0, containerSize, leftPos, topPos, xOffsetFourthButton, yOffsetContainer, imageWidth, size, size, this);
+        AbstractSortButton inventorySortAlphabeticallyInButton = sortAlphabeticallyButtonFactory.createButton(containerSize, inventoryEndIndex, leftPos, topPos, xOffsetSecondButton, yOffsetInventory, imageWidth, size, size, this);
+        AbstractSortButton inventorySortAlphabeticallyDescendingInButton = sortAlphabeticallyDescendingButtonFactory.createButton(containerSize, inventoryEndIndex, leftPos, topPos, xOffsetFirstButton, yOffsetInventory, imageWidth, size, size, this);
+        AbstractSortButton inventoryMoveAllButton = moveAllButtonFactory.createButton(containerSize, inventoryEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetInventory, imageWidth, size, size, this);
+        AbstractSortButton inventoryDropAllButton = dropAllButtonFactory.createButton(containerSize, inventoryEndIndex, leftPos, topPos, xOffsetFourthButton, yOffsetInventory, imageWidth, size, size, this);
 
         this.addRenderableWidget(sortAlphabeticallyButton);
         this.addRenderableWidget(sortAlphabeticallyDescendingButton);
+        this.addRenderableWidget(moveAllButton);
         this.addRenderableWidget(dropAllButton);
         this.addRenderableWidget(inventorySortAlphabeticallyInButton);
         this.addRenderableWidget(inventorySortAlphabeticallyDescendingInButton);
+        this.addRenderableWidget(inventoryMoveAllButton);
         this.addRenderableWidget(inventoryDropAllButton);
     }
 }
