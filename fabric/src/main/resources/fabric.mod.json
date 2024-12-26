@@ -26,7 +26,8 @@
         "fabricloader": ">=${fabric_loader_version}",
         "fabric-api": "*",
         "minecraft": [
-            "1.21.4"
+            "1.21.2",
+            "1.21.3"
         ],
         "java": ">=${java_version}"
     },
