@@ -5,12 +5,12 @@ import net.minecraft.world.inventory.ClickType;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
-public class DropAllButton extends AbstractSingleClickButton<DropAllButton> {
+public class MoveAllButton extends AbstractSingleClickButton<MoveAllButton> {
 
-    private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "drop_all_button");
-    private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "drop_all_button_highlighted");
+    private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "move_all_button");
+    private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "move_all_button_highlighted");
 
-    public DropAllButton(Builder<DropAllButton> builder) {
+    public MoveAllButton(Builder<MoveAllButton> builder) {
         super(builder);
     }
 
@@ -27,6 +27,6 @@ public class DropAllButton extends AbstractSingleClickButton<DropAllButton> {
     @Override
     public void onClick(double mouseX, double mouseY) {
         super.onClick(mouseX, mouseY);
-        interactWithAllItems(ClickType.THROW, 1);
+        interactWithAllItems(ClickType.QUICK_MOVE, 0);
     }
 }

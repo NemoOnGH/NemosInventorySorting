@@ -8,9 +8,6 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 // Deactivated until duplication bug is fixed
@@ -25,10 +22,10 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
     public void init(CallbackInfo ci) {
         int startIndex = 9;
         int endIndex = 36;
-        int xOffsetFirstButton = 40;
-        int xOffsetSecondButton = 58;
-        int xOffsetThirdButton = 76;
-        int yOffset = 39;
+        int xOffsetFirstButton = 36;
+        int xOffsetSecondButton = 51;
+        int xOffsetThirdButton = 66;
+        int yOffset = 35;
         int size = 11;
 
         SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();

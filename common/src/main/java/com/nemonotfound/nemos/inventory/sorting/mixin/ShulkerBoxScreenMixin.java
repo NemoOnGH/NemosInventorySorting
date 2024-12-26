@@ -2,6 +2,7 @@ package com.nemonotfound.nemos.inventory.sorting.mixin;
 
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
 import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
+import com.nemonotfound.nemos.inventory.sorting.factory.MoveAllButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescendingButtonFactory;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -29,6 +30,7 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         int xOffsetFirstButton = 22;
         int xOffsetSecondButton = 40;
         int xOffsetThirdButton = 58;
+        int xOffsetFourthButton = 76;
         int yOffsetInventory = 71;
         int yOffsetContainer = 5;
         int size = 11;
@@ -36,19 +38,24 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
         SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
         DropAllButtonFactory dropAllButtonFactory = DropAllButtonFactory.getInstance();
+        MoveAllButtonFactory moveAllButtonFactory = MoveAllButtonFactory.getInstance();
 
         AbstractSortButton sortAlphabeticallyButton = sortAlphabeticallyButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetSecondButton, yOffsetContainer, imageWidth, size, size, this);
         AbstractSortButton sortAlphabeticallyDescendingButton = sortAlphabeticallyDescendingButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetFirstButton, yOffsetContainer, imageWidth, size, size, this);
-        AbstractSortButton dropAllButton = dropAllButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetContainer, imageWidth, size, size, this);
+        AbstractSortButton moveAllButton = moveAllButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetContainer, imageWidth, size, size, this);
+        AbstractSortButton dropAllButton = dropAllButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetFourthButton, yOffsetContainer, imageWidth, size, size, this);
         AbstractSortButton inventorySortAlphabeticallyInButton = sortAlphabeticallyButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetSecondButton, yOffsetInventory, imageWidth, size, size, this);
         AbstractSortButton inventorySortAlphabeticallyDescendingInButton = sortAlphabeticallyDescendingButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetFirstButton, yOffsetInventory, imageWidth, size, size, this);
-        AbstractSortButton inventoryDropAllButton = dropAllButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetInventory, imageWidth, size, size, this);
+        AbstractSortButton inventoryMoveAllButton = moveAllButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetInventory, imageWidth, size, size, this);
+        AbstractSortButton inventoryDropAllButton = dropAllButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetFourthButton, yOffsetInventory, imageWidth, size, size, this);
 
         this.addRenderableWidget(sortAlphabeticallyButton);
         this.addRenderableWidget(sortAlphabeticallyDescendingButton);
+        this.addRenderableWidget(moveAllButton);
         this.addRenderableWidget(dropAllButton);
         this.addRenderableWidget(inventorySortAlphabeticallyInButton);
         this.addRenderableWidget(inventorySortAlphabeticallyDescendingInButton);
+        this.addRenderableWidget(inventoryMoveAllButton);
         this.addRenderableWidget(inventoryDropAllButton);
     }
 }

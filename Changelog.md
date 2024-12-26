@@ -1,8 +1,4 @@
-# Changelog v1.2.1
+# Changelog v1.3
 
 ## Additions
-- Added drop all button to player inventory
-
-## Changes
-- Slightly rearranged button position for player inventory
-- Removed buttons from creative mode inventory screen since it caused item duplication
+- Added move all button to container inventories
