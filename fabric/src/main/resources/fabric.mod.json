@@ -17,6 +17,9 @@
     "entrypoints": {
         "main": [
             "com.nemonotfound.nemos.inventory.sorting.NemosInventorySortingFabric"
+        ],
+        "client": [
+            "com.nemonotfound.nemos.inventory.sorting.NemosInventorySortingClientFabric"
         ]
     },
     "mixins": [

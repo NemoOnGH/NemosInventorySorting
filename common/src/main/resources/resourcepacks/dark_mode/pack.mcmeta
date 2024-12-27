@@ -1,0 +1,9 @@
+{
+  "pack": {
+    "pack_format": 46,
+    "supported_formats": [42, 46],
+    "description": {
+      "translate": "resourcePack.nemos_inventory_sorting.dark_mode.description"
+    }
+  }
+}
