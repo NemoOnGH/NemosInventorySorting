@@ -2,6 +2,7 @@
   "gui.nemosInventorySorting.sort_alphabetically": "Sort A-Z",
   "gui.nemosInventorySorting.sort_alphabetically_descending": "Sort Z-A",
   "gui.nemosInventorySorting.drop_all": "Drop All",
+  "gui.nemosInventorySorting.move_same": "Move Same",
   "gui.nemosInventorySorting.move_all": "Move All",
   "resourcePack.nemos_inventory_sorting.dark_mode.name": "Dark Mode",
   "resourcePack.nemos_inventory_sorting.dark_mode.description": "Adds a dark mode to all buttons for dark mode enthusiasts and to support people with color blindness"

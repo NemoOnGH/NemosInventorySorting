@@ -30,7 +30,7 @@ public abstract class AbstractSingleClickButton<T extends AbstractSortButton> ex
         int containerId = menu.containerId;
         boolean isCreativeModeMenu = menu instanceof CreativeModeInventoryScreen.ItemPickerMenu;
 
-        List<Integer> slotItems = getItemSlots(menu);
+        List<Integer> slotItems = getItemSlotsToInteractWith(menu);
 
         if (gameMode != null && player != null) {
             Consumer<Integer> function = isCreativeModeMenu ?
@@ -47,7 +47,7 @@ public abstract class AbstractSingleClickButton<T extends AbstractSortButton> ex
         }
     }
 
-    private @NotNull List<Integer> getItemSlots(AbstractContainerMenu menu) {
+    protected @NotNull List<Integer> getItemSlotsToInteractWith(AbstractContainerMenu menu) {
         NonNullList<Slot> slots = menu.slots;
 
         return IntStream.range(startIndex, endIndex)
