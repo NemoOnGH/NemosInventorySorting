@@ -1,4 +1,4 @@
-# Changelog v1.3
+# Changelog v1.3.1
 
 ## Additions
-- Added move all button to container inventories
+- Added a built-in dark mode resource pack for dark mode enthusiasts and to support people with color blindness
