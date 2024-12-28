@@ -1,11 +1,11 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
+import com.nemonotfound.nemos.inventory.sorting.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
@@ -15,8 +15,9 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.groupingBy;
 
 public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButton {
 
@@ -43,8 +44,8 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
     }
 
     private void mergeAllItems(AbstractContainerMenu menu, int containerId, Minecraft minecraft) {
-        Map<String, List<Map.Entry<Integer, ItemStack>>> groupedItemMap = getSortedSlotItems(menu).stream()
-                .collect(Collectors.groupingBy(itemMap -> itemMap.getValue().getItemName().getString()));
+        Map<DataComponentMap, List<Map.Entry<Integer, ItemStack>>> groupedItemMap = getSortedSlotItems(menu).stream()
+                .collect(groupingBy(itemMap -> itemMap.getValue().getComponents()));
 
         groupedItemMap.forEach((key, mapEntryList) -> mergeItems(mapEntryList, menu, containerId, minecraft));
     }
@@ -126,6 +127,8 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
 
         while (leftSlotIndex < rightSlotIndex) {
             if (cycles <= 0) {
+                Constants.LOG.warn("Merging items exceeded max. attempts");
+
                 break;
             }
 
@@ -134,9 +137,8 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
             Slot leftSlot = menu.slots.get(leftSlotEntry.getKey());
             Slot rightSlot = menu.slots.get(rightSlotEntry.getKey());
             ItemStack leftItem = leftSlot.getItem();
-            ItemStack rightItem = rightSlot.getItem();
 
-            if (isFullStack(leftItem) && doDataComponentsMatch(leftItem.getComponents(), rightItem.getComponents())) {
+            if (!isFullStack(leftItem)) {
                 swapItems(minecraft.gameMode, containerId, rightSlotEntry.getKey(), leftSlotEntry.getKey(), minecraft.player);
             } else {
                 leftSlotIndex++;
@@ -151,35 +153,7 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
     }
 
     private boolean isFullStack(ItemStack itemStack) {
-        return itemStack.getCount() < itemStack.getMaxStackSize();
-    }
-
-    private boolean doDataComponentsMatch(DataComponentMap firstItemComponents, DataComponentMap secondItemComponents) {
-        if (hasCustomName(firstItemComponents)) {
-            return hasCustomName(secondItemComponents) && matchesCustomName(firstItemComponents, secondItemComponents);
-        }
-
-        if (hasMapId(firstItemComponents)) {
-            return hasMapId(secondItemComponents) && matchesMapId(firstItemComponents, secondItemComponents);
-        }
-
-        return true;
-    }
-
-    private boolean hasCustomName(DataComponentMap components) {
-        return components.has(DataComponents.CUSTOM_NAME);
-    }
-
-    private boolean matchesCustomName(DataComponentMap firstItemComponents, DataComponentMap secondItemComponents) {
-        return firstItemComponents.get(DataComponents.CUSTOM_NAME) == secondItemComponents.get(DataComponents.CUSTOM_NAME);
-    }
-
-    private boolean hasMapId(DataComponentMap components) {
-        return components.has(DataComponents.MAP_ID);
-    }
-
-    private boolean matchesMapId(DataComponentMap firstItemComponents, DataComponentMap secondItemComponents) {
-        return firstItemComponents.get(DataComponents.MAP_ID) == secondItemComponents.get(DataComponents.MAP_ID);
+        return itemStack.getCount() >= itemStack.getMaxStackSize();
     }
 
     private void swapItems(MultiPlayerGameMode gameMode, int containerId, int slot, int targetSlot, LocalPlayer player) {
