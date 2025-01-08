@@ -5,5 +5,5 @@
   "gui.nemosInventorySorting.move_same": "Move Same",
   "gui.nemosInventorySorting.move_all": "Move All",
   "resourcePack.nemos_inventory_sorting.dark_mode.name": "Dark Mode",
-  "resourcePack.nemos_inventory_sorting.dark_mode.description": "Adds a dark mode to all buttons"
+  "resourcePack.nemos_inventory_sorting.dark_mode.description": "Dark buttons"
 }
