@@ -1,4 +1,4 @@
-# Changelog v1.4.2
+# Changelog v1.5
 
-## Changes
-- Button textures have more contrast now to offer people with color blindness the choice between light and dark mode
+## Additions
+- Added search box to containers to highlight filtered items
