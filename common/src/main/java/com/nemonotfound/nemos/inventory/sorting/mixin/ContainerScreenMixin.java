@@ -84,8 +84,8 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
         this.addRenderableWidget(inventoryDropAllButton);
     }
 
-    @Inject(method = "renderBg", at = @At("RETURN"))
-    private void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY, CallbackInfo ci) {
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V", shift = At.Shift.AFTER))
+    private void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         this.nemosInventorySorting$searchBox.render(guiGraphics, mouseX, mouseY, partialTick);
         var filter = this.nemosInventorySorting$searchBox.getValue();
 

@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Items;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -49,17 +50,24 @@ public class ContainerFilterBox {
         var leftPosOffset = leftPos + 8;
         var topPosOffset = topPos;
 
-        markSlots(filteredSlotMap.get(true), leftPosOffset, topPosOffset, guiGraphics, HIGHLIGHTED_SLOT);
-        markSlots(filteredSlotMap.get(false), leftPosOffset, topPosOffset, guiGraphics, DIMMED_SLOT);
+        markSlots(RenderType::guiTextured, filteredSlotMap.get(true), leftPosOffset, topPosOffset, guiGraphics, HIGHLIGHTED_SLOT);
+        markSlots(RenderType::guiTexturedOverlay, filteredSlotMap.get(false), leftPosOffset, topPosOffset, guiGraphics, DIMMED_SLOT);
     }
 
     private boolean filterForItemName(Slot slot, String filter) {
         var slotItem = slot.getItem();
+        var itemNameContainsFilter = nameContainsFilter(slotItem.getItemName(), filter);
+        var itemDisplayNameContainsFilter = nameContainsFilter(slotItem.getDisplayName(), filter);
 
-        return !slotItem.is(Items.AIR) && slotItem.getItemName().getString().toLowerCase().contains(filter.toLowerCase());
+        return !slotItem.is(Items.AIR) && (itemNameContainsFilter || itemDisplayNameContainsFilter);
+    }
+
+    private boolean nameContainsFilter(Component component, String filter) {
+        return component.getString().toLowerCase().contains(filter.toLowerCase());
     }
 
     private void markSlots(
+            Function<ResourceLocation, RenderType> renderTypeFunction,
             List<Integer> slots,
             int leftPosOffset,
             int topPosOffset,
@@ -72,7 +80,7 @@ public class ContainerFilterBox {
             var xPos = leftPosOffset + (18 * column);
             var yPos = calculateYPos(containerRows, row, topPosOffset);
 
-            guiGraphics.blitSprite(RenderType::guiTextured, texture, xPos, yPos, 16, 16);
+            guiGraphics.blitSprite(renderTypeFunction, texture, xPos, yPos, 16, 16);
         }
     }
 
