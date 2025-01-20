@@ -80,7 +80,7 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V", shift = At.Shift.AFTER))
-    private void renderBg(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+    private void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         nemosInventorySorting$searchBox.render(guiGraphics, mouseX, mouseY, partialTick);
         var filter = nemosInventorySorting$searchBox.getValue();
 
