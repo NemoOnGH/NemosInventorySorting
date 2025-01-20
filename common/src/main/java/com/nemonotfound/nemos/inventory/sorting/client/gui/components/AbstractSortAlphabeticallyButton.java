@@ -6,7 +6,6 @@ import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
@@ -113,7 +112,12 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
     }
 
     protected Comparator<Map.Entry<Integer, ItemStack>> compare() {
-        return Comparator.comparing(entry -> entry.getValue().getItemName().getString());
+        return Comparator.comparing(entry -> {
+            var itemStack = entry.getValue();
+            var itemName = itemStack.getItem().getName(itemStack);
+
+            return itemName.getString();
+        });
     }
 
     private void mergeItems(List<Map.Entry<Integer, ItemStack>> mapEntryList, AbstractContainerMenu menu, int containerId, Minecraft minecraft) {
@@ -163,15 +167,6 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
     }
 
     private void pickUpItem(MultiPlayerGameMode gameMode, int containerId, int slot, LocalPlayer player) {
-        ItemStack cursorStack = player.containerMenu.getCarried();
-        AbstractContainerMenu menu = containerScreen.getMenu();
-        Slot itemSlot = menu.getSlot(slot);
-        int mouseButton = 0;
-
-        if ((!cursorStack.is(Items.AIR) && itemSlot.getItem().is(ItemTags.BUNDLES)) || (cursorStack.is(ItemTags.BUNDLES) && !itemSlot.getItem().is(Items.AIR))) {
-            mouseButton = 1;
-        }
-
-        gameMode.handleInventoryMouseClick(containerId, slot, mouseButton, ClickType.PICKUP, player);
+        gameMode.handleInventoryMouseClick(containerId, slot, 0, ClickType.PICKUP, player);
     }
 }

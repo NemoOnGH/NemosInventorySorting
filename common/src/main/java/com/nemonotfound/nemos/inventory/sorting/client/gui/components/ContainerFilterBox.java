@@ -11,7 +11,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Items;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -50,13 +49,14 @@ public class ContainerFilterBox {
         var leftPosOffset = leftPos + 8;
         var topPosOffset = topPos;
 
-        markSlots(RenderType::guiTextured, filteredSlotMap.get(true), leftPosOffset, topPosOffset, guiGraphics, HIGHLIGHTED_SLOT);
-        markSlots(RenderType::guiTexturedOverlay, filteredSlotMap.get(false), leftPosOffset, topPosOffset, guiGraphics, DIMMED_SLOT);
+        markSlots(false, filteredSlotMap.get(true), leftPosOffset, topPosOffset, guiGraphics, HIGHLIGHTED_SLOT);
+        markSlots(true, filteredSlotMap.get(false), leftPosOffset, topPosOffset, guiGraphics, DIMMED_SLOT);
     }
 
     private boolean filterForItemName(Slot slot, String filter) {
         var slotItem = slot.getItem();
-        var itemNameContainsFilter = nameContainsFilter(slotItem.getItemName(), filter);
+        var itemName = slotItem.getItem().getName(slotItem);
+        var itemNameContainsFilter = nameContainsFilter(itemName, filter);
         var itemDisplayNameContainsFilter = nameContainsFilter(slotItem.getDisplayName(), filter);
 
         return !slotItem.is(Items.AIR) && (itemNameContainsFilter || itemDisplayNameContainsFilter);
@@ -67,7 +67,7 @@ public class ContainerFilterBox {
     }
 
     private void markSlots(
-            Function<ResourceLocation, RenderType> renderTypeFunction,
+            boolean shouldFillGradient,
             List<Integer> slots,
             int leftPosOffset,
             int topPosOffset,
@@ -80,7 +80,11 @@ public class ContainerFilterBox {
             var xPos = leftPosOffset + (18 * column);
             var yPos = calculateYPos(containerRows, row, topPosOffset);
 
-            guiGraphics.blitSprite(renderTypeFunction, texture, xPos, yPos, 16, 16);
+            guiGraphics.blitSprite(texture, xPos, yPos, 16, 16);
+
+            if (shouldFillGradient) {
+                guiGraphics.fillGradient(RenderType.guiOverlay(), xPos, yPos, xPos + 16, yPos + 16, -2139062142, -2139062142, 0);
+            }
         }
     }
 
