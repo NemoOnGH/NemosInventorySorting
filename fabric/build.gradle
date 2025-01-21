@@ -15,7 +15,7 @@ dependencies {
 }
 
 base {
-    archivesName = "${mod_id_jar}-Fabric"
+    archivesName = "${mod_id_jar}-Fabric-${minecraft_version}"
 }
 
 loom {
