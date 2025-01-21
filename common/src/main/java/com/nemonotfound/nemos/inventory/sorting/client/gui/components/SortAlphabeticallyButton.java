@@ -6,8 +6,8 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
 public class SortAlphabeticallyButton extends AbstractSortAlphabeticallyButton {
 
-    private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_inc");
-    private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_inc_highlighted");
+    private final ResourceLocation buttonTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/sort_button_alphabetically_inc.png");
+    private final ResourceLocation buttonHoverTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/sort_button_alphabetically_inc_highlighted.png");
 
     public SortAlphabeticallyButton(Builder<SortAlphabeticallyButton> builder) {
         super(builder);

@@ -18,8 +18,8 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
 public class MoveSameButton extends AbstractSingleClickButton<MoveSameButton> {
 
-    private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "move_same_button");
-    private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "move_same_button_highlighted");
+    private final ResourceLocation buttonTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/move_same_button.png");
+    private final ResourceLocation buttonHoverTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/move_same_button_highlighted.png");
 
     public MoveSameButton(Builder<MoveSameButton> builder) {
         super(builder);

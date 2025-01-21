@@ -7,8 +7,8 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
 public class DropAllButton extends AbstractSingleClickButton<DropAllButton> {
 
-    private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "drop_all_button");
-    private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "drop_all_button_highlighted");
+    private final ResourceLocation buttonTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/drop_all_button.png");
+    private final ResourceLocation buttonHoverTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/drop_all_button_highlighted.png");
 
     public DropAllButton(Builder<DropAllButton> builder) {
         super(builder);

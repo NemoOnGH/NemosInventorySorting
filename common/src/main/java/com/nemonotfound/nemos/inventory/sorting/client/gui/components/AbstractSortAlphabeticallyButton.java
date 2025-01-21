@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
@@ -43,10 +42,19 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
     }
 
     private void mergeAllItems(AbstractContainerMenu menu, int containerId, Minecraft minecraft) {
-        Map<DataComponentMap, List<Map.Entry<Integer, ItemStack>>> groupedItemMap = getSortedSlotItems(menu).stream()
-                .collect(groupingBy(itemMap -> itemMap.getValue().getComponents()));
+        var groupedItemByCompoundTagMap = getSortedSlotItems(menu).stream()
+                .filter(itemStackEntry -> itemStackEntry.getValue().getTag() != null)
+                .collect(groupingBy(itemMap -> itemMap.getValue().getTag()));
+        var groupedItemByItemNameMap = getSortedSlotItems(menu).stream()
+                .filter(itemStackEntry -> itemStackEntry.getValue().getTag() == null)
+                .collect(groupingBy(itemMap -> {
+                    var itemStack = itemMap.getValue();
 
-        groupedItemMap.forEach((key, mapEntryList) -> mergeItems(mapEntryList, menu, containerId, minecraft));
+                    return itemStack.getItem().getName(itemStack).getString();
+                }));
+
+        groupedItemByItemNameMap.forEach((key, mapEntryList) -> mergeItems(mapEntryList, menu, containerId, minecraft));
+        groupedItemByCompoundTagMap.forEach((key, mapEntryList) -> mergeItems(mapEntryList, menu, containerId, minecraft));
     }
 
     private Map<Integer, Integer> createSortedItemMap(AbstractContainerMenu menu) {

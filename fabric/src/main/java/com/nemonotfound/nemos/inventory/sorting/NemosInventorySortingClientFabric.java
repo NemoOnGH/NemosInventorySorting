@@ -19,7 +19,7 @@ public class NemosInventorySortingClientFabric implements ClientModInitializer {
     private void registerBuiltInResourcePack() {
         FabricLoader.getInstance().getModContainer(MOD_ID).ifPresent(container ->
                 ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.fromNamespaceAndPath(MOD_ID, "dark_mode"),
+                        new ResourceLocation(MOD_ID, "dark_mode"),
                         container,
                         Component.translatable("resourcePack.nemos_inventory_sorting.dark_mode.name"),
                         ResourcePackActivationType.NORMAL

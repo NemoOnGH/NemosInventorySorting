@@ -22,8 +22,8 @@ public class ContainerFilterBox {
     private final int leftPos;
     private final int topPos;
     private final int containerRows;
-    private static final ResourceLocation HIGHLIGHTED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/highlighted_slot");
-    private static final ResourceLocation DIMMED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/dimmed_slot");
+    private static final ResourceLocation HIGHLIGHTED_SLOT = new ResourceLocation(MOD_ID, "textures/gui/sprites/container/highlighted_slot.png");
+    private static final ResourceLocation DIMMED_SLOT = new ResourceLocation(MOD_ID, "textures/gui/sprites/container/dimmed_slot.png");
 
     public ContainerFilterBox(Font font, int leftPos, int topPos, int containerRows) {
         this.leftPos = leftPos;
@@ -80,7 +80,7 @@ public class ContainerFilterBox {
             var xPos = leftPosOffset + (18 * column);
             var yPos = calculateYPos(containerRows, row, topPosOffset);
 
-            guiGraphics.blitSprite(texture, xPos, yPos, 16, 16);
+            guiGraphics.blit(texture, xPos, yPos, 0, 0, 16, 16);
 
             if (shouldFillGradient) {
                 guiGraphics.fillGradient(RenderType.guiOverlay(), xPos, yPos, xPos + 16, yPos + 16, -2139062142, -2139062142, 0);
@@ -88,7 +88,7 @@ public class ContainerFilterBox {
         }
     }
 
-    private Integer calculateYPos(int rowCount, int row, int topPosOffset) {
+    private int calculateYPos(int rowCount, int row, int topPosOffset) {
         var base = topPosOffset + (18 * row);
 
         return row <= rowCount ? base : row <= rowCount + 3 ? base + 13 : base + 17;

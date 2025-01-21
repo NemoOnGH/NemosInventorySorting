@@ -10,8 +10,8 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
 public class SortAlphabeticallyDescendingButton extends AbstractSortAlphabeticallyButton {
 
-    private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_dec");
-    private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_dec_highlighted");
+    private final ResourceLocation buttonTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/sort_button_alphabetically_dec.png");
+    private final ResourceLocation buttonHoverTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/sort_button_alphabetically_dec_highlighted.png");
 
     public SortAlphabeticallyDescendingButton(Builder<SortAlphabeticallyDescendingButton> builder) {
         super(builder);

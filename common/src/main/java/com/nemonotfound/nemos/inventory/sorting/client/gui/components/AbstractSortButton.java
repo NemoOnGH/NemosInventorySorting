@@ -49,9 +49,9 @@ public abstract class AbstractSortButton extends AbstractWidget {
         }
 
         if (this.isHovered()) {
-            guiGraphics.blitSprite(getButtonHoverTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            this.renderTexture(guiGraphics, getButtonHoverTexture(), this.getX(), this.getY(), 0, 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
         } else {
-            guiGraphics.blitSprite(getButtonTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            this.renderTexture(guiGraphics, getButtonTexture(), this.getX(), this.getY(), 0, 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
         }
     }
 

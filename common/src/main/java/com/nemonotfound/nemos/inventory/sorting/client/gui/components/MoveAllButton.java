@@ -7,8 +7,8 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
 public class MoveAllButton extends AbstractSingleClickButton<MoveAllButton> {
 
-    private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "move_all_button");
-    private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "move_all_button_highlighted");
+    private final ResourceLocation buttonTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/move_all_button.png");
+    private final ResourceLocation buttonHoverTexture = new ResourceLocation(MOD_ID, "textures/gui/sprites/move_all_button_highlighted.png");
 
     public MoveAllButton(Builder<MoveAllButton> builder) {
         super(builder);
