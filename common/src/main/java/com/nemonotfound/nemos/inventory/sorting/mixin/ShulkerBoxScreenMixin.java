@@ -23,6 +23,16 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
     private ContainerFilterBox nemosInventorySorting$containerFilterBox;
     @Unique
     private EditBox nemosInventorySorting$searchBox;
+    @Unique
+    private AbstractSortButton nemosInventorySorting$inventoryMoveSameButton;
+    @Unique
+    private AbstractSortButton nemosInventorySorting$inventorySortAlphabeticallyButton;
+    @Unique
+    private AbstractSortButton nemosInventorySorting$inventorySortAlphabeticallyDescendingButton;
+    @Unique
+    private AbstractSortButton nemosInventorySorting$inventoryMoveAllButton;
+    @Unique
+    private AbstractSortButton nemosInventorySorting$inventoryDropAllButton;
     
     public ShulkerBoxScreenMixin(ShulkerBoxMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -36,7 +46,6 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         var shulkerBoxEndIndex = 27;
         var inventoryStartIndex = 27;
         var inventoryEndIndex = 54;
-        var inventoryWithHotbarEndIndex = inventoryEndIndex + 9;
         var xOffsetFirstButton = 22;
         var xOffsetSecondButton = 40;
         var xOffsetThirdButton = 58;
@@ -61,22 +70,22 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         AbstractSortButton moveSameButton = moveSameButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetContainer, imageWidth, size, size, this);
         AbstractSortButton moveAllButton = moveAllButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetFourthButton, yOffsetContainer, imageWidth, size, size, this);
         AbstractSortButton dropAllButton = dropAllButtonFactory.createButton(shulkerBoxStartIndex, shulkerBoxEndIndex, leftPos, topPos, xOffsetFifthButton, yOffsetContainer, imageWidth, size, size, this);
-        AbstractSortButton inventorySortAlphabeticallyInButton = sortAlphabeticallyButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetSecondButton, yOffsetInventory, imageWidth, size, size, this);
-        AbstractSortButton inventorySortAlphabeticallyDescendingInButton = sortAlphabeticallyDescendingButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetFirstButton, yOffsetInventory, imageWidth, size, size, this);
-        AbstractSortButton inventoryMoveSameButton = moveSameButtonFactory.createButton(inventoryStartIndex, inventoryWithHotbarEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetInventory, imageWidth, size, size, this);
-        AbstractSortButton inventoryMoveAllButton = moveAllButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetFourthButton, yOffsetInventory, imageWidth, size, size, this);
-        AbstractSortButton inventoryDropAllButton = dropAllButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetFifthButton, yOffsetInventory, imageWidth, size, size, this);
+        nemosInventorySorting$inventorySortAlphabeticallyButton = sortAlphabeticallyButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetSecondButton, yOffsetInventory, imageWidth, size, size, this);
+        nemosInventorySorting$inventorySortAlphabeticallyDescendingButton = sortAlphabeticallyDescendingButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetFirstButton, yOffsetInventory, imageWidth, size, size, this);
+        nemosInventorySorting$inventoryMoveSameButton = moveSameButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetThirdButton, yOffsetInventory, imageWidth, size, size, this);
+        nemosInventorySorting$inventoryMoveAllButton = moveAllButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetFourthButton, yOffsetInventory, imageWidth, size, size, this);
+        nemosInventorySorting$inventoryDropAllButton = dropAllButtonFactory.createButton(inventoryStartIndex, inventoryEndIndex, leftPos, topPos, xOffsetFifthButton, yOffsetInventory, imageWidth, size, size, this);
 
         this.addRenderableWidget(sortAlphabeticallyButton);
         this.addRenderableWidget(sortAlphabeticallyDescendingButton);
         this.addRenderableWidget(moveSameButton);
         this.addRenderableWidget(moveAllButton);
         this.addRenderableWidget(dropAllButton);
-        this.addRenderableWidget(inventorySortAlphabeticallyInButton);
-        this.addRenderableWidget(inventorySortAlphabeticallyDescendingInButton);
-        this.addRenderableWidget(inventoryMoveSameButton);
-        this.addRenderableWidget(inventoryMoveAllButton);
-        this.addRenderableWidget(inventoryDropAllButton);
+        this.addRenderableWidget(nemosInventorySorting$inventorySortAlphabeticallyButton);
+        this.addRenderableWidget(nemosInventorySorting$inventorySortAlphabeticallyDescendingButton);
+        this.addRenderableWidget(nemosInventorySorting$inventoryMoveSameButton);
+        this.addRenderableWidget(nemosInventorySorting$inventoryMoveAllButton);
+        this.addRenderableWidget(nemosInventorySorting$inventoryDropAllButton);
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V", shift = At.Shift.AFTER))
@@ -91,11 +100,40 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (nemosInventorySorting$searchBox.isFocused() && keyCode != 256) {
-            return nemosInventorySorting$searchBox.keyPressed(keyCode, scanCode, modifiers);
-        } else {
-            return super.keyPressed(keyCode, scanCode, modifiers);
+        if (this.nemosInventorySorting$searchBox.isFocused() && keyCode != 256) {
+            return this.nemosInventorySorting$searchBox.keyPressed(keyCode, scanCode, modifiers);
+        } else if (keyCode == 340) {
+            nemosInventorySorting$inventoryMoveSameButton.setIsShiftKeyDown(true);
+            nemosInventorySorting$inventoryMoveSameButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventorySortAlphabeticallyButton.setIsShiftKeyDown(true);
+            nemosInventorySorting$inventorySortAlphabeticallyButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventorySortAlphabeticallyDescendingButton.setIsShiftKeyDown(true);
+            nemosInventorySorting$inventorySortAlphabeticallyDescendingButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventoryMoveAllButton.setIsShiftKeyDown(true);
+            nemosInventorySorting$inventoryMoveAllButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventoryDropAllButton.setIsShiftKeyDown(true);
+            nemosInventorySorting$inventoryDropAllButton.setTooltip(this.getMenu());
         }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == 340) {
+            nemosInventorySorting$inventoryMoveSameButton.setIsShiftKeyDown(false);
+            nemosInventorySorting$inventoryMoveSameButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventorySortAlphabeticallyButton.setIsShiftKeyDown(false);
+            nemosInventorySorting$inventorySortAlphabeticallyButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventorySortAlphabeticallyDescendingButton.setIsShiftKeyDown(false);
+            nemosInventorySorting$inventorySortAlphabeticallyDescendingButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventoryMoveAllButton.setIsShiftKeyDown(false);
+            nemosInventorySorting$inventoryMoveAllButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventoryDropAllButton.setIsShiftKeyDown(false);
+            nemosInventorySorting$inventoryDropAllButton.setTooltip(this.getMenu());
+        }
+
+        return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
     @Override

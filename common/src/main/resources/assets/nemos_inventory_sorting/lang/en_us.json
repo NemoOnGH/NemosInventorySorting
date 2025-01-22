@@ -1,9 +1,14 @@
 {
   "gui.nemosInventorySorting.sort_alphabetically": "Sort A-Z",
+  "gui.nemosInventorySorting.sort_alphabetically_shift": "Sort A-Z (Including Hotbar)",
   "gui.nemosInventorySorting.sort_alphabetically_descending": "Sort Z-A",
+  "gui.nemosInventorySorting.sort_alphabetically_descending_shift": "Sort Z-A (Including Hotbar)",
   "gui.nemosInventorySorting.drop_all": "Drop All",
+  "gui.nemosInventorySorting.drop_all_shift": "Drop All (Including Hotbar)",
   "gui.nemosInventorySorting.move_same": "Move Same",
+  "gui.nemosInventorySorting.move_same_shift": "Move Same (Including Hotbar)",
   "gui.nemosInventorySorting.move_all": "Move All",
+  "gui.nemosInventorySorting.move_all_shift": "Move All (Including Hotbar)",
   "resourcePack.nemos_inventory_sorting.dark_mode.name": "Dark Mode",
   "resourcePack.nemos_inventory_sorting.dark_mode.description": "Dark buttons"
 }
