@@ -4,7 +4,6 @@ import com.nemonotfound.nemos.inventory.sorting.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -102,9 +101,9 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
     }
 
     private @NotNull List<Map.Entry<Integer, ItemStack>> getSortedSlotItems(AbstractContainerMenu menu) {
-        NonNullList<Slot> slots = menu.slots;
+        var slots = menu.slots;
 
-        return IntStream.range(startIndex, endIndex)
+        return IntStream.range(startIndex, calculateEndIndex(menu))
                 .mapToObj(slotIndex -> Map.entry(slotIndex, slots.get(slotIndex).getItem()))
                 .filter(itemStackEntry -> !itemStackEntry.getValue().is(Items.AIR))
                 .sorted(compare())

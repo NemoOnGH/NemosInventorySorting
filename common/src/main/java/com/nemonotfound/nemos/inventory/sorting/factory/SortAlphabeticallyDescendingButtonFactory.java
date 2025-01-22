@@ -24,8 +24,9 @@ public class SortAlphabeticallyDescendingButtonFactory extends SortButtonFactory
             int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int imageWidth, int width,
             int height, AbstractContainerScreen<?> containerScreen
     ) {
-        Component component = Component.translatable("gui.nemosInventorySorting.sort_alphabetically_descending");
-        AbstractSortButton.Builder<SortAlphabeticallyDescendingButton> builder = new AbstractSortButton.Builder<>(SortAlphabeticallyDescendingButton.class)
+        var buttonName = Component.translatable("gui.nemosInventorySorting.sort_alphabetically_descending");
+        var shiftButtonName = Component.translatable("gui.nemosInventorySorting.sort_alphabetically_descending_shift");
+        var builder = new AbstractSortButton.Builder<>(SortAlphabeticallyDescendingButton.class)
                 .startIndex(startIndex)
                 .endIndex(endIndex)
                 .x(getLeftPosWithOffset(leftPos, imageWidth, xOffset))
@@ -33,7 +34,8 @@ public class SortAlphabeticallyDescendingButtonFactory extends SortButtonFactory
                 .xOffset(xOffset)
                 .width(width)
                 .height(height)
-                .component(component)
+                .buttonName(buttonName)
+                .shiftButtonName(shiftButtonName)
                 .containerScreen(containerScreen);
 
         return builder.build();

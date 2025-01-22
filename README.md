@@ -9,6 +9,11 @@ Also highlight items in containers by typing the name!
 **Note:** If you're a dark mode enthusiast, you can use the built-in dark mode resource pack.
 <br>
 
+### How to Use
+To sort, drop or move items, simply click the buttons.
+Clicking the buttons in the player inventory does not include the hotbar, to include the hotbar you have to shift click the buttons. <br>
+To search for an item, simply click the search bar and start typing!
+
 ### DISCLAIMER <br>
 This mod works on the client side only, which gives you an advantage over other players. <br>
 I can't guarantee that you won't get banned from public servers when using this mod on them. <br>

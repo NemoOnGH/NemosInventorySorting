@@ -4,10 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,9 +28,13 @@ public abstract class AbstractSingleClickButton<T extends AbstractSortButton> ex
         int containerId = menu.containerId;
         boolean isCreativeModeMenu = menu instanceof CreativeModeInventoryScreen.ItemPickerMenu;
 
+        if (player == null) {
+            return;
+        }
+
         List<Integer> slotItems = getItemSlotsToInteractWith(menu);
 
-        if (gameMode != null && player != null) {
+        if (gameMode != null) {
             Consumer<Integer> function = isCreativeModeMenu ?
                     (slotIndex) -> menu.clicked(slotIndex, button, clickType, player) :
                     (slotIndex) -> gameMode.handleInventoryMouseClick(containerId, slotIndex, button, clickType, player);
@@ -48,9 +50,9 @@ public abstract class AbstractSingleClickButton<T extends AbstractSortButton> ex
     }
 
     protected @NotNull List<Integer> getItemSlotsToInteractWith(AbstractContainerMenu menu) {
-        NonNullList<Slot> slots = menu.slots;
+        var slots = menu.slots;
 
-        return IntStream.range(startIndex, endIndex)
+        return IntStream.range(startIndex, calculateEndIndex(menu))
                 .mapToObj(slotIndex -> Map.entry(slotIndex, slots.get(slotIndex).getItem()))
                 .filter(itemStackEntry -> !itemStackEntry.getValue().is(Items.AIR))
                 .map(Map.Entry::getKey)
