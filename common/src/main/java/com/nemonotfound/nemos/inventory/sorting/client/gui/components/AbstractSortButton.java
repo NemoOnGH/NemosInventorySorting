@@ -10,6 +10,8 @@ import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.InventoryMenu;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractSortButton extends AbstractWidget {
@@ -20,10 +22,16 @@ public abstract class AbstractSortButton extends AbstractWidget {
     private final int x;
     private final int y;
     private final int xOffset;
+    private final Component buttonName;
+    private final Component shiftButtonName;
+
+    protected boolean isShiftKeyDown = false;
 
     public AbstractSortButton(Builder<? extends  AbstractSortButton> builder) {
-        super(builder.x, builder.y, builder.width, builder.height, builder.component);
-        this.setTooltip(Tooltip.create(builder.component));
+        super(builder.x, builder.y, builder.width, builder.height, builder.buttonName);
+        this.setTooltip(Tooltip.create(builder.buttonName));
+        this.buttonName = builder.buttonName;
+        this.shiftButtonName = builder.shiftButtonName;
         this.containerScreen = builder.containerScreen;
         this.startIndex = builder.startIndex;
         this.endIndex = builder.endIndex;
@@ -58,6 +66,30 @@ public abstract class AbstractSortButton extends AbstractWidget {
     protected abstract ResourceLocation getButtonHoverTexture();
     protected abstract ResourceLocation getButtonTexture();
 
+    public void setIsShiftKeyDown(boolean shiftKeyDown) {
+        isShiftKeyDown = shiftKeyDown;
+    }
+
+    public void setTooltip(AbstractContainerMenu menu) {
+        if (isButtonShiftable(menu)) {
+            setTooltip(Tooltip.create(shiftButtonName));
+        } else {
+            setTooltip(Tooltip.create(buttonName));
+        }
+    }
+
+    protected int calculateEndIndex(AbstractContainerMenu menu) {
+        if (isButtonShiftable(menu)) {
+            return endIndex + 9;
+        }
+
+        return endIndex;
+    }
+
+    private boolean isButtonShiftable(AbstractContainerMenu menu) {
+        return isShiftKeyDown && (startIndex != 0 || menu instanceof InventoryMenu);
+    }
+
     @Override
     protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
 
@@ -71,7 +103,8 @@ public abstract class AbstractSortButton extends AbstractWidget {
         private Integer xOffset;
         private Integer width;
         private Integer height;
-        private Component component;
+        private Component buttonName;
+        private Component shiftButtonName;
         private AbstractContainerScreen<?> containerScreen;
         private final Class<T> clazz;
 
@@ -114,8 +147,13 @@ public abstract class AbstractSortButton extends AbstractWidget {
             return this;
         }
 
-        public Builder<T> component(Component component) {
-            this.component = component;
+        public Builder<T> buttonName(Component buttonName) {
+            this.buttonName = buttonName;
+            return this;
+        }
+
+        public Builder<T> shiftButtonName(Component shiftButtonName) {
+            this.shiftButtonName = shiftButtonName;
             return this;
         }
 
@@ -136,7 +174,7 @@ public abstract class AbstractSortButton extends AbstractWidget {
 
         private void checkRequiredFields() {
             if (startIndex == null || endIndex == null || x == null || y == null || xOffset == null || width == null
-                    || height == null || component == null || containerScreen == null) {
+                    || height == null || buttonName == null || containerScreen == null) {
                 throw new IllegalArgumentException("Not all fields were set!");
             }
         }

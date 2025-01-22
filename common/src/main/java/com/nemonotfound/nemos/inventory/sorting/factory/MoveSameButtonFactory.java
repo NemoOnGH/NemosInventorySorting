@@ -24,7 +24,8 @@ public class MoveSameButtonFactory extends SortButtonFactory {
             int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int imageWidth, int width,
             int height, AbstractContainerScreen<?> containerScreen
     ) {
-        Component component = Component.translatable("gui.nemosInventorySorting.move_same");
+        var buttonName = Component.translatable("gui.nemosInventorySorting.move_same");
+        var shiftButtonName = Component.translatable("gui.nemosInventorySorting.move_same_shift");
         AbstractSortButton.Builder<MoveSameButton> builder = new AbstractSortButton.Builder<>(MoveSameButton.class)
                 .startIndex(startIndex)
                 .endIndex(endIndex)
@@ -33,7 +34,8 @@ public class MoveSameButtonFactory extends SortButtonFactory {
                 .xOffset(xOffset)
                 .width(width)
                 .height(height)
-                .component(component)
+                .buttonName(buttonName)
+                .shiftButtonName(shiftButtonName)
                 .containerScreen(containerScreen);
 
         return builder.build();
