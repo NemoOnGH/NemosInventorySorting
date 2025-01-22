@@ -12,12 +12,20 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.InventoryMenu;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> implements GuiPosition {
+
+    @Unique
+    private AbstractSortButton nemosInventorySorting$inventorySortAlphabeticallyButton;
+    @Unique
+    private AbstractSortButton nemosInventorySorting$inventorySortAlphabeticallyDescendingButton;
+    @Unique
+    private AbstractSortButton nemosInventorySorting$inventoryDropAllButton;
 
     public InventoryScreenMixin(InventoryMenu menu, RecipeBookComponent<?> recipeBookComponent, Inventory inventory, Component component) {
         super(menu, recipeBookComponent, inventory, component);
@@ -37,13 +45,41 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
         SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
         DropAllButtonFactory dropAllButtonFactory = DropAllButtonFactory.getInstance();
 
-        AbstractSortButton sortAlphabeticallyDescendingButton = sortAlphabeticallyDescendingButtonFactory.createButton(startIndex, endIndex, leftPos, topPos, xOffsetFirstButton, yOffset, imageWidth, size, size, this);
-        AbstractSortButton sortAlphabeticallyButton = sortAlphabeticallyButtonFactory.createButton(startIndex, endIndex, leftPos, topPos, xOffsetSecondButton, yOffset, imageWidth, size, size, this);
-        AbstractSortButton dropAllButton = dropAllButtonFactory.createButton(startIndex, endIndex, leftPos, topPos, xOffsetThirdButton, yOffset, imageWidth, size, size, this);
+        nemosInventorySorting$inventorySortAlphabeticallyDescendingButton = sortAlphabeticallyDescendingButtonFactory.createButton(startIndex, endIndex, leftPos, topPos, xOffsetFirstButton, yOffset, imageWidth, size, size, this);
+        nemosInventorySorting$inventorySortAlphabeticallyButton = sortAlphabeticallyButtonFactory.createButton(startIndex, endIndex, leftPos, topPos, xOffsetSecondButton, yOffset, imageWidth, size, size, this);
+        nemosInventorySorting$inventoryDropAllButton = dropAllButtonFactory.createButton(startIndex, endIndex, leftPos, topPos, xOffsetThirdButton, yOffset, imageWidth, size, size, this);
 
-        this.addRenderableWidget(sortAlphabeticallyButton);
-        this.addRenderableWidget(sortAlphabeticallyDescendingButton);
-        this.addRenderableWidget(dropAllButton);
+        this.addRenderableWidget(nemosInventorySorting$inventorySortAlphabeticallyButton);
+        this.addRenderableWidget(nemosInventorySorting$inventorySortAlphabeticallyDescendingButton);
+        this.addRenderableWidget(nemosInventorySorting$inventoryDropAllButton);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == 340) {
+            nemosInventorySorting$inventorySortAlphabeticallyButton.setIsShiftKeyDown(true);
+            nemosInventorySorting$inventorySortAlphabeticallyButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventorySortAlphabeticallyDescendingButton.setIsShiftKeyDown(true);
+            nemosInventorySorting$inventorySortAlphabeticallyDescendingButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventoryDropAllButton.setIsShiftKeyDown(true);
+            nemosInventorySorting$inventoryDropAllButton.setTooltip(this.getMenu());
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == 340) {
+            nemosInventorySorting$inventorySortAlphabeticallyButton.setIsShiftKeyDown(false);
+            nemosInventorySorting$inventorySortAlphabeticallyButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventorySortAlphabeticallyDescendingButton.setIsShiftKeyDown(false);
+            nemosInventorySorting$inventorySortAlphabeticallyDescendingButton.setTooltip(this.getMenu());
+            nemosInventorySorting$inventoryDropAllButton.setIsShiftKeyDown(false);
+            nemosInventorySorting$inventoryDropAllButton.setTooltip(this.getMenu());
+        }
+
+        return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
     @Override

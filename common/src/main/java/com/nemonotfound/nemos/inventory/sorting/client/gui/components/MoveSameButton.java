@@ -44,18 +44,19 @@ public class MoveSameButton extends AbstractSingleClickButton<MoveSameButton> {
     @Override
     protected @NotNull List<Integer> getItemSlotsToInteractWith(AbstractContainerMenu menu) {
         var slots = menu.slots;
-        var itemsOutOfIndexRange = getItemsOutOfIndexRange(slots);
+        var newEndIndex = calculateEndIndex(menu);
+        var itemsOutOfIndexRange = getItemsOutOfIndexRange(slots, startIndex, newEndIndex);
 
-        return IntStream.range(startIndex, endIndex)
+        return IntStream.range(startIndex, newEndIndex)
                 .mapToObj(slotIndex -> Map.entry(slotIndex, slots.get(slotIndex).getItem()))
                 .filter(itemStackEntry -> isItemInOtherContainer(itemStackEntry.getValue(), itemsOutOfIndexRange))
                 .map(Map.Entry::getKey)
                 .toList();
     }
 
-    private List<Item> getItemsOutOfIndexRange(NonNullList<Slot> slots) {
+    private List<Item> getItemsOutOfIndexRange(NonNullList<Slot> slots, int startIndex, int endIndex) {
         return slots.stream()
-                .filter(slot -> slot.index < startIndex || slot.index >= endIndex)
+                .filter(slot -> (startIndex != 0 && slot.index < startIndex) || (startIndex == 0 && slot.index >= endIndex))
                 .filter(slot -> !slot.getItem().is(Items.AIR))
                 .map(slot -> slot.getItem().getItem())
                 .distinct()
