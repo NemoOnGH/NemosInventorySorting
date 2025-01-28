@@ -10,5 +10,16 @@
   "gui.nemosInventorySorting.move_all": "Move All",
   "gui.nemosInventorySorting.move_all_shift": "Move All (Including Hotbar)",
   "resourcePack.nemos_inventory_sorting.dark_mode.name": "Dark Mode",
-  "resourcePack.nemos_inventory_sorting.dark_mode.description": "Dark buttons"
+  "resourcePack.nemos_inventory_sorting.dark_mode.description": "Dark buttons",
+  "category.nemos_inventory_sorting.nemos_inventory_sorting": "Nemo's Inventory Sorting",
+  "key.nemos_inventory_sorting.drop_all": "Drop All",
+  "key.nemos_inventory_sorting.drop_all_inventory": "Drop All (Inventory)",
+  "key.nemos_inventory_sorting.move_all": "Move All",
+  "key.nemos_inventory_sorting.move_all_inventory": "Move All (Inventory)",
+  "key.nemos_inventory_sorting.move_same": "Move Same",
+  "key.nemos_inventory_sorting.move_same_inventory": "Move Same (Inventory)",
+  "key.nemos_inventory_sorting.sort_alphabetically": "Sort A-Z",
+  "key.nemos_inventory_sorting.sort_alphabetically_inventory": "Sort A-Z (Inventory)",
+  "key.nemos_inventory_sorting.sort_alphabetically_descending": "Sort Z-A",
+  "key.nemos_inventory_sorting.sort_alphabetically_descending_inventory": "Sort Z-A (Inventory)"
 }
