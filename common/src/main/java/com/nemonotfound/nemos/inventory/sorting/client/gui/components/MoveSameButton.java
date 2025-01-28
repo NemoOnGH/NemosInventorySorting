@@ -37,7 +37,6 @@ public class MoveSameButton extends AbstractSingleClickButton<MoveSameButton> {
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        super.onClick(mouseX, mouseY);
         interactWithAllItems(ClickType.QUICK_MOVE, 0);
     }
 

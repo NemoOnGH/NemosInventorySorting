@@ -26,7 +26,6 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        super.onClick(mouseX, mouseY);
         sortItems();
     }
 
