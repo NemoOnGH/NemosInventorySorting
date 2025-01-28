@@ -26,7 +26,6 @@ public class DropAllButton extends AbstractSingleClickButton<DropAllButton> {
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        super.onClick(mouseX, mouseY);
         interactWithAllItems(ClickType.THROW, 1);
     }
 }

@@ -26,7 +26,6 @@ public class MoveAllButton extends AbstractSingleClickButton<MoveAllButton> {
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        super.onClick(mouseX, mouseY);
         interactWithAllItems(ClickType.QUICK_MOVE, 0);
     }
 }

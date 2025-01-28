@@ -10,8 +10,8 @@ Also highlight items in containers by typing the name!
 <br>
 
 ### How to Use
-To sort, drop or move items, simply click the buttons.
-Clicking the buttons in the player inventory does not include the hotbar, to include the hotbar you have to shift click the buttons. <br>
+To sort, drop or move items, simply click the buttons or set custom key binds and press them.
+Clicking the buttons in the player inventory does not include the hotbar, to include the hotbar you have to shift click (or shift + key bind) the buttons. <br>
 To search for an item, simply click the search bar and start typing!
 
 ### DISCLAIMER <br>

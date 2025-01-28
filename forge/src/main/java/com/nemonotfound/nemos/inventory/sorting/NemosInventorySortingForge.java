@@ -1,5 +1,6 @@
 package com.nemonotfound.nemos.inventory.sorting;
 
+import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackSelectionConfig;
@@ -7,6 +8,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.PathPackResources;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -44,5 +46,19 @@ public class NemosInventorySortingForge {
 
             event.addRepositorySource((packConsumer) -> packConsumer.accept(pack));
         }
+    }
+
+    @SubscribeEvent
+    public void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        event.register(ModKeyMappings.DROP_ALL.get());
+        event.register(ModKeyMappings.DROP_ALL_INVENTORY.get());
+        event.register(ModKeyMappings.MOVE_ALL.get());
+        event.register(ModKeyMappings.MOVE_ALL_INVENTORY.get());
+        event.register(ModKeyMappings.MOVE_SAME.get());
+        event.register(ModKeyMappings.MOVE_SAME_INVENTORY.get());
+        event.register(ModKeyMappings.SORT_ALPHABETICALLY.get());
+        event.register(ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get());
+        event.register(ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING.get());
+        event.register(ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get());
     }
 }
