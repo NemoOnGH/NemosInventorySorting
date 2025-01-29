@@ -1,4 +1,4 @@
-# Changelog v1.7
+# Changelog v1.7.1
 
-## Additions
-- Added key binds for all buttons
+## Fixes
+- Inventory Buttons appear in the middle of the inventory with modded containers with more or less rows than vanilla
