@@ -64,13 +64,9 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
         int xOffsetThirdButton = 58;
         int xOffsetFourthButton = 76;
         int xOffsetFifthButton = 94;
-        int yOffsetInventory = 72;
+        int yOffsetInventory = 18 + (containerRows * 18);
         int yOffsetContainer = 5;
         int size = 11;
-
-        if (containerRows == 6) {
-            yOffsetInventory = 126;
-        }
 
         SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
         SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
