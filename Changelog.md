@@ -1,4 +1,7 @@
-# Changelog v1.7.1
+# Changelog v1.7.2
+
+## Changes
+- Using buttons with key binds plays a sound now
 
 ## Fixes
-- Inventory Buttons appear in the middle of the inventory with modded containers with more or less rows than vanilla
+- Exception gets thrown on server side because of key mappings
