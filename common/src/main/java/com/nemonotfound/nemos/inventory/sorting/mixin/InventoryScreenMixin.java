@@ -9,6 +9,7 @@ import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescen
 import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -82,7 +83,12 @@ public abstract class InventoryScreenMixin extends EffectRenderingInventoryScree
         if (keyCode == 340) {
             nemosInventorySorting$updateToolTips(true);
         } else {
-            optionalButtonEntry.ifPresent(entry -> entry.getValue().onClick(0, 0));
+            optionalButtonEntry.ifPresent(entry -> {
+                var button = entry.getValue();
+
+                button.playDownSound(Minecraft.getInstance().getSoundManager());
+                button.onClick(0, 0);
+            });
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);

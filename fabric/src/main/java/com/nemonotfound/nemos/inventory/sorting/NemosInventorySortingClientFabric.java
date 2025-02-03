@@ -14,6 +14,7 @@ public class NemosInventorySortingClientFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         registerBuiltInResourcePack();
+        NemosInventorySortingClientCommon.init();
     }
 
     private void registerBuiltInResourcePack() {
