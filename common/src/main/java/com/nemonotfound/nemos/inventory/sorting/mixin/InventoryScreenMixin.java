@@ -8,6 +8,7 @@ import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButton
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescendingButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
@@ -83,7 +84,12 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
         if (keyCode == 340) {
             nemosInventorySorting$updateToolTips(true);
         } else {
-            optionalButtonEntry.ifPresent(entry -> entry.getValue().onClick(0, 0));
+            optionalButtonEntry.ifPresent(entry -> {
+                var button = entry.getValue();
+
+                button.playDownSound(Minecraft.getInstance().getSoundManager());
+                button.onClick(0, 0);
+            });
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);

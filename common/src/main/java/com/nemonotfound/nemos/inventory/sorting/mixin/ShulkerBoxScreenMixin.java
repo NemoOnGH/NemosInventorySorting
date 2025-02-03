@@ -5,6 +5,7 @@ import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSo
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.ContainerFilterBox;
 import com.nemonotfound.nemos.inventory.sorting.factory.*;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -113,7 +114,12 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         } else if (keyCode == 340) {
             nemosInventorySorting$updateToolTips(true);
         } else {
-            optionalButtonEntry.ifPresent(entry -> entry.getValue().onClick(0, 0));
+            optionalButtonEntry.ifPresent(entry -> {
+                var button = entry.getValue();
+
+                button.playDownSound(Minecraft.getInstance().getSoundManager());
+                button.onClick(0, 0);
+            });
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
