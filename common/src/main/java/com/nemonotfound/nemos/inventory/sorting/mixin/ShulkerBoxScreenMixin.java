@@ -1,13 +1,12 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.ContainerFilterBox;
 import com.nemonotfound.nemos.inventory.sorting.factory.*;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ShulkerBoxScreen;
 import net.minecraft.network.chat.Component;
@@ -25,10 +24,6 @@ import java.util.Map;
 @Mixin(ShulkerBoxScreen.class)
 public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<ShulkerBoxMenu> {
 
-    @Unique
-    private ContainerFilterBox nemosInventorySorting$containerFilterBox;
-    @Unique
-    private EditBox nemosInventorySorting$searchBox;
     @Unique
     private final Map<KeyMapping, AbstractSortButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
     
@@ -48,10 +43,6 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         var yOffsetInventory = 71;
         var yOffsetContainer = 5;
         var size = 11;
-
-        nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this.font, this.leftPos, this.topPos, 3);
-        nemosInventorySorting$searchBox = nemosInventorySorting$containerFilterBox.getSearchBox();
-        this.addWidget(nemosInventorySorting$searchBox);
 
         SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
         SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
@@ -93,14 +84,13 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         nemosInventorySorting$keyMappingButtonMap.put(keyMapping, sortButton);
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V", shift = At.Shift.AFTER))
-    private void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        nemosInventorySorting$searchBox.render(guiGraphics, mouseX, mouseY, partialTick);
-        var filter = nemosInventorySorting$searchBox.getValue();
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;render(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V", shift = At.Shift.AFTER))
+    private void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+        var button = nemosInventorySorting$keyMappingButtonMap.values().stream()
+                .filter(AbstractWidget::isHoveredOrFocused)
+                .findAny();
 
-        if (!filter.isEmpty()) {
-            this.nemosInventorySorting$containerFilterBox.filterSlots(this.getMenu().slots, filter, guiGraphics);
-        }
+        button.ifPresent(sortButton -> this.renderTooltip(poseStack, sortButton.getButtonName(menu), mouseX, mouseY));
     }
 
     @Override
@@ -109,9 +99,7 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
                 .filter(entry -> entry.getKey().matches(keyCode, scanCode))
                 .findFirst();
 
-        if (this.nemosInventorySorting$searchBox.isFocused() && keyCode != 256) {
-            return this.nemosInventorySorting$searchBox.keyPressed(keyCode, scanCode, modifiers);
-        } else if (keyCode == 340) {
+        if (keyCode == 340) {
             nemosInventorySorting$updateToolTips(true);
         } else {
             optionalButtonEntry.ifPresent(entry -> {
@@ -138,14 +126,6 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
     private void nemosInventorySorting$updateToolTips(boolean isShiftDown) {
         for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             button.setIsShiftKeyDown(isShiftDown);
-            button.setTooltip(this.getMenu());
         }
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        nemosInventorySorting$searchBox.setFocused(nemosInventorySorting$searchBox.mouseClicked(mouseX, mouseY, button));
-
-        return super.mouseClicked(mouseX, mouseY, button);
     }
 }

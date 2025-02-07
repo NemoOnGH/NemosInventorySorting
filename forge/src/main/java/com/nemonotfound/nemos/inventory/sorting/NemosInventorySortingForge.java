@@ -3,7 +3,6 @@ package com.nemonotfound.nemos.inventory.sorting;
 import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.PathPackResources;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -12,6 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.resource.PathPackResources;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
@@ -28,18 +28,18 @@ public class NemosInventorySortingForge {
     public void addBuiltInResourcePack(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
             var resourcePath = ModList.get().getModFileById(MOD_ID).getFile().findResource("resourcepacks/dark_mode");
-            var pathPackResources = new PathPackResources("dark_mode", resourcePath, true);
-            var pack = Pack.readMetaAndCreate(
+            var pathPackResources = new PathPackResources(Component.translatable("resourcePack.nemos_inventory_sorting.dark_mode.name").toString(), resourcePath);
+            Pack.PackConstructor packConstructor = ($$1, $$2, $$3, $$4, $$5, $$6, $$7, $$8) -> new Pack($$1, Component.translatable("resourcePack.nemos_inventory_sorting.dark_mode.name"), $$3, $$4, $$5, PackType.CLIENT_RESOURCES, $$6, $$7);
+            var pack = Pack.create(
                     "builtin/dark_mode",
-                    Component.translatable("resourcePack.nemos_inventory_sorting.dark_mode.name"),
                     false,
-                    (supplier) -> pathPackResources,
-                    PackType.CLIENT_RESOURCES,
+                    () -> pathPackResources,
+                    packConstructor,
                     Pack.Position.TOP,
                     PackSource.BUILT_IN
             );
 
-            event.addRepositorySource((packConsumer) -> packConsumer.accept(pack));
+            event.addRepositorySource((repositorySource, source) -> repositorySource.accept(pack));
         }
     }
 

@@ -1,5 +1,6 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
 import com.nemonotfound.nemos.inventory.sorting.factory.ButtonCreator;
@@ -7,6 +8,7 @@ import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescendingButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -103,11 +105,19 @@ public abstract class InventoryScreenMixin extends EffectRenderingInventoryScree
         return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
+    @Inject(method = "render", at = @At("TAIL"))
+    private void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+        var button = nemosInventorySorting$keyMappingButtonMap.values().stream()
+                .filter(AbstractWidget::isHoveredOrFocused)
+                .findAny();
+
+        button.ifPresent(sortButton -> this.renderTooltip(poseStack, sortButton.getButtonName(menu), mouseX, mouseY));
+    }
+
     @Unique
     private void nemosInventorySorting$updateToolTips(boolean isShiftDown) {
         for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             button.setIsShiftKeyDown(isShiftDown);
-            button.setTooltip(this.getMenu());
         }
     }
 

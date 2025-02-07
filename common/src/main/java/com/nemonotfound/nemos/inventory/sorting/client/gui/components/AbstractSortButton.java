@@ -1,12 +1,11 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +28,6 @@ public abstract class AbstractSortButton extends AbstractWidget {
 
     public AbstractSortButton(Builder<? extends  AbstractSortButton> builder) {
         super(builder.x, builder.y, builder.width, builder.height, builder.buttonName);
-        this.setTooltip(Tooltip.create(builder.buttonName));
         this.buttonName = builder.buttonName;
         this.shiftButtonName = builder.shiftButtonName;
         this.containerScreen = builder.containerScreen;
@@ -41,25 +39,23 @@ public abstract class AbstractSortButton extends AbstractWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.setPosition(x, y);
-
-        if (containerScreen instanceof CreativeModeInventoryScreen creativeModeInventoryScreen && !creativeModeInventoryScreen.isInventoryOpen()) {
-            this.setPosition(-10, -10);
-            return;
-        }
+    public void renderButton(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+        super.x = x;
+        super.y = y;
 
         if (containerScreen instanceof InventoryScreen) {
             int leftPos = ((GuiPosition) containerScreen).nemosInventorySorting$getLeftPos();
             int imageWidth = ((GuiPosition) containerScreen).nemosInventorySorting$getImageWidth();
 
-            this.setX(leftPos + imageWidth - this.xOffset);
+            super.x = leftPos + imageWidth - this.xOffset;
         }
 
-        if (this.isHovered()) {
-            this.renderTexture(guiGraphics, getButtonHoverTexture(), this.getX(), this.getY(), 0, 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
+        if (this.isHovered) {
+            RenderSystem.setShaderTexture(0, getButtonHoverTexture());
+            blit(poseStack, super.x, super.y, 0, 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
         } else {
-            this.renderTexture(guiGraphics, getButtonTexture(), this.getX(), this.getY(), 0, 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
+            RenderSystem.setShaderTexture(0, getButtonTexture());
+            blit(poseStack, super.x, super.y, 0, 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
         }
     }
 
@@ -70,11 +66,11 @@ public abstract class AbstractSortButton extends AbstractWidget {
         isShiftKeyDown = shiftKeyDown;
     }
 
-    public void setTooltip(AbstractContainerMenu menu) {
+    public Component getButtonName(AbstractContainerMenu menu) {
         if (isButtonShiftable(menu)) {
-            setTooltip(Tooltip.create(shiftButtonName));
+            return shiftButtonName;
         } else {
-            setTooltip(Tooltip.create(buttonName));
+            return buttonName;
         }
     }
 
@@ -91,7 +87,7 @@ public abstract class AbstractSortButton extends AbstractWidget {
     }
 
     @Override
-    protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
+    public void updateNarration(@NotNull NarrationElementOutput narrationElementOutput) {
 
     }
 
