@@ -2,12 +2,9 @@ package com.nemonotfound.nemos.inventory.sorting.mixin;
 
 import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.ContainerFilterBox;
 import com.nemonotfound.nemos.inventory.sorting.factory.*;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -17,9 +14,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +22,6 @@ import java.util.Map;
 public abstract class ContainerScreenMixin extends AbstractContainerScreen<ChestMenu> {
 
     @Shadow @Final private int containerRows;
-    @Unique
-    private ContainerFilterBox nemosInventorySorting$containerFilterBox;
-    @Unique
-    private EditBox nemosInventorySorting$searchBox;
     @Unique
     private final int nemosInventorySorting$containerSize = this.getMenu().getContainer().getContainerSize();
     @Unique
@@ -46,11 +36,6 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
     @Override
     public void init() {
         super.init();
-
-        nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this.font, this.leftPos, this.topPos, containerRows);
-        nemosInventorySorting$searchBox = nemosInventorySorting$containerFilterBox.getSearchBox();
-        this.addWidget(nemosInventorySorting$searchBox);
-
         nemosInventorySorting$initButtons();
 
         for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
@@ -104,25 +89,13 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
         nemosInventorySorting$keyMappingButtonMap.put(keyMapping, sortButton);
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V", shift = At.Shift.AFTER))
-    private void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        this.nemosInventorySorting$searchBox.render(guiGraphics, mouseX, mouseY, partialTick);
-        var filter = this.nemosInventorySorting$searchBox.getValue();
-
-        if (!filter.isEmpty()) {
-            this.nemosInventorySorting$containerFilterBox.filterSlots(this.getMenu().slots, filter, guiGraphics);
-        }
-    }
-
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         var optionalButtonEntry = nemosInventorySorting$keyMappingButtonMap.entrySet().stream()
                 .filter(entry -> entry.getKey().matches(keyCode, scanCode))
                 .findFirst();
 
-        if (this.nemosInventorySorting$searchBox.isFocused() && keyCode != 256) {
-            return this.nemosInventorySorting$searchBox.keyPressed(keyCode, scanCode, modifiers);
-        } else if (keyCode == 340) {
+       if (keyCode == 340) {
             nemosInventorySorting$updateToolTips(true);
         } else {
             optionalButtonEntry.ifPresent(entry -> {
@@ -151,12 +124,5 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
             button.setIsShiftKeyDown(isShiftDown);
             button.setTooltip(this.getMenu());
         }
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        this.nemosInventorySorting$searchBox.setFocused(this.nemosInventorySorting$searchBox.mouseClicked(mouseX, mouseY, button));
-
-        return super.mouseClicked(mouseX, mouseY, button);
     }
 }

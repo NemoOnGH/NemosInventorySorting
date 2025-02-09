@@ -1,7 +1,4 @@
-# Changelog v1.7.2
+# Changelog v1.8
 
 ## Changes
-- Using buttons with key binds plays a sound now
-
-## Fixes
-- Exception gets thrown on server side because of key mappings
+- Search box should be usable in more modded chests now
