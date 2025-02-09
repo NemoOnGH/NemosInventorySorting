@@ -69,16 +69,18 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Inject(method = "render", at = @At(value = "TAIL"))
     void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        if (nemosInventorySorting$shouldHaveSearchBox()) {
-            this.nemosInventorySorting$searchBox.render(guiGraphics, mouseX, mouseY, partialTick);
-            var filter = this.nemosInventorySorting$searchBox.getValue();
+        if (!nemosInventorySorting$shouldHaveSearchBox()) {
+            return;
+        }
 
-            if (!filter.isEmpty()) {
-                var filteredSlotMap = this.nemosInventorySorting$containerFilterBox.filterSlots(getMenu().slots, filter);
+        this.nemosInventorySorting$searchBox.render(guiGraphics, mouseX, mouseY, partialTick);
+        var filter = this.nemosInventorySorting$searchBox.getValue();
 
-                nemosInventorySorting$markSlots(RenderType::guiTextured, filteredSlotMap.get(true), guiGraphics, HIGHLIGHTED_SLOT);
-                nemosInventorySorting$markSlots(RenderType::guiTexturedOverlay, filteredSlotMap.get(false), guiGraphics, DIMMED_SLOT);
-            }
+        if (!filter.isEmpty()) {
+            var filteredSlotMap = this.nemosInventorySorting$containerFilterBox.filterSlots(getMenu().slots, filter);
+
+            nemosInventorySorting$markSlots(RenderType::guiTextured, filteredSlotMap.get(true), guiGraphics, HIGHLIGHTED_SLOT);
+            nemosInventorySorting$markSlots(RenderType::guiTexturedOverlay, filteredSlotMap.get(false), guiGraphics, DIMMED_SLOT);
         }
     }
 
