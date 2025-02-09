@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.ShulkerBoxMenu;
+import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -40,32 +41,21 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     @Unique
     private EditBox nemosInventorySorting$searchBox;
     @Unique
-    private int nemosInventorySorting$containerRows;
-    @Unique
     private static final ResourceLocation HIGHLIGHTED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/highlighted_slot");
     @Unique
     private static final ResourceLocation DIMMED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/dimmed_slot");
 
-    protected AbstractContainerScreenMixin(Component $$0) {
-        super($$0);
+    protected AbstractContainerScreenMixin(Component component) {
+        super(component);
     }
 
     @Inject(method = "init", at = @At(value = "TAIL"))
     public void init(CallbackInfo ci) {
         if (nemosInventorySorting$shouldHaveSearchBox()) {
-            nemosInventorySorting$containerRows = getNemosInventorySorting$calculateContainerRows();
-
             nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this.font, leftPos, topPos);
             nemosInventorySorting$searchBox = nemosInventorySorting$containerFilterBox.getSearchBox();
             this.addWidget(nemosInventorySorting$searchBox);
         }
-    }
-
-    @Unique
-    private int getNemosInventorySorting$calculateContainerRows() {
-        var allContainerRows = getMenu().slots.size() / 9;
-
-        return allContainerRows - 4;
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
@@ -85,39 +75,12 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
             if (!filter.isEmpty()) {
                 var filteredSlotMap = this.nemosInventorySorting$containerFilterBox.filterSlots(getMenu().slots, filter);
-                var leftPosOffset = leftPos + 8;
-                var topPosOffset = topPos;
 
-                nemosInventorySorting$markSlots(RenderType::guiTextured, filteredSlotMap.get(true), leftPosOffset, topPosOffset, guiGraphics, HIGHLIGHTED_SLOT);
-                nemosInventorySorting$markSlots(RenderType::guiTexturedOverlay, filteredSlotMap.get(false), leftPosOffset, topPosOffset, guiGraphics, DIMMED_SLOT);
+                nemosInventorySorting$markSlots(RenderType::guiTextured, filteredSlotMap.get(true), guiGraphics, HIGHLIGHTED_SLOT);
+                nemosInventorySorting$markSlots(RenderType::guiTexturedOverlay, filteredSlotMap.get(false), guiGraphics, DIMMED_SLOT);
             }
         }
     }
-
-//    @Inject(method = "render", at = @At(value = "TAIL"))
-//    void renderHighlight(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-//        super.render(guiGraphics, mouseX, mouseY, partialTick);
-//
-//        if (nemosInventorySorting$shouldHaveSearchBox()) {
-//            this.nemosInventorySorting$searchBox.render(guiGraphics, mouseX, mouseY, partialTick);
-//            var filter = this.nemosInventorySorting$searchBox.getValue();
-//
-//            if (!filter.isEmpty()) {
-//                var filteredSlotMap = this.nemosInventorySorting$containerFilterBox.filterSlots(getMenu().slots, filter);
-//                var leftPosOffset = leftPos + 8;
-//                var topPosOffset = topPos;
-//
-//                for (int slotIndex : filteredSlotMap.get(false)) {
-//                    var column = slotIndex % 9;
-//                    var row = (int) Math.ceil((double) (slotIndex + 1) / 9);
-//                    var xPos = leftPosOffset + (18 * column);
-//                    var yPos = nemosInventorySorting$calculateYPos(nemosInventorySorting$containerRows, row, topPosOffset);
-//
-//                    guiGraphics.blitSprite(RenderType.guiTextured(), xPos, yPos, xPos + 16, yPos + 16, -2139062142, -2139062142, 0);
-//                }
-//            }
-//        }
-//    }
 
     @Unique
     private boolean nemosInventorySorting$shouldHaveSearchBox() {
@@ -127,26 +90,12 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     @Unique
     private void nemosInventorySorting$markSlots(
             Function<ResourceLocation, RenderType> renderTypeFunction,
-            List<Integer> slots,
-            int leftPosOffset,
-            int topPosOffset,
+            List<Slot> slots,
             GuiGraphics guiGraphics,
             ResourceLocation texture
     ) {
-        for (int slotIndex : slots) {
-            var column = slotIndex % 9;
-            var row = (int) Math.ceil((double) (slotIndex + 1) / 9);
-            var xPos = leftPosOffset + (18 * column);
-            var yPos = nemosInventorySorting$calculateYPos(nemosInventorySorting$containerRows, row, topPosOffset);
-
-            guiGraphics.blitSprite(renderTypeFunction, texture, xPos, yPos, 16, 16);
+        for (Slot slot : slots) {
+            guiGraphics.blitSprite(renderTypeFunction, texture, leftPos + slot.x, topPos + slot.y, 16, 16);
         }
-    }
-
-    @Unique
-    private int nemosInventorySorting$calculateYPos(int rowCount, int row, int topPosOffset) {
-        var base = topPosOffset + (18 * row);
-
-        return row <= rowCount ? base : row <= rowCount + 3 ? base + 13 : base + 17;
     }
 }

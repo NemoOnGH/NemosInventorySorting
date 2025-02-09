@@ -10,7 +10,6 @@ import net.minecraft.world.item.Items;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ContainerFilterBox {
 
@@ -30,10 +29,9 @@ public class ContainerFilterBox {
         return searchBox;
     }
 
-    public Map<Boolean, List<Integer>> filterSlots(NonNullList<Slot> slots, String filter) {
-        return IntStream.range(0, slots.size())
-                .boxed()
-                .collect(Collectors.partitioningBy(i -> filterForItemName(slots.get(i), filter)));
+    public Map<Boolean, List<Slot>> filterSlots(NonNullList<Slot> slots, String filter) {
+        return slots.stream()
+                .collect(Collectors.partitioningBy(slot -> filterForItemName(slot, filter)));
     }
 
     private boolean filterForItemName(Slot slot, String filter) {
