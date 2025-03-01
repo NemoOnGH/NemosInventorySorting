@@ -3,9 +3,12 @@ package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +18,8 @@ public class ContainerFilterBox {
 
     private final EditBox searchBox;
 
-    public ContainerFilterBox(Font font, int leftPos, int topPos) {
-        this.searchBox = new EditBox(font, leftPos + 89, topPos - 16, 84, 15, Component.translatable("itemGroup.search"));
+    public ContainerFilterBox(Font font, int leftPos, int topPos, int xOffset, int yOffset, int width, int height) {
+        this.searchBox = new EditBox(font, leftPos + xOffset, topPos + yOffset, width, height, Component.translatable("itemGroup.search"));
         this.searchBox.setTextColor(16777215);
         this.searchBox.setVisible(true);
         this.searchBox.setMaxLength(50);
@@ -36,13 +39,32 @@ public class ContainerFilterBox {
 
     private boolean filterForItemName(Slot slot, String filter) {
         var slotItem = slot.getItem();
-        var itemNameContainsFilter = nameContainsFilter(slotItem.getItemName(), filter);
-        var itemDisplayNameContainsFilter = nameContainsFilter(slotItem.getDisplayName(), filter);
+        var itemNameContainsFilter = componentContainsFilter(slotItem.getItemName(), filter);
+        var itemDisplayNameContainsFilter = componentContainsFilter(slotItem.getDisplayName(), filter);
+        var itemEnchantsContainFilter = checkEnchantments(slotItem, filter);
 
-        return !slotItem.is(Items.AIR) && (itemNameContainsFilter || itemDisplayNameContainsFilter);
+        return !slotItem.is(Items.AIR) && (itemNameContainsFilter || itemDisplayNameContainsFilter || itemEnchantsContainFilter);
     }
 
-    private boolean nameContainsFilter(Component component, String filter) {
+    private boolean checkEnchantments(ItemStack itemStack, String filter) {
+        var dataComponents = itemStack.getComponents();
+
+        if (!itemStack.is(Items.ENCHANTED_BOOK) || !dataComponents.has(DataComponents.STORED_ENCHANTMENTS)) {
+            return false;
+        }
+
+        var storedEnchantments = dataComponents.get(DataComponents.STORED_ENCHANTMENTS);
+
+        if (storedEnchantments == null) {
+            return false;
+        }
+
+        return storedEnchantments.entrySet().stream()
+                .map(holderEntry -> Enchantment.getFullname(holderEntry.getKey(), holderEntry.getIntValue()))
+                .anyMatch(component -> componentContainsFilter(component, filter));
+    }
+
+    private boolean componentContainsFilter(Component component, String filter) {
         return component.getString().toLowerCase().contains(filter.toLowerCase());
     }
 }

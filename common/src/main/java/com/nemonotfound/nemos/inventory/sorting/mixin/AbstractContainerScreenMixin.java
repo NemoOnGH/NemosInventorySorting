@@ -1,5 +1,6 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
+import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.ContainerFilterBox;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -23,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
+import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class AbstractContainerScreenMixin extends Screen {
@@ -52,15 +53,35 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     @Inject(method = "init", at = @At(value = "TAIL"))
     public void init(CallbackInfo ci) {
         if (nemosInventorySorting$shouldHaveSearchBox()) {
-            nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this.font, leftPos, topPos);
-            nemosInventorySorting$searchBox = nemosInventorySorting$containerFilterBox.getSearchBox();
-            this.addWidget(nemosInventorySorting$searchBox);
+            var configs = ConfigUtil.readConfigs();
+            var optionalComponentConfig = ConfigUtil.getConfigs(configs, ITEM_FILTER);
+
+            if (optionalComponentConfig.isEmpty()) {
+                nemosInventorySorting$createSearchBox(X_OFFSET_ITEM_FILTER, Y_OFFSET_ITEM_FILTER, ITEM_FILTER_WIDTH, ITEM_FILTER_HEIGHT);
+                return;
+            }
+
+            var config = optionalComponentConfig.get();
+
+            if (!config.isEnabled()) {
+                return;
+            }
+
+            var yOffset = config.yOffset() != null ? config.yOffset() : Y_OFFSET_ITEM_FILTER;
+            nemosInventorySorting$createSearchBox(config.xOffset(), yOffset, config.width(), config.height());
         }
+    }
+
+    @Unique
+    private void nemosInventorySorting$createSearchBox(int xOffset, int yOffset, int width, int height) {
+        nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this.font, leftPos, topPos, xOffset, yOffset, width, height);
+        nemosInventorySorting$searchBox = nemosInventorySorting$containerFilterBox.getSearchBox();
+        this.addWidget(nemosInventorySorting$searchBox);
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (nemosInventorySorting$shouldHaveSearchBox()) {
+        if (nemosInventorySorting$shouldHaveSearchBox() && this.nemosInventorySorting$searchBox != null) {
             if (this.nemosInventorySorting$searchBox.isFocused() && keyCode != 256) {
                 cir.setReturnValue(this.nemosInventorySorting$searchBox.keyPressed(keyCode, scanCode, modifiers));
             }
@@ -69,7 +90,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Inject(method = "render", at = @At(value = "TAIL"))
     void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        if (!nemosInventorySorting$shouldHaveSearchBox()) {
+        if (!nemosInventorySorting$shouldHaveSearchBox() || this.nemosInventorySorting$searchBox == null) {
             return;
         }
 
