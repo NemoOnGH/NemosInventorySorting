@@ -12,7 +12,6 @@ public interface ButtonCreator {
             int topPos,
             int xOffset,
             int yOffset,
-            int imageWidth,
             int width,
             int height,
             AbstractContainerScreen<?> containerScreen

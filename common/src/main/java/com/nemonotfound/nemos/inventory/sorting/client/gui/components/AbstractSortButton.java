@@ -45,9 +45,8 @@ public abstract class AbstractSortButton extends AbstractWidget {
 
         if (containerScreen instanceof InventoryScreen) {
             int leftPos = ((GuiPosition) containerScreen).nemosInventorySorting$getLeftPos();
-            int imageWidth = ((GuiPosition) containerScreen).nemosInventorySorting$getImageWidth();
 
-            super.x = leftPos + imageWidth - this.xOffset;
+            super.x = leftPos + this.xOffset;
         }
 
         if (this.isHovered) {

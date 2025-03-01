@@ -21,7 +21,7 @@ public class MoveAllButtonFactory extends SortButtonFactory {
 
     @Override
     public AbstractSortButton createButton(
-            int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int imageWidth, int width,
+            int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int width,
             int height, AbstractContainerScreen<?> containerScreen
     ) {
         var buttonName = Component.translatable("gui.nemosInventorySorting.move_all");
@@ -29,7 +29,7 @@ public class MoveAllButtonFactory extends SortButtonFactory {
         var builder = new AbstractSortButton.Builder<>(MoveAllButton.class)
                 .startIndex(startIndex)
                 .endIndex(endIndex)
-                .x(getLeftPosWithOffset(leftPos, imageWidth, xOffset))
+                .x(getLeftPosWithOffset(leftPos, xOffset))
                 .y(topPos + yOffset)
                 .xOffset(xOffset)
                 .width(width)
