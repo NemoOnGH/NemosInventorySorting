@@ -1,6 +1,8 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
 import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
+import com.nemonotfound.nemos.inventory.sorting.client.config.ComponentConfig;
+import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
 import com.nemonotfound.nemos.inventory.sorting.factory.ButtonCreator;
 import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
@@ -22,7 +24,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
 
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> implements GuiPosition {
@@ -36,19 +41,15 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
 
     @Inject(method = "init", at = @At("RETURN"))
     public void init(CallbackInfo ci) {
-        int xOffsetFirstButton = 18;
-        int xOffsetSecondButton = 33;
-        int xOffsetThirdButton = 48;
-
-        int size = 11;
-
         SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
         SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
         DropAllButtonFactory dropAllButtonFactory = DropAllButtonFactory.getInstance();
 
-        nemosInventorySorting$createButton(ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get(), sortAlphabeticallyDescendingButtonFactory, xOffsetFirstButton, size);
-        nemosInventorySorting$createButton(ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get(), sortAlphabeticallyButtonFactory, xOffsetSecondButton, size);
-        nemosInventorySorting$createButton(ModKeyMappings.DROP_ALL_INVENTORY.get(), dropAllButtonFactory, xOffsetThirdButton, size);
+        var configs = ConfigUtil.readConfigs();
+
+        nemosInventorySorting$createButton(configs, SORT_ALPHABETICALLY_DESCENDING_INVENTORY, ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get(), sortAlphabeticallyDescendingButtonFactory, X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_INVENTORY, Y_OFFSET_INVENTORY, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createButton(configs, SORT_ALPHABETICALLY_INVENTORY, ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get(), sortAlphabeticallyButtonFactory, X_OFFSET_SORT_ALPHABETICALLY_INVENTORY, Y_OFFSET_INVENTORY, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createButton(configs, DROP_ALL_INVENTORY, ModKeyMappings.DROP_ALL_INVENTORY.get(), dropAllButtonFactory, X_OFFSET_DROP_ALL_INVENTORY, Y_OFFSET_INVENTORY, BUTTON_SIZE, BUTTON_SIZE);
 
         for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             this.addRenderableWidget(button);
@@ -56,20 +57,38 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
     }
 
     @Unique
-    private void nemosInventorySorting$createButton(KeyMapping keyMapping, ButtonCreator buttonCreator, int xOffset, int size) {
+    private void nemosInventorySorting$createButton(List<ComponentConfig> configsList, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int defaultXOffset, int defaultYOffset, int defaultWidth, int defaultHeight) {
+        var optionalComponentConfig = ConfigUtil.getConfigs(configsList, componentName);
+
+        if (optionalComponentConfig.isEmpty()) {
+            nemosInventorySorting$createButton(keyMapping, buttonCreator, defaultXOffset, defaultYOffset, defaultWidth, defaultHeight);
+            return;
+        }
+
+        var config = optionalComponentConfig.get();
+
+        if (!config.isEnabled()) {
+            return;
+        }
+
+        var yOffset = config.yOffset() != null ? config.yOffset() : defaultYOffset;
+        nemosInventorySorting$createButton(keyMapping, buttonCreator, config.xOffset(), yOffset, config.width(), config.height());
+    }
+
+    @Unique
+    private void nemosInventorySorting$createButton(KeyMapping keyMapping, ButtonCreator buttonCreator, int xOffset, int yOffset, int width, int height) {
         var nemosInventorySorting$startIndex = 9;
         var nemosInventorySorting$endIndex = 36;
-        var nemosInventorySorting$yOffset = 65;
         var sortButton = buttonCreator.createButton(
                 nemosInventorySorting$startIndex,
                 nemosInventorySorting$endIndex,
                 leftPos,
                 topPos,
                 xOffset,
-                nemosInventorySorting$yOffset,
+                yOffset,
                 imageWidth,
-                size,
-                size,
+                width,
+                height,
                 this
         );
         nemosInventorySorting$keyMappingButtonMap.put(keyMapping, sortButton);
