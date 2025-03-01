@@ -17,6 +17,30 @@ public class DefaultConfigs {
     }
 
     public void setupDefaultConfigs() {
+        ComponentConfig dropAllContainerConfig = new ComponentConfig(
+                DROP_ALL_CONTAINER,
+                true,
+                X_OFFSET_DROP_ALL_CONTAINER,
+                Y_OFFSET_CONTAINER,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        ComponentConfig moveAllContainerConfig = new ComponentConfig(
+                MOVE_ALL_CONTAINER,
+                true,
+                X_OFFSET_MOVE_ALL_CONTAINER,
+                Y_OFFSET_CONTAINER,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        ComponentConfig moveSameContainerConfig = new ComponentConfig(
+                MOVE_SAME_CONTAINER,
+                true,
+                X_OFFSET_MOVE_SAME_CONTAINER,
+                Y_OFFSET_CONTAINER,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
         ComponentConfig sortAlphabeticallyContainerConfig = new ComponentConfig(
                 SORT_ALPHABETICALLY_CONTAINER,
                 true,
@@ -33,27 +57,27 @@ public class DefaultConfigs {
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
-        ComponentConfig moveSameContainerConfig = new ComponentConfig(
-                MOVE_SAME_CONTAINER,
-                true,
-                X_OFFSET_MOVE_SAME_CONTAINER,
-                Y_OFFSET_CONTAINER,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        ComponentConfig moveAllContainerConfig = new ComponentConfig(
-                MOVE_ALL_CONTAINER,
-                true,
-                X_OFFSET_MOVE_ALL_CONTAINER,
-                Y_OFFSET_CONTAINER,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        ComponentConfig dropAllContainerConfig = new ComponentConfig(
-                DROP_ALL_CONTAINER,
+        ComponentConfig dropAllContainerInventoryConfig = new ComponentConfig(
+                DROP_ALL_CONTAINER_INVENTORY,
                 true,
                 X_OFFSET_DROP_ALL_CONTAINER,
-                Y_OFFSET_CONTAINER,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        ComponentConfig moveAllContainerInventoryConfig = new ComponentConfig(
+                MOVE_ALL_CONTAINER_INVENTORY,
+                true,
+                X_OFFSET_MOVE_ALL_CONTAINER,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        ComponentConfig moveSameContainerInventoryConfig = new ComponentConfig(
+                MOVE_SAME_CONTAINER_INVENTORY,
+                true,
+                X_OFFSET_MOVE_SAME_CONTAINER,
+                null,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
@@ -73,27 +97,11 @@ public class DefaultConfigs {
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
-        ComponentConfig moveSameContainerInventoryConfig = new ComponentConfig(
-                MOVE_SAME_CONTAINER_INVENTORY,
+        ComponentConfig dropAllInventoryConfig = new ComponentConfig(
+                DROP_ALL_INVENTORY,
                 true,
-                X_OFFSET_MOVE_SAME_CONTAINER,
-                null,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        ComponentConfig moveAllContainerInventoryConfig = new ComponentConfig(
-                MOVE_ALL_CONTAINER_INVENTORY,
-                true,
-                X_OFFSET_MOVE_ALL_CONTAINER,
-                null,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        ComponentConfig dropAllContainerInventoryConfig = new ComponentConfig(
-                DROP_ALL_CONTAINER_INVENTORY,
-                true,
-                X_OFFSET_DROP_ALL_CONTAINER,
-                null,
+                X_OFFSET_DROP_ALL_INVENTORY,
+                Y_OFFSET_INVENTORY,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
@@ -113,14 +121,6 @@ public class DefaultConfigs {
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
-        ComponentConfig dropAllInventoryConfig = new ComponentConfig(
-                DROP_ALL_INVENTORY,
-                true,
-                X_OFFSET_DROP_ALL_INVENTORY,
-                Y_OFFSET_INVENTORY,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
         ComponentConfig itemFilterConfig = new ComponentConfig(
                 ITEM_FILTER,
                 true,
@@ -131,19 +131,19 @@ public class DefaultConfigs {
         );
 
         ConfigUtil.writeConfigs(List.of(
+                dropAllContainerConfig,
+                moveAllContainerConfig,
+                moveSameContainerConfig,
                 sortAlphabeticallyContainerConfig,
                 sortAlphabeticallyDescendingContainerConfig,
-                moveSameContainerConfig,
-                moveAllContainerConfig,
-                dropAllContainerConfig,
+                dropAllContainerInventoryConfig,
+                moveAllContainerInventoryConfig,
+                moveSameContainerInventoryConfig,
                 sortAlphabeticallyContainerInventoryConfig,
                 sortAlphabeticallyDescendingContainerInventoryConfig,
-                moveSameContainerInventoryConfig,
-                moveAllContainerInventoryConfig,
-                dropAllContainerInventoryConfig,
+                dropAllInventoryConfig,
                 sortAlphabeticallyInventoryConfig,
                 sortAlphabeticallyDescendingInventoryConfig,
-                dropAllInventoryConfig,
                 itemFilterConfig
         ));
     }
