@@ -86,7 +86,6 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
                 topPos,
                 xOffset,
                 yOffset,
-                imageWidth,
                 width,
                 height,
                 this
@@ -134,10 +133,5 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
     @Override
     public int nemosInventorySorting$getLeftPos() {
         return this.leftPos;
-    }
-
-    @Override
-    public int nemosInventorySorting$getImageWidth() {
-        return this.imageWidth;
     }
 }

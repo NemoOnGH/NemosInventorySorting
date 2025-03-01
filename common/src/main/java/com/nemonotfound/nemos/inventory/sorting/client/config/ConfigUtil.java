@@ -6,7 +6,6 @@ import com.nemonotfound.nemos.inventory.sorting.Constants;
 
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -27,13 +26,13 @@ public class ConfigUtil {
 
         try {
             Files.createDirectories(Paths.get(DIRECTORY_PATH));
-        } catch (IOException e) {
+        } catch (Exception e) {
             Constants.LOG.error("An error occurred while creating directories:\n", e);
         }
 
         try(FileWriter writer = new FileWriter(FILE_PATH)) {
             GSON.toJson(config, writer);
-        } catch (IOException e) {
+        } catch (Exception e) {
             Constants.LOG.error("An error occurred while writing the config:\n", e);
         }
     }
@@ -41,7 +40,7 @@ public class ConfigUtil {
     public static List<ComponentConfig> readConfigs() {
         try(FileReader reader = new FileReader(FILE_PATH)) {
             return GSON.fromJson(reader, configType);
-        } catch (IOException e) {
+        } catch (Exception e) {
             Constants.LOG.error("An error occurred while reading the config:\n", e);
 
             return List.of();
