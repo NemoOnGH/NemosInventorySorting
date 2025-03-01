@@ -23,21 +23,23 @@ I cannot guarantee that you won’t get banned from public servers for using it.
 <br>
 <br>
 
+# Downloads
+- [CurseForge](https://curseforge.com/minecraft/mc-mods/nemos-inventory-sorting)
+- [Modrinth](https://modrinth.com/mod/nemos-inventory-sorting)
+<br>
+<br>
+
+# Join my Discord!
 [![Join my Discord](https://github.com/NemoNotFound/NemoNotFound/blob/master/resources/svg/join_discord_button.svg?raw=true)](https://discord.com/invite/yxs9dga)
 <br>
 <br>
 
+# Support Me
 I love to create mods for Minecraft and wish to live off it one day, so I hope you like what I do. <br>
 Either way feel free to give me your feedback and suggestions, either on my Discord or the [discussions](https://github.com/NemoNotFound/NemosInventorySorting/discussions/) :)
 <br><br>
 
 [![ko-fi donation](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/nemonotfound)
-<br>
-<br>
-
-# Downloads
-- [CurseForge](https://curseforge.com/minecraft/mc-mods/nemos-inventory-sorting)
-- [Modrinth](https://modrinth.com/mod/nemos-inventory-sorting)
 <br>
 <br>
 
