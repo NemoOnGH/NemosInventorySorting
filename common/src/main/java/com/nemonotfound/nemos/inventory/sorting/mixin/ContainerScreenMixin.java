@@ -125,7 +125,7 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
 
     @Unique
     private void nemosInventorySorting$createButton(KeyMapping keyMapping, ButtonCreator buttonCreator, int startIndex, int endIndex, int xOffset, int yOffset, int width, int height) {
-        var sortButton = buttonCreator.createButton(startIndex, endIndex, leftPos, topPos, xOffset, yOffset, imageWidth, width, height, this);
+        var sortButton = buttonCreator.createButton(startIndex, endIndex, leftPos, topPos, xOffset, yOffset, width, height, this);
         nemosInventorySorting$keyMappingButtonMap.put(keyMapping, sortButton);
     }
 
