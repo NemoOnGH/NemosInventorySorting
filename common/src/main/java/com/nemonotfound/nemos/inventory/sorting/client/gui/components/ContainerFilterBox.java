@@ -1,35 +1,25 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
 public class ContainerFilterBox {
 
     private final EditBox searchBox;
-    private final int leftPos;
-    private final int topPos;
-    private final int containerRows;
-    private static final ResourceLocation HIGHLIGHTED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/highlighted_slot");
-    private static final ResourceLocation DIMMED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/dimmed_slot");
 
-    public ContainerFilterBox(Font font, int leftPos, int topPos, int containerRows) {
-        this.leftPos = leftPos;
-        this.topPos = topPos;
-        this.containerRows = containerRows;
-        this.searchBox = new EditBox(font, leftPos + 89, topPos - 16, 84, 15, Component.translatable("itemGroup.search"));
+    public ContainerFilterBox(Font font, int leftPos, int topPos, int xOffset, int yOffset, int width, int height) {
+        this.searchBox = new EditBox(font, leftPos + xOffset, topPos + yOffset, width, height, Component.translatable("itemGroup.search"));
         this.searchBox.setTextColor(16777215);
         this.searchBox.setVisible(true);
         this.searchBox.setMaxLength(50);
@@ -42,55 +32,39 @@ public class ContainerFilterBox {
         return searchBox;
     }
 
-    public void filterSlots(NonNullList<Slot> slots, String filter, GuiGraphics guiGraphics) {
-        var filteredSlotMap = IntStream.range(0, slots.size())
-                .boxed()
-                .collect(Collectors.partitioningBy(i -> filterForItemName(slots.get(i), filter)));
-        var leftPosOffset = leftPos + 8;
-        var topPosOffset = topPos;
-
-        markSlots(false, filteredSlotMap.get(true), leftPosOffset, topPosOffset, guiGraphics, HIGHLIGHTED_SLOT);
-        markSlots(true, filteredSlotMap.get(false), leftPosOffset, topPosOffset, guiGraphics, DIMMED_SLOT);
+    public Map<Boolean, List<Slot>> filterSlots(NonNullList<Slot> slots, String filter) {
+        return slots.stream()
+                .collect(Collectors.partitioningBy(slot -> filterForItemName(slot, filter)));
     }
 
     private boolean filterForItemName(Slot slot, String filter) {
         var slotItem = slot.getItem();
-        var itemName = slotItem.getItem().getName(slotItem);
-        var itemNameContainsFilter = nameContainsFilter(itemName, filter);
-        var itemDisplayNameContainsFilter = nameContainsFilter(slotItem.getDisplayName(), filter);
+        var itemNameContainsFilter = componentContainsFilter(slotItem.getItem().getName(slotItem), filter);
+        var itemDisplayNameContainsFilter = componentContainsFilter(slotItem.getDisplayName(), filter);
+        var itemEnchantsContainFilter = checkEnchantments(slotItem, filter);
 
-        return !slotItem.is(Items.AIR) && (itemNameContainsFilter || itemDisplayNameContainsFilter);
+        return !slotItem.is(Items.AIR) && (itemNameContainsFilter || itemDisplayNameContainsFilter || itemEnchantsContainFilter);
     }
 
-    private boolean nameContainsFilter(Component component, String filter) {
-        return component.getString().toLowerCase().contains(filter.toLowerCase());
-    }
+    private boolean checkEnchantments(ItemStack itemStack, String filter) {
+        var dataComponents = itemStack.getComponents();
 
-    private void markSlots(
-            boolean shouldFillGradient,
-            List<Integer> slots,
-            int leftPosOffset,
-            int topPosOffset,
-            GuiGraphics guiGraphics,
-            ResourceLocation texture
-    ) {
-        for (int slotIndex : slots) {
-            var column = slotIndex % 9;
-            var row = (int) Math.ceil((double) (slotIndex + 1) / 9);
-            var xPos = leftPosOffset + (18 * column);
-            var yPos = calculateYPos(containerRows, row, topPosOffset);
-
-            guiGraphics.blitSprite(texture, xPos, yPos, 16, 16);
-
-            if (shouldFillGradient) {
-                guiGraphics.fillGradient(RenderType.guiOverlay(), xPos, yPos, xPos + 16, yPos + 16, -2139062142, -2139062142, 0);
-            }
+        if (!itemStack.is(Items.ENCHANTED_BOOK) || !dataComponents.has(DataComponents.STORED_ENCHANTMENTS)) {
+            return false;
         }
+
+        var storedEnchantments = dataComponents.get(DataComponents.STORED_ENCHANTMENTS);
+
+        if (storedEnchantments == null) {
+            return false;
+        }
+
+        return storedEnchantments.entrySet().stream()
+                .map(holderEntry -> Enchantment.getFullname(holderEntry.getKey(), holderEntry.getIntValue()))
+                .anyMatch(component -> componentContainsFilter(component, filter));
     }
 
-    private Integer calculateYPos(int rowCount, int row, int topPosOffset) {
-        var base = topPosOffset + (18 * row);
-
-        return row <= rowCount ? base : row <= rowCount + 3 ? base + 13 : base + 17;
+    private boolean componentContainsFilter(Component component, String filter) {
+        return component.getString().toLowerCase().contains(filter.toLowerCase());
     }
 }
