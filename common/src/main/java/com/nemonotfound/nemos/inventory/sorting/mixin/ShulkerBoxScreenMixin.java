@@ -1,12 +1,12 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
+import com.nemonotfound.nemos.inventory.sorting.client.config.ComponentConfig;
+import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
 import com.nemonotfound.nemos.inventory.sorting.factory.*;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ShulkerBoxScreen;
 import net.minecraft.network.chat.Component;
@@ -14,12 +14,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ShulkerBoxMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
 
 @Mixin(ShulkerBoxScreen.class)
 public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<ShulkerBoxMenu> {
@@ -34,15 +34,7 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
     @Override
     public void init() {
         super.init();
-
-        var xOffsetFirstButton = 22;
-        var xOffsetSecondButton = 40;
-        var xOffsetThirdButton = 58;
-        var xOffsetFourthButton = 76;
-        var xOffsetFifthButton = 94;
         var yOffsetInventory = 71;
-        var yOffsetContainer = 5;
-        var size = 11;
 
         SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
         SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
@@ -50,17 +42,19 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         MoveSameButtonFactory moveSameButtonFactory = MoveSameButtonFactory.getInstance();
         MoveAllButtonFactory moveAllButtonFactory = MoveAllButtonFactory.getInstance();
 
-        nemosInventorySorting$createContainerButton(ModKeyMappings.SORT_ALPHABETICALLY.get(), sortAlphabeticallyButtonFactory, xOffsetSecondButton, yOffsetContainer, size);
-        nemosInventorySorting$createContainerButton(ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING.get(), sortAlphabeticallyDescendingButtonFactory, xOffsetFirstButton, yOffsetContainer, size);
-        nemosInventorySorting$createContainerButton(ModKeyMappings.MOVE_SAME.get(), moveSameButtonFactory, xOffsetThirdButton, yOffsetContainer, size);
-        nemosInventorySorting$createContainerButton(ModKeyMappings.MOVE_ALL.get(), moveAllButtonFactory, xOffsetFourthButton, yOffsetContainer, size);
-        nemosInventorySorting$createContainerButton(ModKeyMappings.DROP_ALL.get(), dropAllButtonFactory, xOffsetFifthButton, yOffsetContainer, size);
+        var configs = ConfigUtil.readConfigs();
 
-        nemosInventorySorting$createInventoryButton(ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get(), sortAlphabeticallyButtonFactory, xOffsetSecondButton, yOffsetInventory, size);
-        nemosInventorySorting$createInventoryButton(ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get(), sortAlphabeticallyDescendingButtonFactory, xOffsetFirstButton, yOffsetInventory, size);
-        nemosInventorySorting$createInventoryButton(ModKeyMappings.MOVE_SAME_INVENTORY.get(), moveSameButtonFactory, xOffsetThirdButton, yOffsetInventory, size);
-        nemosInventorySorting$createInventoryButton(ModKeyMappings.MOVE_ALL_INVENTORY.get(), moveAllButtonFactory, xOffsetFourthButton, yOffsetInventory, size);
-        nemosInventorySorting$createInventoryButton(ModKeyMappings.DROP_ALL_INVENTORY.get(), dropAllButtonFactory, xOffsetFifthButton, yOffsetInventory, size);
+        nemosInventorySorting$createContainerButton(configs, SORT_ALPHABETICALLY_CONTAINER, ModKeyMappings.SORT_ALPHABETICALLY.get(), sortAlphabeticallyButtonFactory, X_OFFSET_SORT_ALPHABETICALLY_CONTAINER, Y_OFFSET_CONTAINER, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createContainerButton(configs, SORT_ALPHABETICALLY_DESCENDING_CONTAINER, ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING.get(), sortAlphabeticallyDescendingButtonFactory, X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_CONTAINER, Y_OFFSET_CONTAINER, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createContainerButton(configs, MOVE_SAME_CONTAINER, ModKeyMappings.MOVE_SAME.get(), moveSameButtonFactory, X_OFFSET_MOVE_SAME_CONTAINER, Y_OFFSET_CONTAINER, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createContainerButton(configs, MOVE_ALL_CONTAINER, ModKeyMappings.MOVE_ALL.get(), moveAllButtonFactory, X_OFFSET_MOVE_ALL_CONTAINER, Y_OFFSET_CONTAINER, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createContainerButton(configs, DROP_ALL_CONTAINER, ModKeyMappings.DROP_ALL.get(), dropAllButtonFactory, X_OFFSET_DROP_ALL_CONTAINER, Y_OFFSET_CONTAINER, BUTTON_SIZE, BUTTON_SIZE);
+
+        nemosInventorySorting$createInventoryButton(configs, SORT_ALPHABETICALLY_CONTAINER_INVENTORY, ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get(), sortAlphabeticallyButtonFactory, X_OFFSET_SORT_ALPHABETICALLY_CONTAINER, yOffsetInventory, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createInventoryButton(configs, SORT_ALPHABETICALLY_DESCENDING_CONTAINER_INVENTORY, ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get(), sortAlphabeticallyDescendingButtonFactory, X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_CONTAINER, yOffsetInventory, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createInventoryButton(configs, MOVE_SAME_CONTAINER_INVENTORY, ModKeyMappings.MOVE_SAME_INVENTORY.get(), moveSameButtonFactory, X_OFFSET_MOVE_SAME_CONTAINER, yOffsetInventory, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createInventoryButton(configs, MOVE_ALL_CONTAINER_INVENTORY, ModKeyMappings.MOVE_ALL_INVENTORY.get(), moveAllButtonFactory, X_OFFSET_MOVE_ALL_CONTAINER, yOffsetInventory, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createInventoryButton(configs, DROP_ALL_CONTAINER_INVENTORY, ModKeyMappings.DROP_ALL_INVENTORY.get(), dropAllButtonFactory, X_OFFSET_DROP_ALL_CONTAINER, yOffsetInventory, BUTTON_SIZE, BUTTON_SIZE);
 
 
         for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
@@ -69,28 +63,44 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
     }
 
     @Unique
-    private void nemosInventorySorting$createContainerButton(KeyMapping keyMapping, ButtonCreator buttonCreator, int xOffset, int yOffset, int size) {
-        nemosInventorySorting$createButton(keyMapping, buttonCreator, 0, 27, xOffset, yOffset, size);
+    private void nemosInventorySorting$createInventoryButton(List<ComponentConfig> configs, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int defaultXOffset, int defaultYOffset, int defaultWidth, int defaultHeight) {
+        var startIndex = 27;
+        var endIndex = 54;
+
+        nemosInventorySorting$createButton(configs, componentName, keyMapping, buttonCreator, startIndex, endIndex, defaultXOffset, defaultYOffset, defaultWidth, defaultHeight);
     }
 
     @Unique
-    private void nemosInventorySorting$createInventoryButton(KeyMapping keyMapping, ButtonCreator buttonCreator, int xOffset, int yOffset, int size) {
-        nemosInventorySorting$createButton(keyMapping, buttonCreator, 27, 54, xOffset, yOffset, size);
+    private void nemosInventorySorting$createContainerButton(List<ComponentConfig> configs, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int defaultXOffset, int defaultYOffset, int defaultWidth, int defaultHeight) {
+        var startIndex = 0;
+        var endIndex = 27;
+
+        nemosInventorySorting$createButton(configs, componentName, keyMapping, buttonCreator, startIndex, endIndex, defaultXOffset, defaultYOffset, defaultWidth, defaultHeight);
     }
 
     @Unique
-    private void nemosInventorySorting$createButton(KeyMapping keyMapping, ButtonCreator buttonCreator, int startIndex, int endIndex, int xOffset, int yOffset, int size) {
-        var sortButton = buttonCreator.createButton(startIndex, endIndex, leftPos, topPos, xOffset, yOffset, imageWidth, size, size, this);
+    private void nemosInventorySorting$createButton(List<ComponentConfig> configs, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int startIndex, int endIndex, int defaultXOffset, int defaultYOffset, int defaultWidth, int defaultHeight) {
+        var optionalComponentConfig = ConfigUtil.getConfigs(configs, componentName);
+
+        if (optionalComponentConfig.isEmpty()) {
+            nemosInventorySorting$createButton(keyMapping, buttonCreator, startIndex, endIndex, defaultXOffset, defaultYOffset, defaultWidth, defaultHeight);
+            return;
+        }
+
+        var config = optionalComponentConfig.get();
+
+        if (!config.isEnabled()) {
+            return;
+        }
+
+        var yOffset = config.getyOffset() != null ? config.getyOffset() : defaultYOffset;
+        nemosInventorySorting$createButton(keyMapping, buttonCreator, startIndex, endIndex, config.getxOffset(), yOffset, config.getWidth(), config.getHeight());
+    }
+
+    @Unique
+    private void nemosInventorySorting$createButton(KeyMapping keyMapping, ButtonCreator buttonCreator, int startIndex, int endIndex, int xOffset, int yOffset, int width, int height) {
+        var sortButton = buttonCreator.createButton(startIndex, endIndex, leftPos, topPos, xOffset, yOffset, imageWidth, width, height, this);
         nemosInventorySorting$keyMappingButtonMap.put(keyMapping, sortButton);
-    }
-
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;render(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V", shift = At.Shift.AFTER))
-    private void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        var button = nemosInventorySorting$keyMappingButtonMap.values().stream()
-                .filter(AbstractWidget::isHoveredOrFocused)
-                .findAny();
-
-        button.ifPresent(sortButton -> this.renderTooltip(poseStack, sortButton.getButtonName(menu), mouseX, mouseY));
     }
 
     @Override
