@@ -14,6 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.Optional;
 
@@ -23,9 +24,11 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 public class NemosInventorySortingForge {
 
     public NemosInventorySortingForge(FMLJavaModLoadingContext context) {
-        NemosInventorySortingCommon.init();
+        if (FMLEnvironment.dist.isClient()) {
+            NemosInventorySortingClientCommon.init();
 
-        context.getModEventBus().register(this);
+            context.getModEventBus().register(this);
+        }
     }
 
     @SubscribeEvent
