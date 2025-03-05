@@ -1,10 +1,7 @@
-# Changelog v1.8
-
-## Additions
-- Added configuration to disable, move and resize all components
+# Changelog v1.8.1
 
 ## Changes
-- Enchantments are now also included in the filter (including enchantment level)
+- Removed client code from server side
 
 ## Fixes
-- Dimmed and highlighted slots are aligned incorrectly in shulker boxes
+- Config isn't initially generated for Forge & NeoForge

@@ -1,7 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.nemonotfound.nemos.inventory.sorting.NemosInventorySortingCommon;
+import com.nemonotfound.nemos.inventory.sorting.NemosInventorySortingClientCommon;
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;
 
@@ -75,7 +75,7 @@ public class ModKeyMappings {
     ));
 
     private static Supplier<KeyMapping> registerKeyMapping(KeyMapping keyMapping) {
-        return NemosInventorySortingCommon.REGISTRY_HELPER.registerKeyMapping(keyMapping);
+        return NemosInventorySortingClientCommon.REGISTRY_HELPER.registerKeyMapping(keyMapping);
     }
 
     public static void init() {}
