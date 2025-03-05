@@ -31,18 +31,18 @@ public class NemosInventorySortingForge {
     public void addBuiltInResourcePack(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
             var resourcePath = ModList.get().getModFileById(MOD_ID).getFile().findResource("resourcepacks/dark_mode");
-            var pathPackResources = new PathPackResources(Component.translatable("resourcePack.nemos_inventory_sorting.dark_mode.name").toString(), resourcePath);
-            Pack.PackConstructor packConstructor = ($$1, $$2, $$3, $$4, $$5, $$6, $$7, $$8) -> new Pack($$1, Component.translatable("resourcePack.nemos_inventory_sorting.dark_mode.name"), $$3, $$4, $$5, PackType.CLIENT_RESOURCES, $$6, $$7);
-            var pack = Pack.create(
+            var pathPackResources = new PathPackResources("dark_mode", true, resourcePath);
+            var pack = Pack.readMetaAndCreate(
                     "builtin/dark_mode",
+                    Component.translatable("resourcePack.nemos_inventory_sorting.dark_mode.name"),
                     false,
-                    () -> pathPackResources,
-                    packConstructor,
+                    (supplier) -> pathPackResources,
+                    PackType.CLIENT_RESOURCES,
                     Pack.Position.TOP,
                     PackSource.BUILT_IN
             );
 
-            event.addRepositorySource((repositorySource, source) -> repositorySource.accept(pack));
+            event.addRepositorySource((packConsumer) -> packConsumer.accept(pack));
         }
     }
 

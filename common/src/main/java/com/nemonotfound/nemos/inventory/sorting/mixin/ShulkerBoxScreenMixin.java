@@ -136,6 +136,7 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
     private void nemosInventorySorting$updateToolTips(boolean isShiftDown) {
         for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             button.setIsShiftKeyDown(isShiftDown);
+            button.setTooltip(this.getMenu());
         }
     }
 }

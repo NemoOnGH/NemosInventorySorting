@@ -1,6 +1,6 @@
 {
   "pack": {
-    "pack_format": 9,
+    "pack_format": 13,
     "description": {
       "translate": "resourcePack.nemos_inventory_sorting.dark_mode.description"
     }
