@@ -1,4 +1,4 @@
-![Nemo's Inventory Sorting](https://github.com/NemoNotFound/NemoNotFound/blob/master/resources/minecraft_project_titles/png/nemos_inventory_sorting.png?raw=true)
+![Nemo's Inventory Sorting](https://github.com/NemoNotFound/NemoNotFound/blob/master/resources/minecraft_projects/titles/png/nemos_inventory_sorting.png?raw=true)
 <br><br>
 
 # Description
