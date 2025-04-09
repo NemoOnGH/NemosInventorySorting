@@ -1,7 +1,4 @@
-# Changelog v1.8.1
+# Changelog v1.8.2
 
 ## Changes
-- Removed client code from server side
-
-## Fixes
-- Config isn't initially generated for Forge & NeoForge
+- Key binds now also work with mouse buttons
