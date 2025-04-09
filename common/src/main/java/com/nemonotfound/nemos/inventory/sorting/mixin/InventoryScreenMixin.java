@@ -122,6 +122,22 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
         return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        var optionalButtonEntry = nemosInventorySorting$keyMappingButtonMap.entrySet().stream()
+                .filter(entry -> entry.getKey().matchesMouse(button))
+                .findFirst();
+
+        optionalButtonEntry.ifPresent(entry -> {
+            var sortButton = entry.getValue();
+
+            sortButton.playDownSound(Minecraft.getInstance().getSoundManager());
+            sortButton.onClick(0, 0);
+        });
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
     @Unique
     private void nemosInventorySorting$updateToolTips(boolean isShiftDown) {
         for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
