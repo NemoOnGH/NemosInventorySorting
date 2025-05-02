@@ -1,4 +1,4 @@
-# Changelog v1.8.2
+# Changelog v1.8.3
 
 ## Changes
-- Key binds now also work with mouse buttons
+- Internal changes & cleanup (Slightly faster sorting process)

@@ -4,21 +4,24 @@ import com.nemonotfound.nemos.inventory.sorting.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.groupingBy;
 
 public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButton {
+
+    private static final int MAX_CYCLES = 1000;
 
     public AbstractSortAlphabeticallyButton(Builder<? extends AbstractSortAlphabeticallyButton> builder) {
         super(builder);
@@ -30,123 +33,119 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
     }
 
     private void sortItems() {
-        Minecraft minecraft = Minecraft.getInstance();
-        AbstractContainerMenu menu = containerScreen.getMenu();
+        var minecraft = Minecraft.getInstance();
+        var menu = containerScreen.getMenu();
         int containerId = menu.containerId;
 
         mergeAllItems(menu, containerId, minecraft);
-        Map<Integer, Integer> sortedItemMap = createSortedItemMap(menu);
+        var slotSwapMap = createSortedItemMap(menu);
 
-        swapItemsUntilSorted(sortedItemMap, minecraft, containerId);
-        mergeAllItems(menu, containerId, minecraft);
+        swapItems(slotSwapMap, minecraft, containerId);
     }
 
     private void mergeAllItems(AbstractContainerMenu menu, int containerId, Minecraft minecraft) {
-        Map<DataComponentMap, List<Map.Entry<Integer, ItemStack>>> groupedItemMap = getSortedSlotItems(menu).stream()
-                .collect(groupingBy(itemMap -> itemMap.getValue().getComponents()));
+        var groupedItemMap = sortSlotItems(menu).stream()
+                .collect(groupingBy(slotItem -> slotItem.itemStack().getComponents()));
 
-        groupedItemMap.forEach((key, mapEntryList) -> mergeItems(mapEntryList, menu, containerId, minecraft));
+        groupedItemMap.forEach((key, slotItems) -> mergeItems(slotItems, menu, containerId, minecraft));
     }
 
     private Map<Integer, Integer> createSortedItemMap(AbstractContainerMenu menu) {
-        List<Map.Entry<Integer, ItemStack>> itemMapEntries = getSortedSlotItems(menu);
-        Map<Integer, Integer> sortedItemMap = new LinkedHashMap<>();
+        var sortedSlotItemEntries = sortSlotItems(menu);
+        Map<Integer, Integer> slotSwapMap = new LinkedHashMap<>();
 
-        for (int i = 0; i < itemMapEntries.size(); i++) {
+        for (int i = 0; i < sortedSlotItemEntries.size(); i++) {
             int newSlot = i + startIndex;
-            int currentSlot = itemMapEntries.get(i).getKey();
+            int currentSlot = sortedSlotItemEntries.get(i).slotIndex();
+
             if (currentSlot != newSlot) {
-                sortedItemMap.put(currentSlot, newSlot);
+                slotSwapMap.put(currentSlot, newSlot);
             }
         }
 
-        return sortedItemMap;
+        return slotSwapMap;
     }
 
-    //TODO: Refactor
-    private void swapItemsUntilSorted(Map<Integer, Integer> sortedItemMap, Minecraft minecraft, int containerId) {
-        int cycles = 1000;
+    private void swapItems(Map<Integer, Integer> slotSwapMap, Minecraft minecraft, int containerId) {
+        int remainingCyles = MAX_CYCLES;
 
-        while (!sortedItemMap.isEmpty()) {
-            if (cycles <= 0) {
+        while (!slotSwapMap.isEmpty() && remainingCyles-- > 0) {
+            var iterator = slotSwapMap.entrySet().iterator();
+
+            if (!iterator.hasNext()) {
                 break;
             }
 
-            Iterator<Map.Entry<Integer, Integer>> slotsIterator = sortedItemMap.entrySet().iterator();
+            var entry = iterator.next();
+            int currentSlot = entry.getKey();
+            int targetSlot = entry.getValue();
 
-            if (slotsIterator.hasNext()) {
-                Map.Entry<Integer, Integer> slotsEntry = slotsIterator.next();
-                int currentSlot = slotsEntry.getKey();
-                int targetSlot = slotsEntry.getValue();
-
-                if (currentSlot == targetSlot) {
-                    slotsIterator.remove();
-                    continue;
-                }
-
-                swapItems(minecraft.gameMode, containerId, currentSlot, targetSlot, minecraft.player);
-
-                if (sortedItemMap.containsKey(targetSlot)) {
-                    sortedItemMap.put(currentSlot, sortedItemMap.get(targetSlot));
-                } else {
-                    slotsIterator.remove();
-                }
-
-                sortedItemMap.put(targetSlot, targetSlot);
+            if (currentSlot == targetSlot) {
+                iterator.remove();
+                continue;
             }
 
-            cycles--;
+            performSlotSwap(minecraft.gameMode, containerId, currentSlot, targetSlot, minecraft.player);
+
+            if (slotSwapMap.containsKey(targetSlot)) {
+                slotSwapMap.put(currentSlot, slotSwapMap.get(targetSlot));
+            } else {
+                iterator.remove();
+            }
+
+            slotSwapMap.put(targetSlot, targetSlot);
+        }
+
+        if (remainingCyles <= 0) {
+            Constants.LOG.warn("Slot swap cycle limit reached. Please report this");
         }
     }
 
-    private @NotNull List<Map.Entry<Integer, ItemStack>> getSortedSlotItems(AbstractContainerMenu menu) {
-        var slots = menu.slots;
-
+    private @NotNull List<SlotItem> sortSlotItems(AbstractContainerMenu menu) {
         return IntStream.range(startIndex, calculateEndIndex(menu))
-                .mapToObj(slotIndex -> Map.entry(slotIndex, slots.get(slotIndex).getItem()))
-                .filter(itemStackEntry -> !itemStackEntry.getValue().is(Items.AIR))
+                .mapToObj(slotIndex -> new SlotItem(slotIndex, menu.slots.get(slotIndex).getItem()))
+                .filter(slotItem -> !slotItem.itemStack().isEmpty())
                 .sorted(compare())
                 .toList();
-
     }
 
-    protected Comparator<Map.Entry<Integer, ItemStack>> compare() {
-        return Comparator.comparing(entry -> entry.getValue().getItemName().getString());
+    protected Comparator<SlotItem> compare() {
+        return Comparator.comparing(
+                slotItem -> slotItem.itemStack()
+                        .getItemName()
+                        .getString()
+        );
     }
 
-    private void mergeItems(List<Map.Entry<Integer, ItemStack>> mapEntryList, AbstractContainerMenu menu, int containerId, Minecraft minecraft) {
-        if (mapEntryList.size() <= 1) {
+    private void mergeItems(List<SlotItem> slotItems, AbstractContainerMenu menu, int containerId, Minecraft minecraft) {
+        if (slotItems.size() <= 1) {
             return;
         }
 
-        int leftSlotIndex = 0;
-        int rightSlotIndex = mapEntryList.size() - 1;
-        int cycles = 1000;
+        var leftSlotIndex = 0;
+        var rightSlotIndex = slotItems.size() - 1;
+        var remainingCycles = MAX_CYCLES;
 
-        while (leftSlotIndex < rightSlotIndex) {
-            if (cycles <= 0) {
-                Constants.LOG.warn("Merging items exceeded max. attempts");
-
-                break;
-            }
-
-            Map.Entry<Integer, ItemStack> leftSlotEntry = mapEntryList.get(leftSlotIndex);
-            Map.Entry<Integer, ItemStack> rightSlotEntry = mapEntryList.get(rightSlotIndex);
-            Slot leftSlot = menu.slots.get(leftSlotEntry.getKey());
-            Slot rightSlot = menu.slots.get(rightSlotEntry.getKey());
-            ItemStack leftItem = leftSlot.getItem();
+        while (leftSlotIndex < rightSlotIndex && remainingCycles-- > 0) {
+            var leftSlotItem = slotItems.get(leftSlotIndex);
+            var rightSlotItem = slotItems.get(rightSlotIndex);
+            var leftSlot = menu.slots.get(leftSlotItem.slotIndex());
+            var rightSlot = menu.slots.get(rightSlotItem.slotIndex());
+            var leftItem = leftSlot.getItem();
 
             if (!isFullStack(leftItem)) {
-                swapItems(minecraft.gameMode, containerId, rightSlotEntry.getKey(), leftSlotEntry.getKey(), minecraft.player);
+                performSlotSwap(minecraft.gameMode, containerId, rightSlotItem.slotIndex(), leftSlotItem.slotIndex(), minecraft.player);
             } else {
                 leftSlotIndex++;
             }
 
-            if (rightSlot.getItem().is(Items.AIR)) {
+            if (rightSlot.getItem().isEmpty()) {
                 rightSlotIndex--;
             }
+        }
 
-            cycles--;
+        if (remainingCycles <= 0) {
+            Constants.LOG.warn("Merging items exceeded cycle limit. Please report this.");
         }
     }
 
@@ -154,22 +153,25 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
         return itemStack.getCount() >= itemStack.getMaxStackSize();
     }
 
-    private void swapItems(MultiPlayerGameMode gameMode, int containerId, int slot, int targetSlot, LocalPlayer player) {
+    private void performSlotSwap(MultiPlayerGameMode gameMode, int containerId, int slot, int targetSlot, LocalPlayer player) {
         pickUpItem(gameMode, containerId, slot, player);
         pickUpItem(gameMode, containerId, targetSlot, player);
         pickUpItem(gameMode, containerId, slot, player);
     }
 
     private void pickUpItem(MultiPlayerGameMode gameMode, int containerId, int slot, LocalPlayer player) {
-        ItemStack cursorStack = player.containerMenu.getCarried();
-        AbstractContainerMenu menu = containerScreen.getMenu();
-        Slot itemSlot = menu.getSlot(slot);
-        int mouseButton = 0;
+        var cursorStack = player.containerMenu.getCarried();
+        var menu = containerScreen.getMenu();
+        var itemSlot = menu.getSlot(slot);
+        var mouseButton = 0;
 
-        if ((!cursorStack.is(Items.AIR) && itemSlot.getItem().is(ItemTags.BUNDLES)) || (cursorStack.is(ItemTags.BUNDLES) && !itemSlot.getItem().is(Items.AIR))) {
+        if ((!cursorStack.is(Items.AIR) && itemSlot.getItem().is(ItemTags.BUNDLES)) ||
+                (cursorStack.is(ItemTags.BUNDLES) && !itemSlot.getItem().is(Items.AIR))) {
             mouseButton = 1;
         }
 
         gameMode.handleInventoryMouseClick(containerId, slot, mouseButton, ClickType.PICKUP, player);
     }
+
+    protected record SlotItem(int slotIndex, ItemStack itemStack) {}
 }

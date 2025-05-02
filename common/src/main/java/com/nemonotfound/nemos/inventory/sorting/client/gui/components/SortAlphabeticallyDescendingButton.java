@@ -1,10 +1,8 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.Comparator;
-import java.util.Map;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
@@ -28,7 +26,7 @@ public class SortAlphabeticallyDescendingButton extends AbstractSortAlphabetical
     }
 
     @Override
-    protected Comparator<Map.Entry<Integer, ItemStack>> compare() {
+    protected Comparator<SlotItem> compare() {
         return super.compare().reversed();
     }
 }
