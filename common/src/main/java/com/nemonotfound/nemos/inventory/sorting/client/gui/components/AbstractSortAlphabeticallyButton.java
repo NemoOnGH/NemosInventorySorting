@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
@@ -41,8 +42,8 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
     }
 
     private void mergeAllItems(AbstractContainerMenu menu, int containerId, Minecraft minecraft) {
-        Map<DataComponentMap, List<Map.Entry<Integer, ItemStack>>> groupedItemMap = getSortedSlotItems(menu).stream()
-                .collect(groupingBy(itemMap -> itemMap.getValue().getComponents()));
+        Map<ItemData, List<Map.Entry<Integer, ItemStack>>> groupedItemMap = getSortedSlotItems(menu).stream()
+                .collect(groupingBy(itemMap -> new ItemData(itemMap.getValue().getComponents(), itemMap.getValue().getItem().getName(itemMap.getValue()))));
 
         groupedItemMap.forEach((key, mapEntryList) -> mergeItems(mapEntryList, menu, containerId, minecraft));
     }
@@ -129,7 +130,7 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
 
         while (leftSlotIndex < rightSlotIndex) {
             if (cycles <= 0) {
-                Constants.LOG.warn("Merging items exceeded max. attempts");
+                Constants.LOG.warn("Merging items exceeded max. attempts. Please report a bug");
 
                 break;
             }
@@ -167,4 +168,6 @@ public abstract class AbstractSortAlphabeticallyButton extends AbstractSortButto
     private void pickUpItem(MultiPlayerGameMode gameMode, int containerId, int slot, LocalPlayer player) {
         gameMode.handleInventoryMouseClick(containerId, slot, 0, ClickType.PICKUP, player);
     }
+
+    record ItemData(DataComponentMap dataComponentMap, Component component) {}
 }

@@ -1,4 +1,4 @@
-# Changelog v1.8.2
+# Changelog v1.8.2.1
 
-## Changes
-- Key binds now also work with mouse buttons
+## Fixes
+- Item won't be merged properly
