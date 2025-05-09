@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import static com.nemonotfound.nemos.inventory.sorting.Constants.MAX_SORTING_CYCLES;
+
 public abstract class AbstractSortingService {
 
     private final InventorySwapService inventorySwapService;
-
-    private static final int MAX_CYCLES = 1000;
 
     public AbstractSortingService(InventorySwapService inventorySwapService) {
         this.inventorySwapService = inventorySwapService;
@@ -49,7 +49,7 @@ public abstract class AbstractSortingService {
     }
 
     public void sortItems(AbstractContainerScreen<?> containerScreen, Map<Integer, Integer> slotSwapMap, Minecraft minecraft, int containerId) {
-        int remainingCyles = MAX_CYCLES;
+        int remainingCyles = MAX_SORTING_CYCLES;
 
         while (!slotSwapMap.isEmpty() && remainingCyles-- > 0) {
             var iterator = slotSwapMap.entrySet().iterator();

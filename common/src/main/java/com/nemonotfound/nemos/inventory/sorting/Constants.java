@@ -36,4 +36,7 @@ public class Constants {
 	public static int ITEM_FILTER_WIDTH = 84;
 	public static int ITEM_FILTER_HEIGHT = 15;
 	public static int BUTTON_SIZE = 11;
+
+	public static final int MAX_MERGING_CYCLES = 1000;
+	public static final int MAX_SORTING_CYCLES = 1000;
 }

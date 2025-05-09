@@ -28,10 +28,10 @@ public class SortAlphabeticallyDescendingButton extends AbstractSortButton {
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        sortItemsAlphabetically();
+        sortItemsAlphabeticallyDescending();
     }
 
-    private void sortItemsAlphabetically() {
+    private void sortItemsAlphabeticallyDescending() {
         var minecraft = Minecraft.getInstance();
         var menu = containerScreen.getMenu();
         var containerId = menu.containerId;

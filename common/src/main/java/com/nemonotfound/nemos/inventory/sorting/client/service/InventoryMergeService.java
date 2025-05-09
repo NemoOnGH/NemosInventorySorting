@@ -9,14 +9,13 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
+import static com.nemonotfound.nemos.inventory.sorting.Constants.MAX_MERGING_CYCLES;
 import static java.util.stream.Collectors.groupingBy;
 
 public class InventoryMergeService {
 
     private static InventoryMergeService INSTANCE;
     private final InventorySwapService inventorySwapService;
-
-    private static final int MAX_CYCLES = 1000;
 
     public InventoryMergeService(InventorySwapService inventorySwapService) {
         this.inventorySwapService = inventorySwapService;
@@ -44,7 +43,7 @@ public class InventoryMergeService {
 
         var leftSlotIndex = 0;
         var rightSlotIndex = slotItems.size() - 1;
-        var remainingCycles = MAX_CYCLES;
+        var remainingCycles = MAX_MERGING_CYCLES;
 
         while (leftSlotIndex < rightSlotIndex && remainingCycles-- > 0) {
             var leftSlotItem = slotItems.get(leftSlotIndex);
