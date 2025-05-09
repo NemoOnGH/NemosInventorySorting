@@ -18,9 +18,11 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MAX_SORTING_CYC
 public abstract class AbstractSortingService {
 
     private final InventorySwapService inventorySwapService;
+    private final Minecraft minecraft;
 
-    public AbstractSortingService(InventorySwapService inventorySwapService) {
+    public AbstractSortingService(InventorySwapService inventorySwapService, Minecraft minecraft) {
         this.inventorySwapService = inventorySwapService;
+        this.minecraft = minecraft;
     }
 
     public @NotNull List<SlotItem> sortSlotItems(AbstractContainerMenu menu, int startIndex, int endIndex) {
@@ -48,7 +50,7 @@ public abstract class AbstractSortingService {
         return slotSwapMap;
     }
 
-    public void sortItems(AbstractContainerScreen<?> containerScreen, Map<Integer, Integer> slotSwapMap, Minecraft minecraft, int containerId) {
+    public void sortItemsInInventory(AbstractContainerScreen<?> containerScreen, Map<Integer, Integer> slotSwapMap, int containerId) {
         int remainingCyles = MAX_SORTING_CYCLES;
 
         while (!slotSwapMap.isEmpty() && remainingCyles-- > 0) {
@@ -67,7 +69,14 @@ public abstract class AbstractSortingService {
                 continue;
             }
 
-            inventorySwapService.performSlotSwap(containerScreen, minecraft.gameMode, containerId, currentSlot, targetSlot, minecraft.player);
+            inventorySwapService.performSlotSwap(
+                    containerScreen,
+                    minecraft.gameMode,
+                    containerId,
+                    currentSlot,
+                    targetSlot,
+                    minecraft.player
+            );
 
             if (slotSwapMap.containsKey(targetSlot)) {
                 slotSwapMap.put(currentSlot, slotSwapMap.get(targetSlot));

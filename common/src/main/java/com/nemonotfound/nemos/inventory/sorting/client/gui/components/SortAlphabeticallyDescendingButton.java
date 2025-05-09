@@ -2,7 +2,6 @@ package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
 import com.nemonotfound.nemos.inventory.sorting.client.service.AlphabeticallyDescendingSortingService;
 import com.nemonotfound.nemos.inventory.sorting.client.service.InventoryMergeService;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
@@ -32,16 +31,15 @@ public class SortAlphabeticallyDescendingButton extends AbstractSortButton {
     }
 
     private void sortItemsAlphabeticallyDescending() {
-        var minecraft = Minecraft.getInstance();
         var menu = containerScreen.getMenu();
         var containerId = menu.containerId;
         var sortingService = AlphabeticallyDescendingSortingService.getInstance();
         var inventoryMergeService = InventoryMergeService.getInstance();
 
         var sortedSlotItems = sortingService.sortSlotItems(menu, startIndex, calculateEndIndex(menu));
-        inventoryMergeService.mergeAllItems(containerScreen, sortedSlotItems, menu, containerId, minecraft);
+        inventoryMergeService.mergeAllItems(containerScreen, sortedSlotItems, menu, containerId);
         var sortedSlotItemsAfterMerge = sortingService.sortSlotItems(menu, startIndex, calculateEndIndex(menu));
         var slotSwapMap = sortingService.retrieveSlotSwapMap(sortedSlotItemsAfterMerge, startIndex);
-        sortingService.sortItems(containerScreen, slotSwapMap, minecraft, containerId);
+        sortingService.sortItemsInInventory(containerScreen, slotSwapMap, containerId);
     }
 }

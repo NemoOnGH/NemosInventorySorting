@@ -16,27 +16,29 @@ public class InventoryMergeService {
 
     private static InventoryMergeService INSTANCE;
     private final InventorySwapService inventorySwapService;
+    private final Minecraft minecraft;
 
-    public InventoryMergeService(InventorySwapService inventorySwapService) {
+    public InventoryMergeService(InventorySwapService inventorySwapService, Minecraft minecraft) {
         this.inventorySwapService = inventorySwapService;
+        this.minecraft = minecraft;
     }
 
     public static InventoryMergeService getInstance() {
         if(INSTANCE == null) {
-            INSTANCE = new InventoryMergeService(InventorySwapService.getInstance());
+            INSTANCE = new InventoryMergeService(InventorySwapService.getInstance(), Minecraft.getInstance());
         }
 
         return INSTANCE;
     }
 
-    public void mergeAllItems(AbstractContainerScreen<?> containerScreen, List<SlotItem> sortedSlotItems, AbstractContainerMenu menu, int containerId, Minecraft minecraft) {
+    public void mergeAllItems(AbstractContainerScreen<?> containerScreen, List<SlotItem> sortedSlotItems, AbstractContainerMenu menu, int containerId) {
         var groupedItemMap = sortedSlotItems.stream()
                 .collect(groupingBy(slotItem -> slotItem.itemStack().getComponents()));
 
-        groupedItemMap.forEach((key, slotItems) -> mergeItems(containerScreen, slotItems, menu, containerId, minecraft));
+        groupedItemMap.forEach((key, slotItems) -> mergeItems(containerScreen, slotItems, menu, containerId));
     }
 
-    private void mergeItems(AbstractContainerScreen<?> containerScreen, List<SlotItem> slotItems, AbstractContainerMenu menu, int containerId, Minecraft minecraft) {
+    private void mergeItems(AbstractContainerScreen<?> containerScreen, List<SlotItem> slotItems, AbstractContainerMenu menu, int containerId) {
         if (slotItems.size() <= 1) {
             return;
         }
