@@ -1,12 +1,12 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
-import com.nemonotfound.nemos.inventory.sorting.client.service.AlphabeticallySortingService;
-import com.nemonotfound.nemos.inventory.sorting.client.service.InventoryMergeService;
+import com.nemonotfound.nemos.inventory.sorting.client.service.sorting.AlphabeticallySortingService;
+import com.nemonotfound.nemos.inventory.sorting.client.service.InventoryService;
 import net.minecraft.resources.ResourceLocation;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
-public class SortAlphabeticallyButton extends AbstractSortButton {
+public class SortAlphabeticallyButton extends AbstractInventoryButton {
 
     private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_inc");
     private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_inc_highlighted");
@@ -27,19 +27,11 @@ public class SortAlphabeticallyButton extends AbstractSortButton {
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        sortItemsAlphabetically();
-    }
-
-    private void sortItemsAlphabetically() {
-        var menu = containerScreen.getMenu();
-        var containerId = menu.containerId;
+        var inventoryService = InventoryService.getInstance();
         var sortingService = AlphabeticallySortingService.getInstance();
-        var inventoryMergeService = InventoryMergeService.getInstance();
+        var menu = containerScreen.getMenu();
+        var endIndex = inventoryService.calculateEndIndex(isButtonShiftable(menu), this.endIndex);
 
-        var sortedSlotItems = sortingService.sortSlotItems(menu, startIndex, calculateEndIndex(menu));
-        inventoryMergeService.mergeAllItems(containerScreen, sortedSlotItems, menu, containerId);
-        var sortedSlotItemsAfterMerge = sortingService.sortSlotItems(menu, startIndex, calculateEndIndex(menu));
-        var slotSwapMap = sortingService.retrieveSlotSwapMap(sortedSlotItemsAfterMerge, startIndex);
-        sortingService.sortItemsInInventory(containerScreen, slotSwapMap, containerId);
+        inventoryService.handleSorting(sortingService, menu, startIndex, endIndex);
     }
 }

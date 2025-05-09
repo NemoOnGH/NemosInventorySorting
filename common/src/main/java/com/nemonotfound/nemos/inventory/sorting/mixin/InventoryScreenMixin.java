@@ -3,7 +3,7 @@ package com.nemonotfound.nemos.inventory.sorting.mixin;
 import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
 import com.nemonotfound.nemos.inventory.sorting.client.config.ComponentConfig;
 import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractInventoryButton;
 import com.nemonotfound.nemos.inventory.sorting.factory.ButtonCreator;
 import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButtonFactory;
@@ -33,7 +33,7 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
 public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> implements GuiPosition {
 
     @Unique
-    private final Map<KeyMapping, AbstractSortButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
+    private final Map<KeyMapping, AbstractInventoryButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
 
     public InventoryScreenMixin(InventoryMenu menu, RecipeBookComponent<?> recipeBookComponent, Inventory inventory, Component component) {
         super(menu, recipeBookComponent, inventory, component);
@@ -51,7 +51,7 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
         nemosInventorySorting$createButton(configs, SORT_ALPHABETICALLY_INVENTORY, ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get(), sortAlphabeticallyButtonFactory, X_OFFSET_SORT_ALPHABETICALLY_INVENTORY, Y_OFFSET_INVENTORY, BUTTON_SIZE, BUTTON_SIZE);
         nemosInventorySorting$createButton(configs, DROP_ALL_INVENTORY, ModKeyMappings.DROP_ALL_INVENTORY.get(), dropAllButtonFactory, X_OFFSET_DROP_ALL_INVENTORY, Y_OFFSET_INVENTORY, BUTTON_SIZE, BUTTON_SIZE);
 
-        for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
+        for (AbstractInventoryButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             this.addRenderableWidget(button);
         }
     }
@@ -140,7 +140,7 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
 
     @Unique
     private void nemosInventorySorting$updateToolTips(boolean isShiftDown) {
-        for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
+        for (AbstractInventoryButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             button.setIsShiftKeyDown(isShiftDown);
             button.setTooltip(this.getMenu());
         }

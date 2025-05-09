@@ -1,9 +1,9 @@
-package com.nemonotfound.nemos.inventory.sorting.client.service;
+package com.nemonotfound.nemos.inventory.sorting.client.service.sorting;
 
 import com.nemonotfound.nemos.inventory.sorting.Constants;
 import com.nemonotfound.nemos.inventory.sorting.client.model.SlotItem;
+import com.nemonotfound.nemos.inventory.sorting.client.service.SlotSwappingService;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,10 +17,10 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MAX_SORTING_CYC
 
 public abstract class AbstractSortingService {
 
-    private final InventorySwapService inventorySwapService;
+    private final SlotSwappingService inventorySwapService;
     private final Minecraft minecraft;
 
-    public AbstractSortingService(InventorySwapService inventorySwapService, Minecraft minecraft) {
+    protected AbstractSortingService(SlotSwappingService inventorySwapService, Minecraft minecraft) {
         this.inventorySwapService = inventorySwapService;
         this.minecraft = minecraft;
     }
@@ -50,7 +50,7 @@ public abstract class AbstractSortingService {
         return slotSwapMap;
     }
 
-    public void sortItemsInInventory(AbstractContainerScreen<?> containerScreen, Map<Integer, Integer> slotSwapMap, int containerId) {
+    public void sortItemsInInventory(AbstractContainerMenu menu, Map<Integer, Integer> slotSwapMap, int containerId) {
         int remainingCyles = MAX_SORTING_CYCLES;
 
         while (!slotSwapMap.isEmpty() && remainingCyles-- > 0) {
@@ -70,7 +70,7 @@ public abstract class AbstractSortingService {
             }
 
             inventorySwapService.performSlotSwap(
-                    containerScreen,
+                    menu,
                     minecraft.gameMode,
                     containerId,
                     currentSlot,

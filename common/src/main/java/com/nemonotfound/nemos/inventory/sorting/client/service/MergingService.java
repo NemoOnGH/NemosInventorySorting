@@ -3,7 +3,6 @@ package com.nemonotfound.nemos.inventory.sorting.client.service;
 import com.nemonotfound.nemos.inventory.sorting.Constants;
 import com.nemonotfound.nemos.inventory.sorting.client.model.SlotItem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,33 +11,33 @@ import java.util.List;
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MAX_MERGING_CYCLES;
 import static java.util.stream.Collectors.groupingBy;
 
-public class InventoryMergeService {
+public class MergingService {
 
-    private static InventoryMergeService INSTANCE;
-    private final InventorySwapService inventorySwapService;
+    private static MergingService INSTANCE;
+    private final SlotSwappingService inventorySwapService;
     private final Minecraft minecraft;
 
-    public InventoryMergeService(InventorySwapService inventorySwapService, Minecraft minecraft) {
+    private MergingService(SlotSwappingService inventorySwapService, Minecraft minecraft) {
         this.inventorySwapService = inventorySwapService;
         this.minecraft = minecraft;
     }
 
-    public static InventoryMergeService getInstance() {
+    public static MergingService getInstance() {
         if(INSTANCE == null) {
-            INSTANCE = new InventoryMergeService(InventorySwapService.getInstance(), Minecraft.getInstance());
+            INSTANCE = new MergingService(SlotSwappingService.getInstance(), Minecraft.getInstance());
         }
 
         return INSTANCE;
     }
 
-    public void mergeAllItems(AbstractContainerScreen<?> containerScreen, List<SlotItem> sortedSlotItems, AbstractContainerMenu menu, int containerId) {
+    public void mergeAllItems(AbstractContainerMenu menu, List<SlotItem> sortedSlotItems, int containerId) {
         var groupedItemMap = sortedSlotItems.stream()
                 .collect(groupingBy(slotItem -> slotItem.itemStack().getComponents()));
 
-        groupedItemMap.forEach((key, slotItems) -> mergeItems(containerScreen, slotItems, menu, containerId));
+        groupedItemMap.forEach((key, slotItems) -> mergeItems(menu, slotItems, containerId));
     }
 
-    private void mergeItems(AbstractContainerScreen<?> containerScreen, List<SlotItem> slotItems, AbstractContainerMenu menu, int containerId) {
+    private void mergeItems(AbstractContainerMenu menu, List<SlotItem> slotItems, int containerId) {
         if (slotItems.size() <= 1) {
             return;
         }
@@ -56,7 +55,7 @@ public class InventoryMergeService {
 
             if (!isFullStack(leftItem)) {
                 inventorySwapService.performSlotSwap(
-                        containerScreen,
+                        menu,
                         minecraft.gameMode,
                         containerId,
                         rightSlotItem.slotIndex(),

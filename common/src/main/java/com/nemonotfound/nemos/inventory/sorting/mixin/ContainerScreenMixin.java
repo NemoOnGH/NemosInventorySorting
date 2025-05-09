@@ -3,7 +3,7 @@ package com.nemonotfound.nemos.inventory.sorting.mixin;
 import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
 import com.nemonotfound.nemos.inventory.sorting.client.config.ComponentConfig;
 import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractInventoryButton;
 import com.nemonotfound.nemos.inventory.sorting.factory.*;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -34,7 +34,7 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
     @Unique
     private final int nemosInventorySorting$inventoryEndIndex = nemosInventorySorting$containerSize + 27;
     @Unique
-    private final Map<KeyMapping, AbstractSortButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
+    private final Map<KeyMapping, AbstractInventoryButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
 
     public ContainerScreenMixin(ChestMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -45,7 +45,7 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
         super.init();
         nemosInventorySorting$initButtons();
 
-        for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
+        for (AbstractInventoryButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             this.addRenderableWidget(button);
         }
     }
@@ -176,7 +176,7 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
 
     @Unique
     private void nemosInventorySorting$updateToolTips(boolean isShiftDown) {
-        for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
+        for (AbstractInventoryButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             button.setIsShiftKeyDown(isShiftDown);
             button.setTooltip(this.getMenu());
         }
