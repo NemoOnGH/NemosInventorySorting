@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
-public abstract class AbstractSingleClickButton<T extends AbstractSortButton> extends AbstractSortButton {
+public abstract class AbstractSingleClickButton<T extends AbstractInventoryButton> extends AbstractInventoryButton {
 
     public AbstractSingleClickButton(Builder<T> builder) {
         super(builder);

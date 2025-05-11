@@ -3,7 +3,7 @@ package com.nemonotfound.nemos.inventory.sorting.mixin;
 import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
 import com.nemonotfound.nemos.inventory.sorting.client.config.ComponentConfig;
 import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractInventoryButton;
 import com.nemonotfound.nemos.inventory.sorting.factory.*;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -25,7 +25,7 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
 public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<ShulkerBoxMenu> {
 
     @Unique
-    private final Map<KeyMapping, AbstractSortButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
+    private final Map<KeyMapping, AbstractInventoryButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
     
     public ShulkerBoxScreenMixin(ShulkerBoxMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -57,7 +57,7 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         nemosInventorySorting$createInventoryButton(configs, DROP_ALL_CONTAINER_INVENTORY, ModKeyMappings.DROP_ALL_INVENTORY.get(), dropAllButtonFactory, X_OFFSET_DROP_ALL_CONTAINER, yOffsetInventory, BUTTON_SIZE, BUTTON_SIZE);
 
 
-        for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
+        for (AbstractInventoryButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             this.addRenderableWidget(button);
         }
     }
@@ -150,7 +150,7 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
 
     @Unique
     private void nemosInventorySorting$updateToolTips(boolean isShiftDown) {
-        for (AbstractSortButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
+        for (AbstractInventoryButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             button.setIsShiftKeyDown(isShiftDown);
             button.setTooltip(this.getMenu());
         }

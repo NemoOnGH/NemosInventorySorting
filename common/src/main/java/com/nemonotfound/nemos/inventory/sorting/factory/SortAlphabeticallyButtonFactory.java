@@ -1,6 +1,6 @@
 package com.nemonotfound.nemos.inventory.sorting.factory;
 
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractSortButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractInventoryButton;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.SortAlphabeticallyButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -20,13 +20,13 @@ public class SortAlphabeticallyButtonFactory extends SortButtonFactory {
     }
 
     @Override
-    public AbstractSortButton createButton(
+    public AbstractInventoryButton createButton(
             int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int width,
             int height, AbstractContainerScreen<?> containerScreen
     ) {
         var buttonName = Component.translatable("gui.nemosInventorySorting.sort_alphabetically");
         var shiftButtonName = Component.translatable("gui.nemosInventorySorting.sort_alphabetically_shift");
-        var builder = new AbstractSortButton.Builder<>(SortAlphabeticallyButton.class)
+        var builder = new AbstractInventoryButton.Builder<>(SortAlphabeticallyButton.class)
                 .startIndex(startIndex)
                 .endIndex(endIndex)
                 .x(getLeftPosWithOffset(leftPos, xOffset))

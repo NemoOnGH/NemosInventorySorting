@@ -1,0 +1,33 @@
+package com.nemonotfound.nemos.inventory.sorting.client.service.sorting;
+
+import com.nemonotfound.nemos.inventory.sorting.client.model.SlotItem;
+import com.nemonotfound.nemos.inventory.sorting.client.service.SlotSwappingService;
+import net.minecraft.client.Minecraft;
+
+import java.util.Comparator;
+
+public class AlphabeticallySortingService extends AbstractSortingService {
+
+    private static AlphabeticallySortingService INSTANCE;
+
+    private AlphabeticallySortingService(SlotSwappingService inventorySwapService, Minecraft minecraft) {
+        super(inventorySwapService, minecraft);
+    }
+
+    public static AlphabeticallySortingService getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new AlphabeticallySortingService(SlotSwappingService.getInstance(), Minecraft.getInstance());
+        }
+
+        return INSTANCE;
+    }
+
+    @Override
+    protected Comparator<SlotItem> comparator() {
+        return Comparator.comparing(
+                slotItem -> slotItem.itemStack()
+                        .getItem().getName(slotItem.itemStack())
+                        .getString()
+        );
+    }
+}

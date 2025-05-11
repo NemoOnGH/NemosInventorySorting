@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractSortButton extends AbstractWidget {
+public abstract class AbstractInventoryButton extends AbstractWidget {
 
     protected final AbstractContainerScreen<?> containerScreen;
     protected final Integer startIndex;
@@ -26,7 +26,7 @@ public abstract class AbstractSortButton extends AbstractWidget {
 
     protected boolean isShiftKeyDown = false;
 
-    public AbstractSortButton(Builder<? extends  AbstractSortButton> builder) {
+    public AbstractInventoryButton(Builder<? extends AbstractInventoryButton> builder) {
         super(builder.x, builder.y, builder.width, builder.height, builder.buttonName);
         this.setTooltip(Tooltip.create(builder.buttonName));
         this.buttonName = builder.buttonName;
@@ -71,6 +71,7 @@ public abstract class AbstractSortButton extends AbstractWidget {
         }
     }
 
+    //TODO: Use service instead
     protected int calculateEndIndex(AbstractContainerMenu menu) {
         if (isButtonShiftable(menu)) {
             return endIndex + 9;
@@ -79,7 +80,7 @@ public abstract class AbstractSortButton extends AbstractWidget {
         return endIndex;
     }
 
-    private boolean isButtonShiftable(AbstractContainerMenu menu) {
+    protected boolean isButtonShiftable(AbstractContainerMenu menu) {
         return isShiftKeyDown && (startIndex != 0 || menu instanceof InventoryMenu);
     }
 
@@ -88,7 +89,7 @@ public abstract class AbstractSortButton extends AbstractWidget {
 
     }
 
-    public static class Builder<T extends AbstractSortButton> {
+    public static class Builder<T extends AbstractInventoryButton> {
         private Integer startIndex;
         private Integer endIndex;
         private Integer x;

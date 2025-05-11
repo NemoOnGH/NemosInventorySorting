@@ -1,14 +1,12 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
+import com.nemonotfound.nemos.inventory.sorting.client.service.InventoryService;
+import com.nemonotfound.nemos.inventory.sorting.client.service.sorting.AlphabeticallyDescendingSortingService;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
-import java.util.Comparator;
-import java.util.Map;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
-public class SortAlphabeticallyDescendingButton extends AbstractSortAlphabeticallyButton {
+public class SortAlphabeticallyDescendingButton extends AbstractInventoryButton {
 
     private final ResourceLocation buttonTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_dec");
     private final ResourceLocation buttonHoverTexture = ResourceLocation.fromNamespaceAndPath(MOD_ID, "sort_button_alphabetically_dec_highlighted");
@@ -28,7 +26,12 @@ public class SortAlphabeticallyDescendingButton extends AbstractSortAlphabetical
     }
 
     @Override
-    protected Comparator<Map.Entry<Integer, ItemStack>> compare() {
-        return super.compare().reversed();
+    public void onClick(double mouseX, double mouseY) {
+        var inventoryService = InventoryService.getInstance();
+        var sortingService = AlphabeticallyDescendingSortingService.getInstance();
+        var menu = containerScreen.getMenu();
+        var endIndex = inventoryService.calculateEndIndex(isButtonShiftable(menu), this.endIndex);
+
+        inventoryService.handleSorting(sortingService, menu, startIndex, endIndex);
     }
 }

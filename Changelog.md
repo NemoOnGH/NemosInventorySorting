@@ -1,4 +1,4 @@
-# Changelog v1.8.2.1
+# Changelog v1.8.3
 
-## Fixes
-- Item won't be merged properly
+## Changes
+- Internal changes & cleanup (Slightly faster sorting process)
