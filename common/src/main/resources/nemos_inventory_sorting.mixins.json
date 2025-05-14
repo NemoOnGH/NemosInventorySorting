@@ -8,8 +8,8 @@
   "client": [
     "AbstractContainerScreenMixin",
     "ContainerScreenMixin",
-    "ShulkerBoxScreenMixin",
-    "InventoryScreenMixin"
+    "InventoryScreenMixin",
+    "ShulkerBoxScreenMixin"
   ],
   "server": [],
   "injectors": {

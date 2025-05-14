@@ -4,6 +4,7 @@ import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.ContainerFilterBox;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderType;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
@@ -84,6 +86,17 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         if (nemosInventorySorting$shouldHaveSearchBox() && this.nemosInventorySorting$searchBox != null) {
             if (this.nemosInventorySorting$searchBox.isFocused() && keyCode != 256) {
                 cir.setReturnValue(this.nemosInventorySorting$searchBox.keyPressed(keyCode, scanCode, modifiers));
+            }
+        }
+    }
+
+    @Inject(method = "mouseClicked", at = @At("HEAD"))
+    private void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        Optional<GuiEventListener> optional = this.getChildAt(mouseX, mouseY);
+
+        if (optional.isEmpty()) {
+            for (GuiEventListener guiEventListener : this.children()) {
+                guiEventListener.setFocused(false);
             }
         }
     }
