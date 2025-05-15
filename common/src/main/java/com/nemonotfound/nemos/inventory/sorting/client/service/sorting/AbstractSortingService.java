@@ -2,15 +2,13 @@ package com.nemonotfound.nemos.inventory.sorting.client.service.sorting;
 
 import com.nemonotfound.nemos.inventory.sorting.Constants;
 import com.nemonotfound.nemos.inventory.sorting.client.model.SlotItem;
+import com.nemonotfound.nemos.inventory.sorting.client.service.TooltipService;
 import com.nemonotfound.nemos.inventory.sorting.client.service.SlotSwappingService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MAX_SORTING_CYCLES;
@@ -18,10 +16,12 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MAX_SORTING_CYC
 public abstract class AbstractSortingService {
 
     private final SlotSwappingService inventorySwapService;
+    private final TooltipService tooltipService;
     private final Minecraft minecraft;
 
-    protected AbstractSortingService(SlotSwappingService inventorySwapService, Minecraft minecraft) {
+    protected AbstractSortingService(SlotSwappingService inventorySwapService, TooltipService tooltipService, Minecraft minecraft) {
         this.inventorySwapService = inventorySwapService;
+        this.tooltipService = tooltipService;
         this.minecraft = minecraft;
     }
 
@@ -34,6 +34,16 @@ public abstract class AbstractSortingService {
     }
 
     abstract Comparator<SlotItem> comparator();
+
+    protected Comparator<SlotItem> comparatorByName() {
+        Comparator<SlotItem> comparator = Comparator.comparing(
+                slotItem -> slotItem.itemStack()
+                        .getItemName()
+                        .getString()
+        );
+
+        return comparator.thenComparing(slotItem -> tooltipService.retrieveEnchantmentNames(slotItem.itemStack()));
+    }
 
     public Map<Integer, Integer> retrieveSlotSwapMap(List<SlotItem> slotItems, int startIndex) {
         Map<Integer, Integer> slotSwapMap = new LinkedHashMap<>();

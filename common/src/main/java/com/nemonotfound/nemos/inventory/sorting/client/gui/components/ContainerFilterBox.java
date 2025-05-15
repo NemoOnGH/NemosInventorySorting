@@ -1,14 +1,13 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
+import com.nemonotfound.nemos.inventory.sorting.client.service.TooltipService;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.List;
 import java.util.Map;
@@ -47,21 +46,11 @@ public class ContainerFilterBox {
     }
 
     private boolean checkEnchantments(ItemStack itemStack, String filter) {
-        var dataComponents = itemStack.getComponents();
+        var tooltipService = TooltipService.getInstance();
 
-        if (!itemStack.is(Items.ENCHANTED_BOOK) || !dataComponents.has(DataComponents.STORED_ENCHANTMENTS)) {
-            return false;
-        }
-
-        var storedEnchantments = dataComponents.get(DataComponents.STORED_ENCHANTMENTS);
-
-        if (storedEnchantments == null) {
-            return false;
-        }
-
-        return storedEnchantments.entrySet().stream()
-                .map(holderEntry -> Enchantment.getFullname(holderEntry.getKey(), holderEntry.getIntValue()))
-                .anyMatch(component -> componentContainsFilter(component, filter));
+        return tooltipService.retrieveEnchantmentNames(itemStack)
+                .toLowerCase()
+                .contains(filter.toLowerCase());
     }
 
     private boolean componentContainsFilter(Component component, String filter) {
