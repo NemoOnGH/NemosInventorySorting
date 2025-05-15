@@ -1,8 +1,8 @@
 # Changelog v1.8.3
 
 ## Changes
-- Internal changes & cleanup (Slightly faster sorting process)
-- Items are now sorted by enchantment names as well
+- Internal changes and code cleanup (slightly faster sorting process)
+- Items are now sorted by enchantment names in addition to the name
 
 ## Fixes
-- Search box won't lose focus by clicking outside
+- The search box now loses focus when clicking outside
