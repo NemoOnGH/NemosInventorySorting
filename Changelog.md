@@ -1,8 +1,10 @@
-# Changelog v1.8.3
+# Changelog v1.8.4
 
 ## Changes
-- Internal changes and code cleanup (slightly faster sorting process)
-- Items are now sorted by enchantment names in addition to the name
+- Adapted textures
+  - This allows the buttons to be clearer on all GUI scales
+- Adapted default button order
+  - Deleting config file is required for the changes
 
 ## Fixes
 - The search box now loses focus when clicking outside
