@@ -23,8 +23,9 @@ public class ContainerFilterBox {
             .withStyle(ChatFormatting.ITALIC)
             .withStyle(ChatFormatting.GRAY);
 
+    //TODO: Adapt component
     public ContainerFilterBox(Screen containerScreen, Font font, int leftPos, int topPos, int xOffset, int yOffset, int width, int height) {
-        this.searchBox = new FilterBox(containerScreen, font, leftPos + xOffset, topPos + yOffset, xOffset, width, height, Component.translatable("itemGroup.search"));
+        this.searchBox = new FilterBox(containerScreen, font, leftPos, topPos, xOffset, yOffset, width, height, Component.translatable("itemGroup.search"));
         this.searchBox.setTextColor(16777215);
         this.searchBox.setVisible(true);
         this.searchBox.setMaxLength(50);

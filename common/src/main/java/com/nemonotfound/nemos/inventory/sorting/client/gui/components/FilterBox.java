@@ -15,8 +15,9 @@ public class FilterBox extends EditBox {
 
     private final int xOffset;
 
-    public FilterBox(Screen containerScreen, Font font, int x, int y, int xOffset, int width, int height, Component message) {
-        super(font, x + xOffset, y, width, height, message);
+    //TODO: Add method (with interface) to update position
+    public FilterBox(Screen containerScreen, Font font, int x, int y, int xOffset, int yOffset, int width, int height, Component message) {
+        super(font, x + xOffset, y + yOffset, width, height, message);
         this.containerScreen = containerScreen;
         this.xOffset = xOffset;
     }

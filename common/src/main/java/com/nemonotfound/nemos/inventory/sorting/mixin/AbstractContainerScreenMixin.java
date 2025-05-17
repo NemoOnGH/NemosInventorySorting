@@ -76,7 +76,7 @@ public abstract class AbstractContainerScreenMixin extends Screen implements Gui
 
     @Unique
     private void nemosInventorySorting$createSearchBox(int xOffset, int yOffset, int width, int height) {
-        nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this, this.font, leftPos, topPos, xOffset, yOffset, width, height);
+        nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this, this.font, this.leftPos, topPos, xOffset, yOffset, width, height);
         nemosInventorySorting$searchBox = nemosInventorySorting$containerFilterBox.getSearchBox();
         this.addWidget(nemosInventorySorting$searchBox);
     }
