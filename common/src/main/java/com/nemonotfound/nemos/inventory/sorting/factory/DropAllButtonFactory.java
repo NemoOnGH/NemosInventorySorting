@@ -1,7 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.factory;
 
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractInventoryButton;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.DropAllButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.AbstractInventoryButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.DropAllButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 
@@ -24,8 +24,8 @@ public class DropAllButtonFactory extends SortButtonFactory {
             int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int width,
             int height, AbstractContainerScreen<?> containerScreen
     ) {
-        var buttonName = Component.translatable("gui.nemosInventorySorting.drop_all");
-        var shiftButtonName = Component.translatable("gui.nemosInventorySorting.drop_all_shift");
+        var buttonName = Component.translatable("gui.nemos_inventory_sorting.drop_all");
+        var shiftButtonName = Component.translatable("gui.nemos_inventory_sorting.drop_all_shift");
         var builder = new AbstractInventoryButton.Builder<>(DropAllButton.class)
                 .startIndex(startIndex)
                 .endIndex(endIndex)

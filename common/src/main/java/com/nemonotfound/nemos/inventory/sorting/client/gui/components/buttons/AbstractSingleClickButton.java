@@ -1,4 +1,4 @@
-package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
+package com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+//TODO: Refactor and extract logic
 public abstract class AbstractSingleClickButton<T extends AbstractInventoryButton> extends AbstractInventoryButton {
 
     public AbstractSingleClickButton(Builder<T> builder) {

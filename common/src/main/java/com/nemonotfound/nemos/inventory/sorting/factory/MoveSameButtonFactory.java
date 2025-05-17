@@ -1,7 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.factory;
 
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.AbstractInventoryButton;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.MoveSameButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.AbstractInventoryButton;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.MoveSameButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 
@@ -24,8 +24,8 @@ public class MoveSameButtonFactory extends SortButtonFactory {
             int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int width,
             int height, AbstractContainerScreen<?> containerScreen
     ) {
-        var buttonName = Component.translatable("gui.nemosInventorySorting.move_same");
-        var shiftButtonName = Component.translatable("gui.nemosInventorySorting.move_same_shift");
+        var buttonName = Component.translatable("gui.nemos_inventory_sorting.move_same");
+        var shiftButtonName = Component.translatable("gui.nemos_inventory_sorting.move_same_shift");
         AbstractInventoryButton.Builder<MoveSameButton> builder = new AbstractInventoryButton.Builder<>(MoveSameButton.class)
                 .startIndex(startIndex)
                 .endIndex(endIndex)

@@ -2,17 +2,17 @@ package com.nemonotfound.nemos.inventory.sorting.mixin;
 
 import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.ContainerFilterBox;
+import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ShulkerBoxMenu;
 import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,7 +29,7 @@ import java.util.function.Function;
 import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
 
 @Mixin(AbstractContainerScreen.class)
-public abstract class AbstractContainerScreenMixin extends Screen {
+public abstract class AbstractContainerScreenMixin extends Screen implements GuiPosition {
 
     @Shadow
     protected int leftPos;
@@ -42,7 +42,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     @Unique
     private ContainerFilterBox nemosInventorySorting$containerFilterBox;
     @Unique
-    private EditBox nemosInventorySorting$searchBox;
+    private EditBox nemosInventorySorting$searchBox; //TODO: Make this available for RecipeBookComponent
     @Unique
     private static final ResourceLocation HIGHLIGHTED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/highlighted_slot");
     @Unique
@@ -76,7 +76,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Unique
     private void nemosInventorySorting$createSearchBox(int xOffset, int yOffset, int width, int height) {
-        nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this.font, leftPos, topPos, xOffset, yOffset, width, height);
+        nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this, this.font, leftPos, topPos, xOffset, yOffset, width, height);
         nemosInventorySorting$searchBox = nemosInventorySorting$containerFilterBox.getSearchBox();
         this.addWidget(nemosInventorySorting$searchBox);
     }
@@ -101,13 +101,21 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         }
     }
 
-    @Inject(method = "render", at = @At(value = "TAIL"))
-    void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+    @Inject(method = "render", at = @At("TAIL"))
+    private void renderFilterBar(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         if (!nemosInventorySorting$shouldHaveSearchBox() || this.nemosInventorySorting$searchBox == null) {
             return;
         }
 
         this.nemosInventorySorting$searchBox.render(guiGraphics, mouseX, mouseY, partialTick);
+    }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderSlotHighlightFront(Lnet/minecraft/client/gui/GuiGraphics;)V", shift = At.Shift.AFTER))
+    void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+        if (!nemosInventorySorting$shouldHaveSearchBox() || this.nemosInventorySorting$searchBox == null) {
+            return;
+        }
+
         var filter = this.nemosInventorySorting$searchBox.getValue();
 
         if (!filter.isEmpty()) {
@@ -120,7 +128,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Unique
     private boolean nemosInventorySorting$shouldHaveSearchBox() {
-        return getMenu() instanceof ChestMenu || getMenu() instanceof ShulkerBoxMenu;
+        return !(getMenu() instanceof CreativeModeInventoryScreen.ItemPickerMenu);
     }
 
     @Unique
@@ -131,7 +139,15 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             ResourceLocation texture
     ) {
         for (Slot slot : slots) {
-            guiGraphics.blitSprite(renderTypeFunction, texture, leftPos + slot.x, topPos + slot.y, 16, 16);
+           //TODO: Check slot size (Adapt rendering for recipeScreen/recipeComponent)
+            guiGraphics.blitSprite(renderTypeFunction, texture, slot.x, slot.y, 16, 16);
         }
     }
+
+    @Override
+    public int nemosInventorySorting$getLeftPos() {
+        return this.leftPos;
+    }
+
+    //TODO: Add buttons here and check containerSize with getMenu
 }

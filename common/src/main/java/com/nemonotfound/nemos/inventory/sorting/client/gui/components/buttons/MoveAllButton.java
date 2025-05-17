@@ -1,4 +1,4 @@
-package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
+package com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ClickType;

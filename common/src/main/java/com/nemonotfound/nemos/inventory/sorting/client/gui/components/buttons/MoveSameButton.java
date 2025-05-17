@@ -1,4 +1,4 @@
-package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
+package com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;

@@ -1,5 +1,6 @@
-package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
+package com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.sorting;
 
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.AbstractInventoryButton;
 import com.nemonotfound.nemos.inventory.sorting.client.service.sorting.AlphabeticallySortingService;
 import com.nemonotfound.nemos.inventory.sorting.client.service.InventoryService;
 import net.minecraft.resources.ResourceLocation;
