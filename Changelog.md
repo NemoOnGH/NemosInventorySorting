@@ -10,6 +10,10 @@
 - **Improved internal logic** with slight performance enhancements
 - **Updated language file**
   - Adapted component translation keys
+- **Updated default config values for item filter**
+  - Adjusted X offset
+  - Adjusted width
+  - ⚠️ Requires deleting the config file for changes to take effect
 
 ## Fixes
 - The search box now correctly loses focus when clicking outside

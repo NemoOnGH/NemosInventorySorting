@@ -31,9 +31,9 @@ public class Constants {
 	public static int X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_INVENTORY = 142;
 	public static int X_OFFSET_DROP_ALL_INVENTORY = 157;
 	public static int Y_OFFSET_INVENTORY = 65;
-	public static int X_OFFSET_ITEM_FILTER = 89;
+	public static int X_OFFSET_ITEM_FILTER = 96;
 	public static int Y_OFFSET_ITEM_FILTER = -16;
-	public static int ITEM_FILTER_WIDTH = 84;
+	public static int ITEM_FILTER_WIDTH = 77;
 	public static int ITEM_FILTER_HEIGHT = 15;
 	public static int BUTTON_SIZE = 11;
 
