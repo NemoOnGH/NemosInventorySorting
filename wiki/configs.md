@@ -139,9 +139,9 @@ There, you'll find a list of configs structured as follows:
   {
     "componentName": "item_filter",
     "isEnabled": true,
-    "xOffset": 89,
+    "xOffset": 96,
     "yOffset": -16,
-    "width": 84,
+    "width": 77,
     "height": 15
   }
 ]
