@@ -10,55 +10,55 @@ import static com.nemonotfound.nemos.inventory.sorting.Constants.MOD_ID;
 
 public class ModKeyMappings {
 
-    private static final String category = String.format("category.%s.nemos_inventory_sorting", MOD_ID);
+    private static final String category = String.format("%s.category.nemosInventorySorting", MOD_ID);
 
     public static Supplier<KeyMapping> DROP_ALL = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.drop_all", MOD_ID),
+            String.format("%s.key.dropAll", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
     public static Supplier<KeyMapping> DROP_ALL_INVENTORY = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.drop_all_inventory", MOD_ID),
+            String.format("%s.key.dropAllInventory", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
     public static Supplier<KeyMapping> MOVE_ALL = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.move_all", MOD_ID),
+            String.format("%s.key.moveAll", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
     public static Supplier<KeyMapping> MOVE_ALL_INVENTORY = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.move_all_inventory", MOD_ID),
+            String.format("%s.key.moveAllInventory", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
     public static Supplier<KeyMapping> MOVE_SAME = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.move_same", MOD_ID),
+            String.format("%s.key.moveSame", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
     public static Supplier<KeyMapping> MOVE_SAME_INVENTORY = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.move_same_inventory", MOD_ID),
+            String.format("%s.key.moveSameInventory", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
     public static Supplier<KeyMapping> SORT_ALPHABETICALLY = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.sort_alphabetically", MOD_ID),
+            String.format("%s.key.sortAlphabetically", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
     public static Supplier<KeyMapping> SORT_ALPHABETICALLY_INVENTORY = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.sort_alphabetically_inventory", MOD_ID),
+            String.format("%s.key.sortAlphabeticallyInventory", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
     public static Supplier<KeyMapping> SORT_ALPHABETICALLY_DESCENDING = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.sort_alphabetically_descending", MOD_ID),
+            String.format("%s.key.sortAlphabeticallyDescending", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
     public static Supplier<KeyMapping> SORT_ALPHABETICALLY_DESCENDING_INVENTORY = registerKeyMapping(new KeyMapping(
-            String.format("key.%s.sort_alphabetically_descending_inventory", MOD_ID),
+            String.format("%s.key.sortAlphabeticallyDescendingInventory", MOD_ID),
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));

@@ -49,7 +49,7 @@ public class NemosInventorySortingNeoForgeClient {
             var resourcePath = ModList.get().getModFileById(MOD_ID).getFile().findResource("resourcepacks/dark_mode");
             var packLocationInfo = new PackLocationInfo(
                     "builtin/dark_mode",
-                    Component.translatable("resourcePack.nemos_inventory_sorting.dark_mode.name"),
+                    Component.translatable("nemos_inventory_sorting.resourcePack.darkMode.name"),
                     PackSource.BUILT_IN,
                     Optional.empty());
             var pathResourcesSupplier = new PathPackResources.PathResourcesSupplier(resourcePath);

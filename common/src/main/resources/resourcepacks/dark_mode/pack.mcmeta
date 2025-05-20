@@ -3,7 +3,7 @@
     "pack_format": 55,
     "supported_formats": [42, 46, 55],
     "description": {
-      "translate": "resourcePack.nemos_inventory_sorting.dark_mode.description"
+      "translate": "nemos_inventory_sorting.resourcePack.darkMode.description"
     }
   }
 }

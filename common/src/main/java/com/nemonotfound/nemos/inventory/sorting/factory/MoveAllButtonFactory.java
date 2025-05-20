@@ -24,8 +24,8 @@ public class MoveAllButtonFactory extends SortButtonFactory {
             int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int width,
             int height, AbstractContainerScreen<?> containerScreen
     ) {
-        var buttonName = Component.translatable("gui.nemos_inventory_sorting.move_all");
-        var shiftButtonName = Component.translatable("gui.nemos_inventory_sorting.move_all_shift");
+        var buttonName = Component.translatable("nemos_inventory_sorting.gui.moveAll");
+        var shiftButtonName = Component.translatable("nemos_inventory_sorting.gui.moveAllShift");
         var builder = new AbstractInventoryButton.Builder<>(MoveAllButton.class)
                 .startIndex(startIndex)
                 .endIndex(endIndex)

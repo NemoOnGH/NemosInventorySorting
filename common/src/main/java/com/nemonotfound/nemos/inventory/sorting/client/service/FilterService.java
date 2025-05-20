@@ -1,7 +1,5 @@
-package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
+package com.nemonotfound.nemos.inventory.sorting.client.service;
 
-import com.nemonotfound.nemos.inventory.sorting.client.service.TooltipService;
-import net.minecraft.client.gui.Font;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
@@ -12,18 +10,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-//TODO: Refactor & extract logic
-public class ContainerFilterBox {
+public class FilterService {
 
-    private final FilterBox searchBox;
+    private static FilterService INSTANCE;
 
-    //TODO: Adapt component
-    public ContainerFilterBox(Font font, int leftPos, int topPos, int xOffset, int yOffset, int width, int height) {
-        this.searchBox = new FilterBox(font, leftPos, topPos, xOffset, yOffset, width, height, Component.translatable("itemGroup.search"));
-    }
+    public static FilterService getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new FilterService();
+        }
 
-    public FilterBox getSearchBox() {
-        return searchBox;
+        return INSTANCE;
     }
 
     public Map<Boolean, List<Slot>> filterSlots(NonNullList<Slot> slots, String filter) {

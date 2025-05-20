@@ -24,8 +24,8 @@ public class DropAllButtonFactory extends SortButtonFactory {
             int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int width,
             int height, AbstractContainerScreen<?> containerScreen
     ) {
-        var buttonName = Component.translatable("gui.nemos_inventory_sorting.drop_all");
-        var shiftButtonName = Component.translatable("gui.nemos_inventory_sorting.drop_all_shift");
+        var buttonName = Component.translatable("nemos_inventory_sorting.gui.dropAll");
+        var shiftButtonName = Component.translatable("nemos_inventory_sorting.gui.dropAllShift");
         var builder = new AbstractInventoryButton.Builder<>(DropAllButton.class)
                 .startIndex(startIndex)
                 .endIndex(endIndex)
