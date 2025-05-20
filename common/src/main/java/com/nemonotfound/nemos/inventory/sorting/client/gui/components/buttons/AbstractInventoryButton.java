@@ -1,12 +1,11 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons;
 
-import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.RecipeBookUpdatable;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -14,13 +13,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractInventoryButton extends AbstractWidget {
+public abstract class AbstractInventoryButton extends AbstractWidget implements RecipeBookUpdatable {
 
     protected final AbstractContainerScreen<?> containerScreen;
     protected final Integer startIndex;
     protected final Integer endIndex;
-    private final int x;
-    private final int y;
     private final int xOffset;
     private final Component buttonName;
     private final Component shiftButtonName;
@@ -35,26 +32,21 @@ public abstract class AbstractInventoryButton extends AbstractWidget {
         this.containerScreen = builder.containerScreen;
         this.startIndex = builder.startIndex;
         this.endIndex = builder.endIndex;
-        this.x = builder.x;
-        this.y = builder.y;
         this.xOffset = builder.xOffset;
     }
 
     @Override
     protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.setPosition(x, y);
-
-        if (containerScreen instanceof InventoryScreen) {
-            int leftPos = ((GuiPosition) containerScreen).nemosInventorySorting$getLeftPos();
-
-            this.setX(leftPos + this.xOffset);
-        }
-
         if (this.isHovered()) {
             guiGraphics.blitSprite(RenderType::guiTextured, getButtonHoverTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
         } else {
             guiGraphics.blitSprite(RenderType::guiTextured, getButtonTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
         }
+    }
+
+    @Override
+    public void updateXPosition(int leftPos) {
+        this.setX(leftPos + this.xOffset);
     }
 
     protected abstract ResourceLocation getButtonHoverTexture();

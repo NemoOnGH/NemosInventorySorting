@@ -8,7 +8,6 @@ import com.nemonotfound.nemos.inventory.sorting.factory.ButtonCreator;
 import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescendingButtonFactory;
-import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
@@ -30,7 +29,7 @@ import java.util.Map;
 import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
 
 @Mixin(InventoryScreen.class)
-public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> implements GuiPosition {
+public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> {
 
     @Unique
     private final Map<KeyMapping, AbstractInventoryButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
@@ -144,10 +143,5 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
             button.setIsShiftKeyDown(isShiftDown);
             button.setTooltip(this.getMenu());
         }
-    }
-
-    @Override
-    public int nemosInventorySorting$getLeftPos() {
-        return this.leftPos;
     }
 }

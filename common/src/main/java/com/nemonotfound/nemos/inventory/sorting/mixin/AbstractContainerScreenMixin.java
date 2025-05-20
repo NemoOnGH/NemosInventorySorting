@@ -2,9 +2,8 @@ package com.nemonotfound.nemos.inventory.sorting.mixin;
 
 import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.ContainerFilterBox;
-import com.nemonotfound.nemos.inventory.sorting.interfaces.GuiPosition;
+import com.nemonotfound.nemos.inventory.sorting.client.gui.components.FilterBox;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -29,7 +28,7 @@ import java.util.function.Function;
 import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
 
 @Mixin(AbstractContainerScreen.class)
-public abstract class AbstractContainerScreenMixin extends Screen implements GuiPosition {
+public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Shadow
     protected int leftPos;
@@ -42,7 +41,7 @@ public abstract class AbstractContainerScreenMixin extends Screen implements Gui
     @Unique
     private ContainerFilterBox nemosInventorySorting$containerFilterBox;
     @Unique
-    private EditBox nemosInventorySorting$searchBox; //TODO: Make this available for RecipeBookComponent
+    private FilterBox nemosInventorySorting$searchBox; //TODO: Make this available for RecipeBookComponent
     @Unique
     private static final ResourceLocation HIGHLIGHTED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/highlighted_slot");
     @Unique
@@ -76,7 +75,7 @@ public abstract class AbstractContainerScreenMixin extends Screen implements Gui
 
     @Unique
     private void nemosInventorySorting$createSearchBox(int xOffset, int yOffset, int width, int height) {
-        nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this, this.font, this.leftPos, topPos, xOffset, yOffset, width, height);
+        nemosInventorySorting$containerFilterBox = new ContainerFilterBox(this.font, this.leftPos, topPos, xOffset, yOffset, width, height);
         nemosInventorySorting$searchBox = nemosInventorySorting$containerFilterBox.getSearchBox();
         this.addWidget(nemosInventorySorting$searchBox);
     }
@@ -142,11 +141,6 @@ public abstract class AbstractContainerScreenMixin extends Screen implements Gui
            //TODO: Check slot size (Adapt rendering for recipeScreen/recipeComponent)
             guiGraphics.blitSprite(renderTypeFunction, texture, slot.x, slot.y, 16, 16);
         }
-    }
-
-    @Override
-    public int nemosInventorySorting$getLeftPos() {
-        return this.leftPos;
     }
 
     //TODO: Add buttons here and check containerSize with getMenu

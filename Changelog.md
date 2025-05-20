@@ -7,6 +7,7 @@
   - Deleting config file is required for the changes
 - Added item filter to all containers
 - Added hint "Filter..." to filter bar
+- Changed internal logic and slightly improved performance
 
 ## Fixes
 - The search box now loses focus when clicking outside

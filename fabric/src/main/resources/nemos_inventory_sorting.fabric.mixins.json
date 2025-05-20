@@ -3,18 +3,14 @@
   "minVersion": "0.8",
   "package": "com.nemonotfound.nemos.inventory.sorting.mixin",
   "refmap": "${mod_id}.refmap.json",
-  "compatibilityLevel": "JAVA_18",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [
-    "AbstractContainerScreenMixin",
-    "AbstractRecipeBookScreenMixin",
-    "ContainerScreenMixin",
-    "InventoryScreenMixin",
-    "ShulkerBoxScreenMixin"
+    "AbstractRecipeBookScreenMixinFabric"
   ],
   "server": [],
   "injectors": {
     "defaultRequire": 1
   }
 }
-
+  
