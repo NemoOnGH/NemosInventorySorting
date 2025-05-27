@@ -1,20 +1,22 @@
-# Changelog v1.8.4
+# Changelog v1.9
 
 ## Changes
-- **Adapted textures**
-  - Buttons are now clearer across all GUI scales
-- **Updated default button order**
-  - ⚠️ Requires deleting the config file for changes to take effect
-- **Added item filter** to all container types
-- **Added hint text** "Filter..." to the filter bar
-- **Improved internal logic** with slight performance enhancements
-- **Updated language file**
-  - Adapted component translation keys
-- **Updated default config values for item filter**
-  - Adjusted X offset
-  - Adjusted width
-  - ⚠️ Requires deleting the config file for changes to take effect
-
-## Fixes
-- The search box now correctly loses focus when clicking outside
-- Dimmed slots no longer cover picked-up items
+- **Improved Item Filter**
+  - The filter now checks for items inside bundles and shulker boxes
+  - Added a new slot highlight color for items found within containers
+  - You can now filter for a chest...  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle,  
+    in a bundle!

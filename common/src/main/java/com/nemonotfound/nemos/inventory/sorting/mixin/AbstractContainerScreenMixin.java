@@ -2,6 +2,7 @@ package com.nemonotfound.nemos.inventory.sorting.mixin;
 
 import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.FilterBox;
+import com.nemonotfound.nemos.inventory.sorting.client.model.FilterResult;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
@@ -41,6 +42,8 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     private FilterBox nemosInventorySorting$filterBox;
     @Unique
     private static final ResourceLocation HIGHLIGHTED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/highlighted_slot");
+    @Unique
+    private static final ResourceLocation HIGHLIGHTED_SLOT_INCLUDED_ITEM = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/highlighted_slot_included_item");
     @Unique
     private static final ResourceLocation DIMMED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/dimmed_slot");
 
@@ -126,8 +129,9 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         if (!filter.isEmpty()) {
             var filteredSlotMap = this.nemosInventorySorting$filterBox.filterSlots(getMenu().slots, filter);
 
-            nemosInventorySorting$markSlots(RenderType::guiTextured, filteredSlotMap.get(true), guiGraphics, HIGHLIGHTED_SLOT);
-            nemosInventorySorting$markSlots(RenderType::guiTexturedOverlay, filteredSlotMap.get(false), guiGraphics, DIMMED_SLOT);
+            nemosInventorySorting$markSlots(RenderType::guiTextured, filteredSlotMap.get(FilterResult.INCLUDED), guiGraphics, HIGHLIGHTED_SLOT);
+            nemosInventorySorting$markSlots(RenderType::guiTextured, filteredSlotMap.get(FilterResult.HAS_INCLUDED_ITEM), guiGraphics, HIGHLIGHTED_SLOT_INCLUDED_ITEM);
+            nemosInventorySorting$markSlots(RenderType::guiTexturedOverlay, filteredSlotMap.get(FilterResult.EXCLUDED), guiGraphics, DIMMED_SLOT);
         }
     }
 
@@ -143,6 +147,10 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             GuiGraphics guiGraphics,
             ResourceLocation texture
     ) {
+        if (slots == null) {
+            return;
+        }
+
         for (Slot slot : slots) {
             guiGraphics.blitSprite(renderTypeFunction, texture, slot.x, slot.y, 16, 16);
         }

@@ -1,5 +1,6 @@
 package com.nemonotfound.nemos.inventory.sorting.client.gui.components;
 
+import com.nemonotfound.nemos.inventory.sorting.client.model.FilterResult;
 import com.nemonotfound.nemos.inventory.sorting.client.service.FilterService;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
@@ -37,7 +38,7 @@ public class FilterBox extends EditBox implements RecipeBookUpdatable {
         this.setX(leftPos + this.xOffset);
     }
 
-    public Map<Boolean, List<Slot>> filterSlots(NonNullList<Slot> slots, String filter) {
+    public Map<FilterResult, List<Slot>> filterSlots(NonNullList<Slot> slots, String filter) {
         return filterService.filterSlots(slots, filter);
     }
 }
