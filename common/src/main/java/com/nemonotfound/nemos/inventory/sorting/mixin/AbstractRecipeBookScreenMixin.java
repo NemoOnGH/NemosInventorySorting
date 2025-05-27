@@ -20,6 +20,13 @@ public abstract class AbstractRecipeBookScreenMixin extends AbstractContainerScr
         super(menu, playerInventory, title);
     }
 
+    /**
+     * Updates the X position of all child widgets that implement {@link RecipeBookUpdatable}
+     * after the screen has finished initializing.
+     * <p>
+     * This ensures that custom widgets are correctly aligned with the final value of {@link #leftPos},
+     * when the recipe book is toggled.
+     */
     @Inject(method = "init", at = @At("TAIL"))
     private void updateXPosition(CallbackInfo ci) {
         children().stream()
@@ -27,6 +34,9 @@ public abstract class AbstractRecipeBookScreenMixin extends AbstractContainerScr
                 .forEach(widget -> ((RecipeBookUpdatable) widget).updateXPosition(this.leftPos));
     }
 
+    /**
+     * Prevents the recipe book from handling key input when a {@link FilterBox} exists and is focused.
+     */
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         var optionalFilterBox = children().stream()
