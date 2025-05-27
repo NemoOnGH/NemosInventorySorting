@@ -36,7 +36,7 @@ public class MoveAllButtonFactory extends SortButtonFactory {
                 .height(height)
                 .buttonName(buttonName)
                 .shiftButtonName(shiftButtonName)
-                .containerScreen(menu);
+                .menu(menu);
 
         return builder.build();
     }

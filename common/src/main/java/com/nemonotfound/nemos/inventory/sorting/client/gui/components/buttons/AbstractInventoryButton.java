@@ -143,7 +143,7 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
             return this;
         }
 
-        public Builder<T> containerScreen(AbstractContainerMenu menu) {
+        public Builder<T> menu(AbstractContainerMenu menu) {
             this.menu = menu;
             return this;
         }
