@@ -87,7 +87,7 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
                 yOffset,
                 width,
                 height,
-                this
+                getMenu()
         );
         nemosInventorySorting$keyMappingButtonMap.put(keyMapping, sortButton);
     }

@@ -4,7 +4,7 @@ import net.minecraft.client.KeyMapping;
 
 import java.util.function.Supplier;
 
-public interface RegistryHelper {
+public interface IRegistryHelper {
 
     Supplier<KeyMapping> registerKeyMapping(KeyMapping keyMapping);
 }

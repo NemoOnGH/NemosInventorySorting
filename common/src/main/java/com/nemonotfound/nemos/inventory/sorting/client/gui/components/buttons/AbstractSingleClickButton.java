@@ -25,7 +25,6 @@ public abstract class AbstractSingleClickButton<T extends AbstractInventoryButto
         Minecraft minecraft = Minecraft.getInstance();
         MultiPlayerGameMode gameMode = minecraft.gameMode;
         LocalPlayer player = minecraft.player;
-        AbstractContainerMenu menu = containerScreen.getMenu();
         int containerId = menu.containerId;
         boolean isCreativeModeMenu = menu instanceof CreativeModeInventoryScreen.ItemPickerMenu;
 

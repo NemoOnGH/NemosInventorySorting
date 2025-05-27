@@ -2,8 +2,8 @@ package com.nemonotfound.nemos.inventory.sorting.factory;
 
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.AbstractInventoryButton;
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.DropAllButton;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 
 public class DropAllButtonFactory extends SortButtonFactory {
 
@@ -22,7 +22,7 @@ public class DropAllButtonFactory extends SortButtonFactory {
     @Override
     public AbstractInventoryButton createButton(
             int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int width,
-            int height, AbstractContainerScreen<?> containerScreen
+            int height, AbstractContainerMenu menu
     ) {
         var buttonName = Component.translatable("nemos_inventory_sorting.gui.dropAll");
         var shiftButtonName = Component.translatable("nemos_inventory_sorting.gui.dropAllShift");
@@ -36,7 +36,7 @@ public class DropAllButtonFactory extends SortButtonFactory {
                 .height(height)
                 .buttonName(buttonName)
                 .shiftButtonName(shiftButtonName)
-                .containerScreen(containerScreen);
+                .containerScreen(menu);
 
         return builder.build();
     }

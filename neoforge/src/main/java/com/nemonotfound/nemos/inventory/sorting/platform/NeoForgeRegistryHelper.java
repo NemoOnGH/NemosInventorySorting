@@ -4,7 +4,7 @@ import net.minecraft.client.KeyMapping;
 
 import java.util.function.Supplier;
 
-public class RegistryHelperNeoForge implements RegistryHelper {
+public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     @Override
     public Supplier<KeyMapping> registerKeyMapping(KeyMapping keyMapping) {

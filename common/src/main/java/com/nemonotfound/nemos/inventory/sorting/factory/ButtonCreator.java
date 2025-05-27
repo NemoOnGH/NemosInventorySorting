@@ -1,7 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.factory;
 
 import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.AbstractInventoryButton;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 
 public interface ButtonCreator {
 
@@ -14,6 +14,6 @@ public interface ButtonCreator {
             int yOffset,
             int width,
             int height,
-            AbstractContainerScreen<?> containerScreen
+            AbstractContainerMenu menu
     );
 }

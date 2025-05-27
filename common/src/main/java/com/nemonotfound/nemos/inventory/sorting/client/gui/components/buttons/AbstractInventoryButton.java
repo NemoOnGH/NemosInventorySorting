@@ -5,7 +5,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractInventoryButton extends AbstractWidget implements RecipeBookUpdatable {
 
-    protected final AbstractContainerScreen<?> containerScreen;
+    protected final AbstractContainerMenu menu;
     protected final Integer startIndex;
     protected final Integer endIndex;
     private final int xOffset;
@@ -29,7 +28,7 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
         this.setTooltip(Tooltip.create(builder.buttonName));
         this.buttonName = builder.buttonName;
         this.shiftButtonName = builder.shiftButtonName;
-        this.containerScreen = builder.containerScreen;
+        this.menu = builder.menu;
         this.startIndex = builder.startIndex;
         this.endIndex = builder.endIndex;
         this.xOffset = builder.xOffset;
@@ -92,7 +91,7 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
         private Integer height;
         private Component buttonName;
         private Component shiftButtonName;
-        private AbstractContainerScreen<?> containerScreen;
+        private AbstractContainerMenu menu;
         private final Class<T> clazz;
 
         public Builder(Class<T> clazz) {
@@ -144,8 +143,8 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
             return this;
         }
 
-        public Builder<T> containerScreen(AbstractContainerScreen<?> containerScreen) {
-            this.containerScreen = containerScreen;
+        public Builder<T> containerScreen(AbstractContainerMenu menu) {
+            this.menu = menu;
             return this;
         }
 
@@ -161,7 +160,7 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
 
         private void checkRequiredFields() {
             if (startIndex == null || endIndex == null || x == null || y == null || xOffset == null || width == null
-                    || height == null || buttonName == null || containerScreen == null) {
+                    || height == null || buttonName == null || menu == null) {
                 throw new IllegalArgumentException("Not all fields were set!");
             }
         }

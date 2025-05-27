@@ -30,7 +30,6 @@ public class SortAlphabeticallyDescendingButton extends AbstractInventoryButton 
     public void onClick(double mouseX, double mouseY) {
         var inventoryService = InventoryService.getInstance();
         var sortingService = AlphabeticallyDescendingSortingService.getInstance();
-        var menu = containerScreen.getMenu();
         var endIndex = inventoryService.calculateEndIndex(isButtonShiftable(menu), this.endIndex);
 
         inventoryService.handleSorting(sortingService, menu, startIndex, endIndex);
