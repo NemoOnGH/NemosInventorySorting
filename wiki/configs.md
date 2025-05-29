@@ -99,16 +99,16 @@ There, you'll find a list of configs structured as follows:
     "height": 11
   },
   {
-    "componentName": "drop_all_container_inventory",
+    "componentName": "move_all_container_inventory",
     "isEnabled": true,
-    "xOffset": 154,
+    "xOffset": 136,
     "width": 11,
     "height": 11
   },
   {
-    "componentName": "move_all_container_inventory",
+    "componentName": "drop_all_container_inventory",
     "isEnabled": true,
-    "xOffset": 136,
+    "xOffset": 154,
     "width": 11,
     "height": 11
   },
@@ -143,6 +143,14 @@ There, you'll find a list of configs structured as follows:
     "yOffset": -16,
     "width": 77,
     "height": 15
+  },
+  {
+    "componentName": "filter_persistence_toggle",
+    "isEnabled": true,
+    "xOffset": 82,
+    "yOffset": -15,
+    "width": 13,
+    "height": 13
   }
 ]
 ```
