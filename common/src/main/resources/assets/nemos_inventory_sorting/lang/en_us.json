@@ -9,6 +9,9 @@
   "nemos_inventory_sorting.gui.moveSameShift": "Move Same (Including Hotbar)",
   "nemos_inventory_sorting.gui.moveAll": "Move All",
   "nemos_inventory_sorting.gui.moveAllShift": "Move All (Including Hotbar)",
+  "nemos_inventory_sorting.gui.toggleFilterPersistence": "Toggle Filter Persistence",
+  "nemos_inventory_sorting.gui.toggleFilterPersistence.toggleOn": "Enable Filter Persistance",
+  "nemos_inventory_sorting.gui.toggleFilterPersistence.toggleOff": "Disable Filter Persistance",
   "nemos_inventory_sorting.itemFilter": "Filter Item",
   "nemos_inventory_sorting.gui.inventory.itemFilter": "Filter...",
   "nemos_inventory_sorting.resourcePack.darkMode.name": "Dark Mode",
@@ -23,5 +26,6 @@
   "nemos_inventory_sorting.key.sortAlphabetically": "Sort A-Z",
   "nemos_inventory_sorting.key.sortAlphabeticallyInventory": "Sort A-Z (Inventory)",
   "nemos_inventory_sorting.key.sortAlphabeticallyDescending": "Sort Z-A",
-  "nemos_inventory_sorting.key.sortAlphabeticallyDescendingInventory": "Sort Z-A (Inventory)"
+  "nemos_inventory_sorting.key.sortAlphabeticallyDescendingInventory": "Sort Z-A (Inventory)",
+  "nemos_inventory_sorting.key.toggleFilterPersistence": "Toggle Filter Persistence"
 }

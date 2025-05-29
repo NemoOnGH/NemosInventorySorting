@@ -4,6 +4,7 @@ import com.nemonotfound.nemos.inventory.sorting.ModKeyMappings;
 import com.nemonotfound.nemos.inventory.sorting.config.model.ComponentConfig;
 import com.nemonotfound.nemos.inventory.sorting.config.service.ConfigService;
 import com.nemonotfound.nemos.inventory.sorting.factory.*;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.FilterBox;
 import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.AbstractInventoryButton;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -34,7 +35,8 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
     @Unique
     private final int nemosInventorySorting$inventoryEndIndex = nemosInventorySorting$containerSize + 27;
     @Unique
-    private final Map<KeyMapping, AbstractInventoryButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();@Unique
+    private final Map<KeyMapping, AbstractInventoryButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
+    @Unique
     private final ConfigService nemosInventorySorting$configService = ConfigService.getInstance();
 
     public ContainerScreenMixin(ChestMenu menu, Inventory playerInventory, Component title) {
@@ -55,12 +57,11 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
     private void nemosInventorySorting$initButtons() {
         int yOffsetInventory = 18 + (containerRows * 18);
 
-        SortAlphabeticallyButtonFactory sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
-        SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
-        DropAllButtonFactory dropAllButtonFactory = DropAllButtonFactory.getInstance();
-        MoveSameButtonFactory moveSameButtonFactory = MoveSameButtonFactory.getInstance();
-        MoveAllButtonFactory moveAllButtonFactory = MoveAllButtonFactory.getInstance();
-
+        var sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
+        var sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
+        var dropAllButtonFactory = DropAllButtonFactory.getInstance();
+        var moveSameButtonFactory = MoveSameButtonFactory.getInstance();
+        var moveAllButtonFactory = MoveAllButtonFactory.getInstance();
         var configs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
 
         nemosInventorySorting$createButtonForContainer(configs, SORT_ALPHABETICALLY_CONTAINER, ModKeyMappings.SORT_ALPHABETICALLY.get(), sortAlphabeticallyButtonFactory, Y_OFFSET_CONTAINER);
@@ -78,7 +79,7 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
 
     @Unique
     private void nemosInventorySorting$createButtonForContainer(List<ComponentConfig> configs, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int defaultYOffset) {
-        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfigs(configs, componentName);
+        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfig(configs, componentName);
 
         if (optionalComponentConfig.isEmpty()) {
             return;
@@ -96,7 +97,7 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
 
     @Unique
     private void nemosInventorySorting$createButtonForInventory(List<ComponentConfig> configs, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int defaultYOffset) {
-        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfigs(configs, componentName);
+        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfig(configs, componentName);
 
         if (optionalComponentConfig.isEmpty()) {
             return;
@@ -133,9 +134,14 @@ public abstract class ContainerScreenMixin extends AbstractContainerScreen<Chest
         var optionalButtonEntry = nemosInventorySorting$keyMappingButtonMap.entrySet().stream()
                 .filter(entry -> entry.getKey().matches(keyCode, scanCode))
                 .findFirst();
+        var optionalFilterBox = children().stream()
+                .filter(widget -> widget instanceof FilterBox)
+                .findFirst();
 
         if (keyCode == 340) {
             nemosInventorySorting$updateToolTips(true);
+        } else if (optionalFilterBox.isPresent() && optionalFilterBox.get().isFocused()) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
         } else {
             optionalButtonEntry.ifPresent(entry -> {
                 var button = entry.getValue();

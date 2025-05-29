@@ -119,6 +119,14 @@ public class DefaultConfigs {
                 ITEM_FILTER_WIDTH,
                 ITEM_FILTER_HEIGHT
         );
+
+        createAndAddComponentConfig(
+                FILTER_PERSISTENCE_TOGGLE,
+                X_OFFSET_FILTER_PERSISTENCE_TOGGLE,
+                Y_OFFSET_FILTER_PERSISTENCE_TOGGLE,
+                FILTER_BUTTON_SIZE,
+                FILTER_BUTTON_SIZE
+        );
     }
 
     private static void createAndAddComponentConfig(String name, int xOffset, Integer yOffset, int width, int height) {

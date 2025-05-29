@@ -63,7 +63,7 @@ public class ConfigService {
         return readOrGetDefaultConfig(FILTER_CONFIG_PATH, FILTER_CONFIG_TYPE_TOKEN, new FilterConfig());
     }
 
-    public <T> T readOrGetDefaultConfig(String filePath, TypeToken<T> typeToken, T defaultValue) {
+    private <T> T readOrGetDefaultConfig(String filePath, TypeToken<T> typeToken, T defaultValue) {
         try(FileReader reader = new FileReader(filePath)) {
             return gson.fromJson(reader, typeToken);
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class ConfigService {
         }
     }
 
-    public Optional<ComponentConfig> getOrDefaultComponentConfigs(List<ComponentConfig> configsList, String componentName) {
+    public Optional<ComponentConfig> getOrDefaultComponentConfig(List<ComponentConfig> configsList, String componentName) {
         var optionalConfig = configsList.stream()
                 .filter(config -> config.componentName().equals(componentName))
                 .findFirst();

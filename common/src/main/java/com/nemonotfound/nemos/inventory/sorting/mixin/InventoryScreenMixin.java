@@ -7,6 +7,7 @@ import com.nemonotfound.nemos.inventory.sorting.factory.ButtonCreator;
 import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescendingButtonFactory;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.FilterBox;
 import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.AbstractInventoryButton;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -59,7 +60,7 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
 
     @Unique
     private void nemosInventorySorting$createButton(List<ComponentConfig> configsList, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int defaultYOffset) {
-        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfigs(configsList, componentName);
+        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfig(configsList, componentName);
 
         if (optionalComponentConfig.isEmpty()) {
             return;
@@ -98,9 +99,14 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
         var optionalButtonEntry = nemosInventorySorting$keyMappingButtonMap.entrySet().stream()
                 .filter(entry -> entry.getKey().matches(keyCode, scanCode))
                 .findFirst();
+        var optionalFilterBox = children().stream()
+                .filter(widget -> widget instanceof FilterBox)
+                .findFirst();
 
         if (keyCode == 340) {
             nemosInventorySorting$updateToolTips(true);
+        } else if (optionalFilterBox.isPresent() && optionalFilterBox.get().isFocused()) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
         } else {
             optionalButtonEntry.ifPresent(entry -> {
                 var button = entry.getValue();

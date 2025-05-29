@@ -61,6 +61,11 @@ public class ModKeyMappings {
             GLFW.GLFW_KEY_UNKNOWN,
             category
     ));
+    public static Supplier<KeyMapping> TOGGLE_FILTER_PERSISTENCE = registerKeyMapping(new KeyMapping(
+            String.format("%s.key.toggleFilterPersistence", MOD_ID),
+            GLFW.GLFW_KEY_UNKNOWN,
+            category
+    ));
 
     private static Supplier<KeyMapping> registerKeyMapping(KeyMapping keyMapping) {
         return NemosInventorySortingClientCommon.REGISTRY_HELPER.registerKeyMapping(keyMapping);

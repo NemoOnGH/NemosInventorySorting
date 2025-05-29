@@ -4,6 +4,7 @@ import com.nemonotfound.nemos.inventory.sorting.ModKeyMappings;
 import com.nemonotfound.nemos.inventory.sorting.config.model.ComponentConfig;
 import com.nemonotfound.nemos.inventory.sorting.config.service.ConfigService;
 import com.nemonotfound.nemos.inventory.sorting.factory.*;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.FilterBox;
 import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.AbstractInventoryButton;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -82,7 +83,7 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
 
     @Unique
     private void nemosInventorySorting$createButton(List<ComponentConfig> configs, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int startIndex, int endIndex, int defaultYOffset) {
-        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfigs(configs, componentName);
+        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfig(configs, componentName);
 
         if (optionalComponentConfig.isEmpty()) {
             return;
@@ -109,9 +110,14 @@ public abstract class ShulkerBoxScreenMixin extends AbstractContainerScreen<Shul
         var optionalButtonEntry = nemosInventorySorting$keyMappingButtonMap.entrySet().stream()
                 .filter(entry -> entry.getKey().matches(keyCode, scanCode))
                 .findFirst();
+        var optionalFilterBox = children().stream()
+                .filter(widget -> widget instanceof FilterBox)
+                .findFirst();
 
         if (keyCode == 340) {
             nemosInventorySorting$updateToolTips(true);
+        } else if (optionalFilterBox.isPresent() && optionalFilterBox.get().isFocused()) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
         } else {
             optionalButtonEntry.ifPresent(entry -> {
                 var button = entry.getValue();

@@ -12,7 +12,7 @@ public class FilterConfig {
         return isFilterPersistent;
     }
 
-    public void toggleFilterPersistency() {
+    public void toggleFilterPersistence() {
         isFilterPersistent = !isFilterPersistent;
     }
 

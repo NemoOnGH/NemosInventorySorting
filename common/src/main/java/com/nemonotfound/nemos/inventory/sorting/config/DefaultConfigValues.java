@@ -22,6 +22,7 @@ public class DefaultConfigValues {
     public static String SORT_ALPHABETICALLY_DESCENDING_INVENTORY = "sort_alphabetically_descending_inventory";
     public static String DROP_ALL_INVENTORY = "drop_all_inventory";
     public static String ITEM_FILTER = "item_filter";
+    public static String FILTER_PERSISTENCE_TOGGLE = "filter_persistence_toggle";
     public static int X_OFFSET_SORT_ALPHABETICALLY_CONTAINER = 82;
     public static int X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_CONTAINER = 100;
     public static int X_OFFSET_MOVE_SAME_CONTAINER = 118;
@@ -34,7 +35,10 @@ public class DefaultConfigValues {
     public static int Y_OFFSET_INVENTORY = 65;
     public static int X_OFFSET_ITEM_FILTER = 96;
     public static int Y_OFFSET_ITEM_FILTER = -16;
+    public static int X_OFFSET_FILTER_PERSISTENCE_TOGGLE = 82;
+    public static int Y_OFFSET_FILTER_PERSISTENCE_TOGGLE = -15;
     public static int ITEM_FILTER_WIDTH = 77;
     public static int ITEM_FILTER_HEIGHT = 15;
     public static int BUTTON_SIZE = 11;
+    public static int FILTER_BUTTON_SIZE = 13;
 }

@@ -40,6 +40,7 @@ public class NemosInventorySortingNeoForgeClient {
         event.register(ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get());
         event.register(ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING.get());
         event.register(ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get());
+        event.register(ModKeyMappings.TOGGLE_FILTER_PERSISTENCE.get());
     }
 
     @SubscribeEvent
