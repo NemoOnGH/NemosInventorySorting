@@ -1,8 +1,9 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
-import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.FilterBox;
-import com.nemonotfound.nemos.inventory.sorting.client.model.FilterResult;
+import com.nemonotfound.nemos.inventory.sorting.config.model.FilterConfig;
+import com.nemonotfound.nemos.inventory.sorting.config.service.ConfigService;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.FilterBox;
+import com.nemonotfound.nemos.inventory.sorting.model.FilterResult;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
@@ -26,6 +27,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
+import static com.nemonotfound.nemos.inventory.sorting.config.DefaultConfigValues.*;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class AbstractContainerScreenMixin extends Screen {
@@ -41,11 +43,16 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     @Unique
     private FilterBox nemosInventorySorting$filterBox;
     @Unique
+    private FilterConfig nemosInventorySorting$filterConfig;
+    @Unique
     private static final ResourceLocation HIGHLIGHTED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/highlighted_slot");
     @Unique
     private static final ResourceLocation HIGHLIGHTED_SLOT_INCLUDED_ITEM = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/highlighted_slot_included_item");
     @Unique
     private static final ResourceLocation DIMMED_SLOT = ResourceLocation.fromNamespaceAndPath(MOD_ID, "container/dimmed_slot");
+
+    @Unique
+    private final ConfigService nemosInventorySorting$configService = ConfigService.getInstance();
 
     protected AbstractContainerScreenMixin(Component component) {
         super(component);
@@ -53,12 +60,17 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At(value = "TAIL"))
     public void init(CallbackInfo ci) {
-        if (nemosInventorySorting$shouldHaveSearchBox()) {
-            var configs = ConfigUtil.readConfigs();
-            var optionalComponentConfig = ConfigUtil.getConfigs(configs, ITEM_FILTER);
+        nemosInventorySorting$initFilterBox();
+    }
+
+    @Unique
+    private void nemosInventorySorting$initFilterBox() {
+        if (nemosInventorySorting$shouldHaveFilterBox()) {
+            var componentConfigs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
+            var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfigs(componentConfigs, ITEM_FILTER);
+            nemosInventorySorting$filterConfig = nemosInventorySorting$configService.readOrGetDefaultFilterConfig();
 
             if (optionalComponentConfig.isEmpty()) {
-                nemosInventorySorting$createSearchBox(X_OFFSET_ITEM_FILTER, Y_OFFSET_ITEM_FILTER, ITEM_FILTER_WIDTH, ITEM_FILTER_HEIGHT);
                 return;
             }
 
@@ -69,12 +81,25 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
 
             var yOffset = config.yOffset() != null ? config.yOffset() : Y_OFFSET_ITEM_FILTER;
-            nemosInventorySorting$createSearchBox(config.xOffset(), yOffset, config.width(), config.height());
+            nemosInventorySorting$createSearchBox(config.xOffset(), yOffset, config.width(), config.height(), nemosInventorySorting$filterConfig.getFilter());
         }
     }
 
+    //TODO: Add button and toggle check
+    @Inject(method = "onClose", at = @At("TAIL"))
+    private void onClose(CallbackInfo ci) {
+        if (nemosInventorySorting$filterBox == null) {
+            return;
+        }
+
+        var filter = nemosInventorySorting$filterConfig.isFilterPersistent() ? nemosInventorySorting$filterBox.getValue() : "";
+
+        nemosInventorySorting$filterConfig.setFilter(filter);
+        nemosInventorySorting$configService.writeConfig(true, FILTER_CONFIG_PATH, nemosInventorySorting$filterConfig);
+    }
+
     @Unique
-    private void nemosInventorySorting$createSearchBox(int xOffset, int yOffset, int width, int height) {
+    private void nemosInventorySorting$createSearchBox(int xOffset, int yOffset, int width, int height, String filter) {
         nemosInventorySorting$filterBox = new FilterBox(
                 font,
                 leftPos,
@@ -87,11 +112,12 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         );
 
         this.addWidget(nemosInventorySorting$filterBox);
+        nemosInventorySorting$filterBox.setValue(filter);
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (nemosInventorySorting$shouldHaveSearchBox() && this.nemosInventorySorting$filterBox != null) {
+        if (nemosInventorySorting$shouldHaveFilterBox() && this.nemosInventorySorting$filterBox != null) {
             if (this.nemosInventorySorting$filterBox.isFocused() && keyCode != 256) {
                 cir.setReturnValue(this.nemosInventorySorting$filterBox.keyPressed(keyCode, scanCode, modifiers));
             }
@@ -111,7 +137,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void renderFilterBar(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        if (!nemosInventorySorting$shouldHaveSearchBox() || this.nemosInventorySorting$filterBox == null) {
+        if (!nemosInventorySorting$shouldHaveFilterBox() || this.nemosInventorySorting$filterBox == null) {
             return;
         }
 
@@ -120,7 +146,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderSlotHighlightFront(Lnet/minecraft/client/gui/GuiGraphics;)V", shift = At.Shift.AFTER))
     void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        if (!nemosInventorySorting$shouldHaveSearchBox() || this.nemosInventorySorting$filterBox == null) {
+        if (!nemosInventorySorting$shouldHaveFilterBox() || this.nemosInventorySorting$filterBox == null) {
             return;
         }
 
@@ -136,7 +162,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     }
 
     @Unique
-    private boolean nemosInventorySorting$shouldHaveSearchBox() {
+    private boolean nemosInventorySorting$shouldHaveFilterBox() {
         return !(getMenu() instanceof CreativeModeInventoryScreen.ItemPickerMenu);
     }
 

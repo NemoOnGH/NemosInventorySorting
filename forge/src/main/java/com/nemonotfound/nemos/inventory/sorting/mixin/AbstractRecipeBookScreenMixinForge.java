@@ -1,6 +1,6 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.RecipeBookUpdatable;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.RecipeBookUpdatable;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;

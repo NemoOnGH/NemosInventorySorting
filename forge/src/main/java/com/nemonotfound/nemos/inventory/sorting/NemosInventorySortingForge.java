@@ -1,6 +1,5 @@
 package com.nemonotfound.nemos.inventory.sorting;
 
-import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackSelectionConfig;

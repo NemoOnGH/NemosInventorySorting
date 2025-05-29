@@ -1,13 +1,13 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
-import com.nemonotfound.nemos.inventory.sorting.client.ModKeyMappings;
-import com.nemonotfound.nemos.inventory.sorting.client.config.ComponentConfig;
-import com.nemonotfound.nemos.inventory.sorting.client.config.ConfigUtil;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.AbstractInventoryButton;
+import com.nemonotfound.nemos.inventory.sorting.ModKeyMappings;
+import com.nemonotfound.nemos.inventory.sorting.config.model.ComponentConfig;
+import com.nemonotfound.nemos.inventory.sorting.config.service.ConfigService;
 import com.nemonotfound.nemos.inventory.sorting.factory.ButtonCreator;
 import com.nemonotfound.nemos.inventory.sorting.factory.DropAllButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyButtonFactory;
 import com.nemonotfound.nemos.inventory.sorting.factory.SortAlphabeticallyDescendingButtonFactory;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.AbstractInventoryButton;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
@@ -26,13 +26,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.nemonotfound.nemos.inventory.sorting.Constants.*;
+import static com.nemonotfound.nemos.inventory.sorting.config.DefaultConfigValues.*;
 
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> {
 
     @Unique
     private final Map<KeyMapping, AbstractInventoryButton> nemosInventorySorting$keyMappingButtonMap = new HashMap<>();
+    @Unique
+    private final ConfigService nemosInventorySorting$configService = ConfigService.getInstance();
 
     public InventoryScreenMixin(InventoryMenu menu, RecipeBookComponent<?> recipeBookComponent, Inventory inventory, Component component) {
         super(menu, recipeBookComponent, inventory, component);
@@ -44,11 +46,11 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
         SortAlphabeticallyDescendingButtonFactory sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
         DropAllButtonFactory dropAllButtonFactory = DropAllButtonFactory.getInstance();
 
-        var configs = ConfigUtil.readConfigs();
+        var configs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
 
-        nemosInventorySorting$createButton(configs, SORT_ALPHABETICALLY_DESCENDING_INVENTORY, ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get(), sortAlphabeticallyDescendingButtonFactory, X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_INVENTORY, Y_OFFSET_INVENTORY, BUTTON_SIZE, BUTTON_SIZE);
-        nemosInventorySorting$createButton(configs, SORT_ALPHABETICALLY_INVENTORY, ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get(), sortAlphabeticallyButtonFactory, X_OFFSET_SORT_ALPHABETICALLY_INVENTORY, Y_OFFSET_INVENTORY, BUTTON_SIZE, BUTTON_SIZE);
-        nemosInventorySorting$createButton(configs, DROP_ALL_INVENTORY, ModKeyMappings.DROP_ALL_INVENTORY.get(), dropAllButtonFactory, X_OFFSET_DROP_ALL_INVENTORY, Y_OFFSET_INVENTORY, BUTTON_SIZE, BUTTON_SIZE);
+        nemosInventorySorting$createButton(configs, SORT_ALPHABETICALLY_DESCENDING_INVENTORY, ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get(), sortAlphabeticallyDescendingButtonFactory, Y_OFFSET_INVENTORY);
+        nemosInventorySorting$createButton(configs, SORT_ALPHABETICALLY_INVENTORY, ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get(), sortAlphabeticallyButtonFactory, Y_OFFSET_INVENTORY);
+        nemosInventorySorting$createButton(configs, DROP_ALL_INVENTORY, ModKeyMappings.DROP_ALL_INVENTORY.get(), dropAllButtonFactory, Y_OFFSET_INVENTORY);
 
         for (AbstractInventoryButton button : nemosInventorySorting$keyMappingButtonMap.values()) {
             this.addRenderableWidget(button);
@@ -56,11 +58,10 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
     }
 
     @Unique
-    private void nemosInventorySorting$createButton(List<ComponentConfig> configsList, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int defaultXOffset, int defaultYOffset, int defaultWidth, int defaultHeight) {
-        var optionalComponentConfig = ConfigUtil.getConfigs(configsList, componentName);
+    private void nemosInventorySorting$createButton(List<ComponentConfig> configsList, String componentName, KeyMapping keyMapping, ButtonCreator buttonCreator, int defaultYOffset) {
+        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfigs(configsList, componentName);
 
         if (optionalComponentConfig.isEmpty()) {
-            nemosInventorySorting$createButton(keyMapping, buttonCreator, defaultXOffset, defaultYOffset, defaultWidth, defaultHeight);
             return;
         }
 

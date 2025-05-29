@@ -1,6 +1,6 @@
 package com.nemonotfound.nemos.inventory.sorting.factory;
 
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.AbstractInventoryButton;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.AbstractInventoryButton;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
 public interface ButtonCreator {

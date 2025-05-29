@@ -1,7 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.factory;
 
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.AbstractInventoryButton;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.buttons.MoveAllButton;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.AbstractInventoryButton;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.MoveAllButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 

@@ -1,7 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.mixin;
 
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.FilterBox;
-import com.nemonotfound.nemos.inventory.sorting.client.gui.components.RecipeBookUpdatable;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.FilterBox;
+import com.nemonotfound.nemos.inventory.sorting.gui.components.RecipeBookUpdatable;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.network.chat.Component;

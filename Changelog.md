@@ -1,22 +1,5 @@
-# Changelog v1.9
+# Changelog v1.10
 
 ## Changes
 - **Improved Item Filter**
-  - The filter now checks for items inside bundles and shulker boxes
-  - Added a new slot highlight color for items found within containers
-  - You can now filter for a chest...  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle,  
-    in a bundle!
+  - You can now toggle if the filter should be persistent or not
