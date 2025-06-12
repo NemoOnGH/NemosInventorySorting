@@ -16,13 +16,18 @@ import java.util.stream.Stream;
 public class FilterService {
 
     private static FilterService INSTANCE;
+    private final TooltipService tooltipService;
 
     public static FilterService getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new FilterService();
+            INSTANCE = new FilterService(TooltipService.getInstance());
         }
 
         return INSTANCE;
+    }
+
+    public FilterService(TooltipService tooltipService) {
+        this.tooltipService = tooltipService;
     }
 
     public Map<FilterResult, List<Slot>> filterSlots(NonNullList<Slot> slots, String filter) {
@@ -73,17 +78,24 @@ public class FilterService {
     private boolean matchesFilter(ItemStack itemStack, String filter) {
         var itemNameMatchesFilter = componentMatchesFilter(itemStack.getItemName(), filter);
         var itemDisplayNameMatchesFilter = componentMatchesFilter(itemStack.getDisplayName(), filter);
-        var itemEnchantsMatchesFilter = enchantmentsMatchFilter(itemStack, filter);
+        var tooltipMatchesFilter = tooltipMatchesFilter(itemStack, filter);
 
-        return itemNameMatchesFilter || itemDisplayNameMatchesFilter || itemEnchantsMatchesFilter;
+        return itemNameMatchesFilter || itemDisplayNameMatchesFilter || tooltipMatchesFilter;
     }
 
-    private boolean enchantmentsMatchFilter(ItemStack itemStack, String filter) {
-        var tooltipService = TooltipService.getInstance();
-
-        return tooltipService.retrieveEnchantmentNames(itemStack)
+    private boolean tooltipMatchesFilter(ItemStack itemStack, String filter) {
+        var tooltipComponents = tooltipService.retrieveTooltipLines(itemStack);
+        var itemEnchantsMatchesFilter = tooltipService.retrieveEnchantmentNames(tooltipComponents)
                 .toLowerCase()
                 .contains(filter.toLowerCase());
+        var jukeboxSongMatchesFilter = tooltipService.retrieveJukeboxSongName(tooltipComponents)
+                .toLowerCase()
+                .contains(filter.toLowerCase());
+        var potionMatchesFilter = tooltipService.retrievePotionName(tooltipComponents)
+                .toLowerCase()
+                .contains(filter.toLowerCase());
+
+        return itemEnchantsMatchesFilter || jukeboxSongMatchesFilter || potionMatchesFilter;
     }
 
     private boolean componentMatchesFilter(Component component, String filter) {

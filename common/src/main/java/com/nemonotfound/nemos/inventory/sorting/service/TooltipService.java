@@ -27,19 +27,35 @@ public class TooltipService {
         return INSTANCE;
     }
 
-    public String retrieveEnchantmentNames(ItemStack itemStack) {
-        return retrieveTooltipLines(itemStack).stream()
-                .filter(component -> component.toString().contains("enchantment"))
-                .map(Component::getString)
-                .collect(Collectors.joining(","));
-    }
-
     public List<Component> retrieveTooltipLines(ItemStack itemStack) {
         return itemStack.getTooltipLines(
                 Item.TooltipContext.of(minecraft.level),
                 minecraft.player,
                 minecraft.options.advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL
         );
+    }
 
+    public String retrieveEnchantmentNames(List<Component> tooltipComponents) {
+        return tooltipComponents.stream()
+                .filter(component -> component.toString().contains("enchantment"))
+                .map(Component::getString)
+                .collect(Collectors.joining(","));
+    }
+
+    public String retrieveJukeboxSongName(List<Component> tooltipComponents) {
+        return tooltipComponents.stream()
+                .filter(component -> component.toString().contains("jukebox_song"))
+                .map(Component::getString)
+                .findFirst()
+                .orElse("");
+    }
+
+    public String retrievePotionName(List<Component> tooltipComponents) {
+        return tooltipComponents.stream()
+                .filter(component -> component.toString().contains("potion.withDuration") ||
+                        component.toString().contains("potion.withAmplifier"))
+                .map(Component::getString)
+                .findFirst()
+                .orElse("");
     }
 }

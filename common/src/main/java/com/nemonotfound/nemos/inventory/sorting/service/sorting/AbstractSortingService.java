@@ -42,7 +42,27 @@ public abstract class AbstractSortingService {
                         .getString()
         );
 
-        return comparator.thenComparing(slotItem -> tooltipService.retrieveEnchantmentNames(slotItem.itemStack()));
+        return comparatorByTooltip(comparator);
+    }
+
+    private Comparator<SlotItem> comparatorByTooltip(Comparator<SlotItem> comparator) {
+        var enchantmentComparator = comparator.thenComparing(slotItem -> {
+            var tooltipComponents = tooltipService.retrieveTooltipLines(slotItem.itemStack());
+
+            return tooltipService.retrieveEnchantmentNames(tooltipComponents);
+        });
+
+        var jukeboxSongComparator = enchantmentComparator.thenComparing(slotItem -> {
+            var tooltipComponents = tooltipService.retrieveTooltipLines(slotItem.itemStack());
+
+            return tooltipService.retrieveJukeboxSongName(tooltipComponents);
+        });
+
+        return jukeboxSongComparator.thenComparing(slotItem -> {
+            var tooltipComponents = tooltipService.retrieveTooltipLines(slotItem.itemStack());
+
+            return tooltipService.retrievePotionName(tooltipComponents);
+        });
     }
 
     public Map<Integer, Integer> retrieveSlotSwapMap(List<SlotItem> slotItems, int startIndex) {
