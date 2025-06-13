@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static com.nemonotfound.nemos.inventory.sorting.config.DefaultConfigValues.*;
 import static com.nemonotfound.nemos.inventory.sorting.config.DefaultConfigs.DEFAULT_COMPONENT_CONFIGS;
+import static com.nemonotfound.nemos.inventory.sorting.config.DefaultConfigs.DEFAULT_IRON_CHEST_COMPONENT_CONFIGS;
 
 public class ConfigService {
 
@@ -61,6 +62,10 @@ public class ConfigService {
 
     public FilterConfig readOrGetDefaultFilterConfig() {
         return readOrGetDefaultConfig(FILTER_CONFIG_PATH, FILTER_CONFIG_TYPE_TOKEN, new FilterConfig());
+    }
+
+    public List<ComponentConfig> readOrGetDefaultIronChestComponentConfigs() {
+        return readOrGetDefaultConfig(IRON_CHEST_COMPONENT_CONFIG_PATH, COMPONENT_CONFIG_TYPE, DEFAULT_IRON_CHEST_COMPONENT_CONFIGS);
     }
 
     private <T> T readOrGetDefaultConfig(String filePath, TypeToken<T> typeToken, T defaultValue) {

@@ -12,11 +12,13 @@ public class DefaultConfigs {
 
     public static final List<ComponentConfig> DEFAULT_COMPONENT_CONFIGS = new ArrayList<>();
     public static final FilterConfig DEFAULT_FILTER_CONFIG = new FilterConfig();
+    public static final List<ComponentConfig> DEFAULT_IRON_CHEST_COMPONENT_CONFIGS = new ArrayList<>();
 
     private DefaultConfigs() {}
 
     public static void setupDefaultConfigs() {
         setupDefaultComponentConfigs();
+        setupDefaultIronChestComponentConfigs();
     }
 
     private static void setupDefaultComponentConfigs() {
@@ -138,23 +140,93 @@ public class DefaultConfigs {
 
         createAndAddComponentConfig(
                 ITEM_FILTER,
-                X_OFFSET_ITEM_FILTER,
+                null,
                 Y_OFFSET_ITEM_FILTER,
                 ITEM_FILTER_WIDTH,
                 ITEM_FILTER_HEIGHT
         );
         createAndAddComponentConfig(
                 FILTER_PERSISTENCE_TOGGLE,
-                X_OFFSET_FILTER_PERSISTENCE_TOGGLE,
+                null,
                 Y_OFFSET_FILTER_PERSISTENCE_TOGGLE,
                 FILTER_BUTTON_SIZE,
                 FILTER_BUTTON_SIZE
         );
     }
 
-    private static void createAndAddComponentConfig(String name, int xOffset, Integer yOffset, int width, int height) {
+    private static void setupDefaultIronChestComponentConfigs() {
+        createAndAddIronChestComponentConfig(
+                SORT_ALPHABETICALLY_STORAGE_CONTAINER,
+                Y_OFFSET_CONTAINER,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddIronChestComponentConfig(
+                SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER,
+                Y_OFFSET_CONTAINER,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddIronChestComponentConfig(
+                MOVE_SAME_STORAGE_CONTAINER,
+                Y_OFFSET_CONTAINER,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddIronChestComponentConfig(
+                MOVE_ALL_STORAGE_CONTAINER,
+                Y_OFFSET_CONTAINER,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddIronChestComponentConfig(
+                DROP_ALL_STORAGE_CONTAINER,
+                Y_OFFSET_CONTAINER,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+
+        createAndAddIronChestComponentConfig(
+                SORT_ALPHABETICALLY_STORAGE_CONTAINER_INVENTORY,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddIronChestComponentConfig(
+                SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER_INVENTORY,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddIronChestComponentConfig(
+                MOVE_SAME_STORAGE_CONTAINER_INVENTORY,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddIronChestComponentConfig(
+                MOVE_ALL_STORAGE_CONTAINER_INVENTORY,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddIronChestComponentConfig(
+                DROP_ALL_STORAGE_CONTAINER_INVENTORY,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+    }
+
+    private static void createAndAddComponentConfig(String name, Integer xOffset, Integer yOffset, int width, int height) {
         var config = new ComponentConfig(name, true, xOffset, yOffset, width, height);
 
         DEFAULT_COMPONENT_CONFIGS.add(config);
+    }
+
+    private static void createAndAddIronChestComponentConfig(String name, Integer yOffset, int width, int height) {
+        var config = new ComponentConfig(name, true, null, yOffset, width, height);
+
+        DEFAULT_IRON_CHEST_COMPONENT_CONFIGS.add(config);
     }
 }

@@ -33,8 +33,9 @@ There, you'll find a list of configs structured as follows:
       <br><br>
 
 
-# Default Config
+# Default Configs
 
+## Standard Containers
 ```
 [
   {
@@ -160,7 +161,6 @@ There, you'll find a list of configs structured as follows:
   {
     "componentName": "item_filter",
     "isEnabled": true,
-    "xOffset": 96,
     "yOffset": -16,
     "width": 77,
     "height": 15
@@ -168,10 +168,80 @@ There, you'll find a list of configs structured as follows:
   {
     "componentName": "filter_persistence_toggle",
     "isEnabled": true,
-    "xOffset": 81,
     "yOffset": -15,
     "width": 13,
     "height": 13
+  }
+]
+```
+
+## Iron Chest (NeoForge)
+```
+[
+  {
+    "componentName": "sort_alphabetically_storage_container",
+    "isEnabled": true,
+    "yOffset": 5,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "componentName": "sort_alphabetically_descending_storage_container",
+    "isEnabled": true,
+    "yOffset": 5,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "componentName": "move_same_storage_container",
+    "isEnabled": true,
+    "yOffset": 5,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "componentName": "move_all_storage_container",
+    "isEnabled": true,
+    "yOffset": 5,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "componentName": "drop_all_storage_container",
+    "isEnabled": true,
+    "yOffset": 5,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "componentName": "sort_alphabetically_storage_container_inventory",
+    "isEnabled": true,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "componentName": "sort_alphabetically_descending_storage_container_inventory",
+    "isEnabled": true,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "componentName": "move_same_storage_container_inventory",
+    "isEnabled": true,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "componentName": "move_all_storage_container_inventory",
+    "isEnabled": true,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "componentName": "drop_all_storage_container_inventory",
+    "isEnabled": true,
+    "width": 11,
+    "height": 11
   }
 ]
 ```

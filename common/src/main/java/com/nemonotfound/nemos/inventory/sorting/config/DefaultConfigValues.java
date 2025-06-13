@@ -7,6 +7,7 @@ public class DefaultConfigValues {
     public static final String CONFIG_DIRECTORY_PATH = "config/nemos-inventory-sorting/";
     public static final String COMPONENT_CONFIG_PATH = CONFIG_DIRECTORY_PATH + "config.json";
     public static final String FILTER_CONFIG_PATH = CONFIG_DIRECTORY_PATH + "filter-config.json";
+    public static final String IRON_CHEST_COMPONENT_CONFIG_PATH = CONFIG_DIRECTORY_PATH + "iron-chest-config.json";
 
     public static String SORT_ALPHABETICALLY_STORAGE_CONTAINER = "sort_alphabetically_storage_container";
     public static String SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER = "sort_alphabetically_descending_storage_container";
@@ -47,9 +48,7 @@ public class DefaultConfigValues {
     public static int X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_CONTAINER_INVENTORY = 136;
     public static int X_OFFSET_DROP_ALL_CONTAINER_INVENTORY = 154;
 
-    public static int X_OFFSET_ITEM_FILTER = 96;
     public static int Y_OFFSET_ITEM_FILTER = -16;
-    public static int X_OFFSET_FILTER_PERSISTENCE_TOGGLE = 81;
     public static int Y_OFFSET_FILTER_PERSISTENCE_TOGGLE = -15;
     public static int ITEM_FILTER_WIDTH = 77;
     public static int ITEM_FILTER_HEIGHT = 15;

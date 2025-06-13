@@ -13,10 +13,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractRecipeBookScreen.class)
-public abstract class AbstractRecipeBookScreenMixinNeoForge<T extends RecipeBookMenu> extends AbstractContainerScreen<T> {
+public abstract class NeoForgeAbstractRecipeBookScreenMixin<T extends RecipeBookMenu> extends AbstractContainerScreen<T> {
 
 
-    public AbstractRecipeBookScreenMixinNeoForge(T menu, Inventory playerInventory, Component title) {
+    public NeoForgeAbstractRecipeBookScreenMixin(T menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 

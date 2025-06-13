@@ -42,4 +42,22 @@ neoForge {
     }
 }
 
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
+dependencies {
+    compileOnly("maven.modrinth:iron-chests:${ironchest_version}")
+}
+
 sourceSets.main.resources { srcDir project.project(':common').file('src/generated/resources/').getAbsolutePath() }

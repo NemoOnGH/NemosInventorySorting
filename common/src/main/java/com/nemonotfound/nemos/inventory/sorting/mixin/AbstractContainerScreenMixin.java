@@ -51,6 +51,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Shadow
     protected int inventoryLabelY;
+    @Shadow protected int imageWidth;
     @Unique
     private FilterBox nemosInventorySorting$filterBox;
     @Unique
@@ -65,6 +66,8 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     private int nemosInventorySorting$inventoryEndIndex;
     @Unique
     private int nemosInventorySorting$containerSize;
+    @Unique
+    private int nemosInventorySorting$filterBoxWidth = 0;
 
     @Unique
     private final ConfigService nemosInventorySorting$configService = ConfigService.getInstance();
@@ -119,8 +122,11 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             return;
         }
 
+        nemosInventorySorting$filterBoxWidth = config.width();
+        var xOffset = config.xOffset() != null ? config.xOffset() : imageWidth - nemosInventorySorting$filterBoxWidth - 3;
         var yOffset = config.yOffset() != null ? config.yOffset() : Y_OFFSET_ITEM_FILTER;
-        nemosInventorySorting$createSearchBox(config.xOffset(), yOffset, config.width(), config.height(), nemosInventorySorting$filterConfig.getFilter());
+
+        nemosInventorySorting$createSearchBox(xOffset, yOffset, nemosInventorySorting$filterBoxWidth, config.height(), nemosInventorySorting$filterConfig.getFilter());
     }
 
     @Unique
@@ -144,8 +150,10 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             return;
         }
 
+        var width = config.width();
+        var xOffset = config.xOffset() != null ? config.xOffset() : imageWidth - nemosInventorySorting$filterBoxWidth - width - 5;
         var yOffset = config.yOffset() != null ? config.yOffset() : Y_OFFSET_ITEM_FILTER;
-        var button = filterButtonCreator.createButton(leftPos, topPos, config.xOffset(), yOffset, config.width(), config.height(), nemosInventorySorting$filterConfig);
+        var button = filterButtonCreator.createButton(leftPos, topPos, xOffset, yOffset, width, config.height(), nemosInventorySorting$filterConfig);
 
         nemosInventorySorting$keyMappingButtonMap.put(keyMapping, button);
     }
@@ -280,13 +288,15 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     private boolean nemosInventorySorting$shouldHaveContainerInventorySortingButtons() {
         var menu = getMenu();
 
-        return !nemosInventorySorting$shouldHaveStorageContainerButtons() &&
-                !nemosInventorySorting$shouldHaveInventoryButtons() &&
-                !(menu instanceof LoomMenu) &&
-                !(menu instanceof CartographyTableMenu) &&
-                !(menu instanceof SmithingMenu) &&
-                !(menu instanceof BeaconMenu) &&
-                !(getMenu() instanceof CreativeModeInventoryScreen.ItemPickerMenu);
+        return menu instanceof EnchantmentMenu ||
+                menu instanceof AnvilMenu ||
+                menu instanceof FurnaceMenu ||
+                menu instanceof SmokerMenu ||
+                menu instanceof BlastFurnaceMenu ||
+                menu instanceof CraftingMenu ||
+                menu instanceof CrafterMenu ||
+                menu instanceof GrindstoneMenu ||
+                menu instanceof BrewingStandMenu;
     }
 
     @Unique
