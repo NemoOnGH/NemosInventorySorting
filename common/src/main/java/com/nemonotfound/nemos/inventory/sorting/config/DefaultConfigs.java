@@ -10,7 +10,6 @@ import static com.nemonotfound.nemos.inventory.sorting.config.DefaultConfigValue
 
 public class DefaultConfigs {
 
-
     public static final List<ComponentConfig> DEFAULT_COMPONENT_CONFIGS = new ArrayList<>();
     public static final FilterConfig DEFAULT_FILTER_CONFIG = new FilterConfig();
 
@@ -22,75 +21,77 @@ public class DefaultConfigs {
 
     private static void setupDefaultComponentConfigs() {
         createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_CONTAINER,
-                X_OFFSET_SORT_ALPHABETICALLY_CONTAINER,
+                SORT_ALPHABETICALLY_STORAGE_CONTAINER,
+                X_OFFSET_SORT_ALPHABETICALLY_STORAGE_CONTAINER,
                 Y_OFFSET_CONTAINER,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
         createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_DESCENDING_CONTAINER,
-                X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_CONTAINER,
+                SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER,
+                X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER,
                 Y_OFFSET_CONTAINER,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
         createAndAddComponentConfig(
-                MOVE_SAME_CONTAINER,
-                X_OFFSET_MOVE_SAME_CONTAINER,
+                MOVE_SAME_STORAGE_CONTAINER,
+                X_OFFSET_MOVE_SAME_STORAGE_CONTAINER,
                 Y_OFFSET_CONTAINER,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
         createAndAddComponentConfig(
-                MOVE_ALL_CONTAINER,
-                X_OFFSET_MOVE_ALL_CONTAINER,
+                MOVE_ALL_STORAGE_CONTAINER,
+                X_OFFSET_MOVE_ALL_STORAGE_CONTAINER,
                 Y_OFFSET_CONTAINER,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
         createAndAddComponentConfig(
-                DROP_ALL_CONTAINER,
-                X_OFFSET_DROP_ALL_CONTAINER,
+                DROP_ALL_STORAGE_CONTAINER,
+                X_OFFSET_DROP_ALL_STORAGE_CONTAINER,
                 Y_OFFSET_CONTAINER,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
+
         createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_CONTAINER_INVENTORY,
-                X_OFFSET_SORT_ALPHABETICALLY_CONTAINER,
+                SORT_ALPHABETICALLY_STORAGE_CONTAINER_INVENTORY,
+                X_OFFSET_SORT_ALPHABETICALLY_STORAGE_CONTAINER,
                 null,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
         createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_DESCENDING_CONTAINER_INVENTORY,
-                X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_CONTAINER,
+                SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER_INVENTORY,
+                X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER,
                 null,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
         createAndAddComponentConfig(
-                MOVE_SAME_CONTAINER_INVENTORY,
-                X_OFFSET_MOVE_SAME_CONTAINER,
+                MOVE_SAME_STORAGE_CONTAINER_INVENTORY,
+                X_OFFSET_MOVE_SAME_STORAGE_CONTAINER,
                 null,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
         createAndAddComponentConfig(
-                MOVE_ALL_CONTAINER_INVENTORY,
-                X_OFFSET_MOVE_ALL_CONTAINER,
+                MOVE_ALL_STORAGE_CONTAINER_INVENTORY,
+                X_OFFSET_MOVE_ALL_STORAGE_CONTAINER,
                 null,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
         createAndAddComponentConfig(
-                DROP_ALL_CONTAINER_INVENTORY,
-                X_OFFSET_DROP_ALL_CONTAINER,
+                DROP_ALL_STORAGE_CONTAINER_INVENTORY,
+                X_OFFSET_DROP_ALL_STORAGE_CONTAINER,
                 null,
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
+
         createAndAddComponentConfig(
                 SORT_ALPHABETICALLY_INVENTORY,
                 X_OFFSET_SORT_ALPHABETICALLY_INVENTORY,
@@ -112,6 +113,29 @@ public class DefaultConfigs {
                 BUTTON_SIZE,
                 BUTTON_SIZE
         );
+
+        createAndAddComponentConfig(
+                SORT_ALPHABETICALLY_CONTAINER_INVENTORY,
+                X_OFFSET_SORT_ALPHABETICALLY_CONTAINER_INVENTORY,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddComponentConfig(
+                SORT_ALPHABETICALLY_DESCENDING_CONTAINER_INVENTORY,
+                X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_CONTAINER_INVENTORY,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+        createAndAddComponentConfig(
+                DROP_ALL_CONTAINER_INVENTORY,
+                X_OFFSET_DROP_ALL_CONTAINER_INVENTORY,
+                null,
+                BUTTON_SIZE,
+                BUTTON_SIZE
+        );
+
         createAndAddComponentConfig(
                 ITEM_FILTER,
                 X_OFFSET_ITEM_FILTER,
@@ -119,7 +143,6 @@ public class DefaultConfigs {
                 ITEM_FILTER_WIDTH,
                 ITEM_FILTER_HEIGHT
         );
-
         createAndAddComponentConfig(
                 FILTER_PERSISTENCE_TOGGLE,
                 X_OFFSET_FILTER_PERSISTENCE_TOGGLE,

@@ -1,9 +1,12 @@
-# Changelog v1.10.1
+# Changelog v1.11
+
+## Additions
+- Added inventory sorting buttons to most container UIs
+  - **Exceptions:** Loom, Cartography Table, Smithing Table, and Beacon
+- Added configuration option for container-specific inventory buttons
 
 ## Changes
-- **Improved Item Filter**
-  - Now supports filtering by potion level and duration
-  - Now supports filtering by music disc author and track name
-- **Improved Item Sorting**
-  - Potions and tipped arrows are now sorted by effect name, duration, and level
-  - Music discs are now sorted by author and track name
+- Slightly adjusted the position of the filter persistence toggle
+- Renamed config fields to align with new features  
+  ⚠️ **Note:** This may result in incorrect button positions.  
+  To fix this, delete your config file and restart Minecraft, or update your settings using the values provided on the [wiki](https://github.com/NemoNotFound/NemosInventorySorting/wiki).
