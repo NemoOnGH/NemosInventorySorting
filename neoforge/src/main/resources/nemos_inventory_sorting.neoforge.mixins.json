@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "com.nemonotfound.nemos.inventory.sorting.mixin",
   "compatibilityLevel": "JAVA_21",
+  "plugin": "com.nemonotfound.nemos.inventory.sorting.mixin.plugins.IronChestMixinPlugin",
   "mixins": [],
   "client": [
     "NeoForgeAbstractRecipeBookScreenMixin",
