@@ -1,6 +1,8 @@
 package com.nemonotfound.nemos.inventory.sorting.gui.components.buttons;
 
 import com.nemonotfound.nemos.inventory.sorting.gui.components.RecipeBookUpdatable;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
@@ -9,8 +11,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.InventoryMenu;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
 
 public abstract class AbstractInventoryButton extends AbstractWidget implements RecipeBookUpdatable {
 
@@ -20,6 +23,7 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
     private final int xOffset;
     private final Component buttonName;
     private final Component shiftButtonName;
+    protected final boolean isInventoryButton;
 
     protected boolean isShiftKeyDown = false;
 
@@ -32,7 +36,62 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
         this.startIndex = builder.startIndex;
         this.endIndex = builder.endIndex;
         this.xOffset = builder.xOffset;
+        this.isInventoryButton = builder.isInventoryButton;
     }
+
+    @Override
+    public abstract void onClick(double mouseX, double mouseY);
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == 340) {
+            setIsShiftKeyDown(true);
+            setTooltip();
+        }
+
+        var minecraft = Minecraft.getInstance();
+        var isKeyPressed = Arrays.stream(minecraft.options.keyMappings)
+                .filter(keyMapping -> keyMapping.same(getKeyMapping()))
+                .anyMatch(keyMapping -> keyMapping.matches(keyCode, scanCode));
+
+        if (!isKeyPressed) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
+
+        playDownSound(minecraft.getSoundManager());
+        onClick(0, 0);
+
+        return true;
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == 340) {
+            setIsShiftKeyDown(false);
+            setTooltip();
+        }
+
+        return super.keyReleased(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        var minecraft = Minecraft.getInstance();
+        var isKeyPressed = Arrays.stream(minecraft.options.keyMappings)
+                .filter(keyMapping -> keyMapping.same(getKeyMapping()))
+                .anyMatch(keyMapping -> keyMapping.matchesMouse(button));
+
+        if (!isKeyPressed) {
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+
+        playDownSound(minecraft.getSoundManager());
+        onClick(0, 0);
+
+        return true;
+    }
+
+    protected abstract KeyMapping getKeyMapping();
 
     @Override
     protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -55,8 +114,8 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
         isShiftKeyDown = shiftKeyDown;
     }
 
-    public void setTooltip(AbstractContainerMenu menu) {
-        if (isButtonShiftable(menu)) {
+    public void setTooltip() {
+        if (isButtonShiftable()) {
             setTooltip(Tooltip.create(shiftButtonName));
         } else {
             setTooltip(Tooltip.create(buttonName));
@@ -64,16 +123,16 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
     }
 
     //TODO: Use service instead
-    protected int calculateEndIndex(AbstractContainerMenu menu) {
-        if (isButtonShiftable(menu)) {
+    protected int calculateEndIndex() {
+        if (isButtonShiftable()) {
             return endIndex + 9;
         }
 
         return endIndex;
     }
 
-    protected boolean isButtonShiftable(AbstractContainerMenu menu) {
-        return isShiftKeyDown && (startIndex != 0 || menu instanceof InventoryMenu);
+    protected boolean isButtonShiftable() {
+        return isShiftKeyDown && isInventoryButton;
     }
 
     @Override
@@ -92,6 +151,7 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
         private Component buttonName;
         private Component shiftButtonName;
         private AbstractContainerMenu menu;
+        private boolean isInventoryButton = false;
         private final Class<T> clazz;
 
         public Builder(Class<T> clazz) {
@@ -145,6 +205,11 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
 
         public Builder<T> menu(AbstractContainerMenu menu) {
             this.menu = menu;
+            return this;
+        }
+
+        public Builder<T> isInventoryButton(boolean isInventoryButton) {
+            this.isInventoryButton = isInventoryButton;
             return this;
         }
 

@@ -14,6 +14,7 @@ public interface ButtonCreator {
             int yOffset,
             int width,
             int height,
-            AbstractContainerMenu menu
+            AbstractContainerMenu menu,
+            boolean isInventoryButton
     );
 }

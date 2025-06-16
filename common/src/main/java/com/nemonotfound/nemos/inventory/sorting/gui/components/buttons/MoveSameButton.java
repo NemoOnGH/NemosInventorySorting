@@ -1,5 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.gui.components.buttons;
 
+import com.nemonotfound.nemos.inventory.sorting.ModKeyMappings;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -41,9 +43,18 @@ public class MoveSameButton extends AbstractSingleClickButton<MoveSameButton> {
     }
 
     @Override
+    protected KeyMapping getKeyMapping() {
+        if (isInventoryButton) {
+            return ModKeyMappings.MOVE_SAME_INVENTORY.get();
+        }
+
+        return ModKeyMappings.MOVE_SAME.get();
+    }
+
+    @Override
     protected @NotNull List<Integer> getItemSlotsToInteractWith(AbstractContainerMenu menu) {
         var slots = menu.slots;
-        var newEndIndex = calculateEndIndex(menu);
+        var newEndIndex = calculateEndIndex();
         var itemsOutOfIndexRange = getItemsOutOfIndexRange(slots, startIndex, newEndIndex);
 
         return IntStream.range(startIndex, newEndIndex)

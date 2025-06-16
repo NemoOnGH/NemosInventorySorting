@@ -1,7 +1,9 @@
 package com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.filter;
 
+import com.nemonotfound.nemos.inventory.sorting.ModKeyMappings;
 import com.nemonotfound.nemos.inventory.sorting.config.service.ConfigService;
 import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.AbstractFilterToggleButton;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -58,5 +60,10 @@ public class ToggleFilterPersistenceButton extends AbstractFilterToggleButton {
 
         configService.writeConfig(true, FILTER_CONFIG_PATH, filterConfig);
         setTooltip();
+    }
+
+    @Override
+    protected KeyMapping getKeyMapping() {
+        return ModKeyMappings.TOGGLE_FILTER_PERSISTENCE.get();
     }
 }

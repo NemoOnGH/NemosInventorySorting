@@ -2,6 +2,8 @@ package com.nemonotfound.nemos.inventory.sorting.gui.components.buttons;
 
 import com.nemonotfound.nemos.inventory.sorting.config.model.FilterConfig;
 import com.nemonotfound.nemos.inventory.sorting.gui.components.RecipeBookUpdatable;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -9,6 +11,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
 
 public abstract class AbstractFilterToggleButton extends AbstractWidget implements RecipeBookUpdatable {
 
@@ -41,6 +45,45 @@ public abstract class AbstractFilterToggleButton extends AbstractWidget implemen
     protected abstract ResourceLocation getToggleOnHoverTexture();
 
     protected abstract void setTooltip();
+
+    @Override
+    public abstract void onClick(double mouseX, double mouseY);
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        var minecraft = Minecraft.getInstance();
+        var isKeyPressed = Arrays.stream(minecraft.options.keyMappings)
+                .filter(keyMapping -> keyMapping.same(getKeyMapping()))
+                .anyMatch(keyMapping -> keyMapping.matches(keyCode, scanCode));
+
+        if (!isKeyPressed) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
+
+        playDownSound(minecraft.getSoundManager());
+        onClick(0, 0);
+
+        return true;
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        var minecraft = Minecraft.getInstance();
+        var isKeyPressed = Arrays.stream(minecraft.options.keyMappings)
+                .filter(keyMapping -> keyMapping.same(getKeyMapping()))
+                .anyMatch(keyMapping -> keyMapping.matchesMouse(button));
+
+        if (!isKeyPressed) {
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+
+        playDownSound(minecraft.getSoundManager());
+        onClick(0, 0);
+
+        return true;
+    }
+
+    protected abstract KeyMapping getKeyMapping();
 
     @Override
     protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {

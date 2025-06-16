@@ -22,7 +22,7 @@ public class SortAlphabeticallyButtonFactory extends SortButtonFactory {
     @Override
     public AbstractInventoryButton createButton(
             int startIndex, int endIndex, int leftPos, int topPos, int xOffset, int yOffset, int width,
-            int height, AbstractContainerMenu menu
+            int height, AbstractContainerMenu menu, boolean isInventoryButton
     ) {
         var buttonName = Component.translatable("nemos_inventory_sorting.gui.sortAlphabetically");
         var shiftButtonName = Component.translatable("nemos_inventory_sorting.gui.sortAlphabeticallyShift");
@@ -36,7 +36,8 @@ public class SortAlphabeticallyButtonFactory extends SortButtonFactory {
                 .height(height)
                 .buttonName(buttonName)
                 .shiftButtonName(shiftButtonName)
-                .menu(menu);
+                .menu(menu)
+                .isInventoryButton(isInventoryButton);
 
         return builder.build();
     }

@@ -1,5 +1,7 @@
 package com.nemonotfound.nemos.inventory.sorting.gui.components.buttons;
 
+import com.nemonotfound.nemos.inventory.sorting.ModKeyMappings;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ClickType;
 
@@ -27,5 +29,14 @@ public class DropAllButton extends AbstractSingleClickButton<DropAllButton> {
     @Override
     public void onClick(double mouseX, double mouseY) {
         interactWithAllItems(ClickType.THROW, 1);
+    }
+
+    @Override
+    protected KeyMapping getKeyMapping() {
+        if (isInventoryButton) {
+            return ModKeyMappings.DROP_ALL_INVENTORY.get();
+        }
+
+        return ModKeyMappings.DROP_ALL.get();
     }
 }

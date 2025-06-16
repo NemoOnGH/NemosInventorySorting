@@ -1,4 +1,4 @@
-# Changelog v1.11.0.1
+# Changelog v1.11.1
 
-## Fixes
-- Fixed instant crash when iron chest isn't installed
+## Changes
+- Reordered iron chest buttons to match other containers
