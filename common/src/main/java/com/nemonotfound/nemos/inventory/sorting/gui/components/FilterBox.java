@@ -31,7 +31,7 @@ public class FilterBox extends EditBox implements RecipeBookUpdatable {
         this.filterService = FilterService.getInstance();
         this.configService = ConfigService.getInstance();
         this.xOffset = xOffset;
-        this.setTextColor(16777215);
+        this.setTextColor(-1);
         this.setVisible(true);
         this.setMaxLength(50);
         this.setBordered(true);

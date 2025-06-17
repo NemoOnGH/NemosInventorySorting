@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -96,9 +96,9 @@ public abstract class AbstractInventoryButton extends AbstractWidget implements 
     @Override
     protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (this.isHovered()) {
-            guiGraphics.blitSprite(RenderType::guiTextured, getButtonHoverTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, getButtonHoverTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
         } else {
-            guiGraphics.blitSprite(RenderType::guiTextured, getButtonTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, getButtonTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
         }
     }
 
