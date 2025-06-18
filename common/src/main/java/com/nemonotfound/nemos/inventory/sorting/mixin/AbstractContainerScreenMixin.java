@@ -75,6 +75,11 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     @Inject(method = "init", at = @At(value = "TAIL"))
     public void init(CallbackInfo ci) {
         nemosInventorySorting$inventoryEndIndex = getMenu().slots.size() - 9;
+
+        if (getMenu() instanceof InventoryMenu) {
+            nemosInventorySorting$inventoryEndIndex --;
+        }
+
         nemosInventorySorting$containerSize = nemosInventorySorting$inventoryEndIndex - 27;
 
         if (nemosInventorySorting$shouldHaveFilter()) {
