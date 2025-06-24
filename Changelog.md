@@ -1,4 +1,4 @@
-# Changelog v1.11.1
+# Changelog v1.11.2
 
-## Changes
-- Reordered iron chest buttons to match other containers
+## Fixes
+- Fixed sorting in inventory using wrong index
