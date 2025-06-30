@@ -5,9 +5,9 @@ There, you'll find a list of configs structured as follows:
 ```
 [
   {
-    "componentName": "sort_alphabetically_storage_container",
+    "componentName": "sort_storage_container",
     "isEnabled": true,
-    "xOffset": 82,
+    "xOffset": 100,
     "yOffset": 5,
     "width": 11,
     "height": 11
@@ -39,15 +39,7 @@ There, you'll find a list of configs structured as follows:
 ```
 [
   {
-    "componentName": "sort_alphabetically_storage_container",
-    "isEnabled": true,
-    "xOffset": 82,
-    "yOffset": 5,
-    "width": 11,
-    "height": 11
-  },
-  {
-    "componentName": "sort_alphabetically_descending_storage_container",
+    "componentName": "sort_storage_container",
     "isEnabled": true,
     "xOffset": 100,
     "yOffset": 5,
@@ -79,14 +71,7 @@ There, you'll find a list of configs structured as follows:
     "height": 11
   },
   {
-    "componentName": "sort_alphabetically_storage_container_inventory",
-    "isEnabled": true,
-    "xOffset": 82,
-    "width": 11,
-    "height": 11
-  },
-  {
-    "componentName": "sort_alphabetically_descending_storage_container_inventory",
+    "componentName": "sort_storage_container_inventory",
     "isEnabled": true,
     "xOffset": 100,
     "width": 11,
@@ -114,38 +99,23 @@ There, you'll find a list of configs structured as follows:
     "height": 11
   },
   {
-    "componentName": "sort_alphabetically_inventory",
+    "componentName": "sort_inventory",
     "isEnabled": true,
-    "xOffset": 127,
-    "yOffset": 65,
-    "width": 11,
-    "height": 11
-  },
-  {
-    "componentName": "sort_alphabetically_descending_inventory",
-    "isEnabled": true,
-    "xOffset": 142,
-    "yOffset": 65,
+    "xOffset": 136,
+    "yOffset": 71,
     "width": 11,
     "height": 11
   },
   {
     "componentName": "drop_all_inventory",
     "isEnabled": true,
-    "xOffset": 157,
-    "yOffset": 65,
+    "xOffset": 154,
+    "yOffset": 71,
     "width": 11,
     "height": 11
   },
   {
-    "componentName": "sort_alphabetically_container_inventory",
-    "isEnabled": true,
-    "xOffset": 118,
-    "width": 11,
-    "height": 11
-  },
-  {
-    "componentName": "sort_alphabetically_descending_container_inventory",
+    "componentName": "sort_container_inventory",
     "isEnabled": true,
     "xOffset": 136,
     "width": 11,
@@ -179,14 +149,7 @@ There, you'll find a list of configs structured as follows:
 ```
 [
   {
-    "componentName": "sort_alphabetically_storage_container",
-    "isEnabled": true,
-    "yOffset": 5,
-    "width": 11,
-    "height": 11
-  },
-  {
-    "componentName": "sort_alphabetically_descending_storage_container",
+    "componentName": "sort_storage_container",
     "isEnabled": true,
     "yOffset": 5,
     "width": 11,
@@ -214,13 +177,7 @@ There, you'll find a list of configs structured as follows:
     "height": 11
   },
   {
-    "componentName": "sort_alphabetically_storage_container_inventory",
-    "isEnabled": true,
-    "width": 11,
-    "height": 11
-  },
-  {
-    "componentName": "sort_alphabetically_descending_storage_container_inventory",
+    "componentName": "sort_storage_container_inventory",
     "isEnabled": true,
     "width": 11,
     "height": 11
