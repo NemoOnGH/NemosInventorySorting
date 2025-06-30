@@ -3,7 +3,7 @@
 
 # Description
 **Nemo's Inventory Sorting** is a *client-side* mod that adds buttons to your inventory GUI.  
-Sort your inventory A–Z or Z–A, move all matching or all items, or drop everything at once — all with a single click.  
+Sort your inventory, move all matching or all items, or drop everything at once — all with a single click.  
 You can even filter and highlight items in containers by typing part of their name!
 
 For more information and to see how to configure the components check the [wiki](https://github.com/NemoNotFound/NemosInventorySorting/wiki).
