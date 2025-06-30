@@ -5,7 +5,7 @@ import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.MoveSameB
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
-public class MoveSameButtonFactory extends SortButtonFactory {
+public class MoveSameButtonFactory extends ButtonFactory {
 
     private static MoveSameButtonFactory INSTANCE;
 

@@ -1,8 +1,6 @@
 {
-  "nemos_inventory_sorting.gui.sortAlphabetically": "Sort A-Z",
-  "nemos_inventory_sorting.gui.sortAlphabeticallyShift": "Sort A-Z (Including Hotbar)",
-  "nemos_inventory_sorting.gui.sortAlphabeticallyDescending": "Sort Z-A",
-  "nemos_inventory_sorting.gui.sortAlphabeticallyDescendingShift": "Sort Z-A (Including Hotbar)",
+  "nemos_inventory_sorting.gui.sortButton": "Sort",
+  "nemos_inventory_sorting.gui.sortButtonShift": "Sort (Including Hotbar)",
   "nemos_inventory_sorting.gui.dropAll": "Drop All",
   "nemos_inventory_sorting.gui.dropAllShift": "Drop All (Including Hotbar)",
   "nemos_inventory_sorting.gui.moveSame": "Move Same",
@@ -23,9 +21,7 @@
   "nemos_inventory_sorting.key.moveAllInventory": "Move All (Inventory)",
   "nemos_inventory_sorting.key.moveSame": "Move Same",
   "nemos_inventory_sorting.key.moveSameInventory": "Move Same (Inventory)",
-  "nemos_inventory_sorting.key.sortAlphabetically": "Sort A-Z",
-  "nemos_inventory_sorting.key.sortAlphabeticallyInventory": "Sort A-Z (Inventory)",
-  "nemos_inventory_sorting.key.sortAlphabeticallyDescending": "Sort Z-A",
-  "nemos_inventory_sorting.key.sortAlphabeticallyDescendingInventory": "Sort Z-A (Inventory)",
+  "nemos_inventory_sorting.key.sortButton": "Sort",
+  "nemos_inventory_sorting.key.sortButtonInventory": "Sort (Inventory)",
   "nemos_inventory_sorting.key.toggleFilterPersistence": "Toggle Filter Persistence"
 }

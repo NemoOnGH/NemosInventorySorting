@@ -284,7 +284,6 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         var menu = getMenu();
 
         return menu instanceof EnchantmentMenu ||
-                menu instanceof AnvilMenu ||
                 menu instanceof FurnaceMenu ||
                 menu instanceof SmokerMenu ||
                 menu instanceof BlastFurnaceMenu ||
@@ -311,22 +310,19 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Unique
     private void nemosInventorySorting$initStorageContainerButtons() {
-        var sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
-        var sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
+        var sortButtonFactory = SortButtonFactory.getInstance();
         var dropAllButtonFactory = DropAllButtonFactory.getInstance();
         var moveSameButtonFactory = MoveSameButtonFactory.getInstance();
         var moveAllButtonFactory = MoveAllButtonFactory.getInstance();
         var configs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
         var yOffset = getMenu() instanceof ShulkerBoxMenu ? inventoryLabelY - 1 : inventoryLabelY - 2;
 
-        nemosInventorySorting$createButtonForContainer(configs, SORT_ALPHABETICALLY_STORAGE_CONTAINER, sortAlphabeticallyButtonFactory, Y_OFFSET_CONTAINER);
-        nemosInventorySorting$createButtonForContainer(configs, SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER, sortAlphabeticallyDescendingButtonFactory, Y_OFFSET_CONTAINER);
+        nemosInventorySorting$createButtonForContainer(configs, SORT_STORAGE_CONTAINER, sortButtonFactory, Y_OFFSET_CONTAINER);
         nemosInventorySorting$createButtonForContainer(configs, MOVE_SAME_STORAGE_CONTAINER, moveSameButtonFactory, Y_OFFSET_CONTAINER);
         nemosInventorySorting$createButtonForContainer(configs, MOVE_ALL_STORAGE_CONTAINER, moveAllButtonFactory, Y_OFFSET_CONTAINER);
         nemosInventorySorting$createButtonForContainer(configs, DROP_ALL_STORAGE_CONTAINER, dropAllButtonFactory, Y_OFFSET_CONTAINER);
 
-        nemosInventorySorting$createButtonForInventory(configs, SORT_ALPHABETICALLY_STORAGE_CONTAINER_INVENTORY, sortAlphabeticallyButtonFactory, yOffset);
-        nemosInventorySorting$createButtonForInventory(configs, SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER_INVENTORY, sortAlphabeticallyDescendingButtonFactory, yOffset);
+        nemosInventorySorting$createButtonForInventory(configs, SORT_STORAGE_CONTAINER_INVENTORY, sortButtonFactory, yOffset);
         nemosInventorySorting$createButtonForInventory(configs, MOVE_SAME_STORAGE_CONTAINER_INVENTORY, moveSameButtonFactory, yOffset);
         nemosInventorySorting$createButtonForInventory(configs, MOVE_ALL_STORAGE_CONTAINER_INVENTORY, moveAllButtonFactory, yOffset);
         nemosInventorySorting$createButtonForInventory(configs, DROP_ALL_STORAGE_CONTAINER_INVENTORY, dropAllButtonFactory, yOffset);
@@ -334,28 +330,24 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Unique
     private void nemosInventorySorting$initInventoryButtons() {
-        var sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
-        var sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
+        var sortButtonFactory = SortButtonFactory.getInstance();
         var dropAllButtonFactory = DropAllButtonFactory.getInstance();
 
         var configs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
 
-        nemosInventorySorting$createButtonForInventory(configs, SORT_ALPHABETICALLY_DESCENDING_INVENTORY, sortAlphabeticallyDescendingButtonFactory, Y_OFFSET_INVENTORY);
-        nemosInventorySorting$createButtonForInventory(configs, SORT_ALPHABETICALLY_INVENTORY, sortAlphabeticallyButtonFactory, Y_OFFSET_INVENTORY);
+        nemosInventorySorting$createButtonForInventory(configs, SORT_INVENTORY, sortButtonFactory, Y_OFFSET_INVENTORY);
         nemosInventorySorting$createButtonForInventory(configs, DROP_ALL_INVENTORY, dropAllButtonFactory, Y_OFFSET_INVENTORY);
     }
 
     @Unique
     private void nemosInventorySorting$initContainerInventoryButtons() {
-        var sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
-        var sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
+        var sortButtonFactory = SortButtonFactory.getInstance();
         var dropAllButtonFactory = DropAllButtonFactory.getInstance();
         var yOffset = inventoryLabelY - 1;
 
         var configs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
 
-        nemosInventorySorting$createButtonForInventory(configs, SORT_ALPHABETICALLY_DESCENDING_CONTAINER_INVENTORY, sortAlphabeticallyDescendingButtonFactory, yOffset);
-        nemosInventorySorting$createButtonForInventory(configs, SORT_ALPHABETICALLY_CONTAINER_INVENTORY, sortAlphabeticallyButtonFactory, yOffset);
+        nemosInventorySorting$createButtonForInventory(configs, SORT_CONTAINER_INVENTORY, sortButtonFactory, yOffset);
         nemosInventorySorting$createButtonForInventory(configs, DROP_ALL_CONTAINER_INVENTORY, dropAllButtonFactory, yOffset);
     }
 

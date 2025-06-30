@@ -1,6 +1,5 @@
 package com.nemonotfound.nemos.inventory.sorting.service;
 
-import com.nemonotfound.nemos.inventory.sorting.service.sorting.AbstractSortingService;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
 public class InventoryService {
@@ -21,7 +20,7 @@ public class InventoryService {
         return INSTANCE;
     }
 
-    public void handleSorting(AbstractSortingService sortingService, AbstractContainerMenu menu, int startIndex, int endIndex) {
+    public void handleSorting(SortingService sortingService, AbstractContainerMenu menu, int startIndex, int endIndex) {
         var containerId = menu.containerId;
 
         var sortedSlotItems = sortingService.sortSlotItems(menu, startIndex, endIndex);

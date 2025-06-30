@@ -106,8 +106,7 @@ public abstract class NeoForgeIronChestScreenMixin extends AbstractContainerScre
 
     @Unique
     private void nemosInventorySorting$initStorageContainerButtons() {
-        var sortAlphabeticallyButtonFactory = SortAlphabeticallyButtonFactory.getInstance();
-        var sortAlphabeticallyDescendingButtonFactory = SortAlphabeticallyDescendingButtonFactory.getInstance();
+        var sortButtonFactory = SortButtonFactory.getInstance();
         var dropAllButtonFactory = DropAllButtonFactory.getInstance();
         var moveSameButtonFactory = MoveSameButtonFactory.getInstance();
         var moveAllButtonFactory = MoveAllButtonFactory.getInstance();
@@ -117,14 +116,12 @@ public abstract class NeoForgeIronChestScreenMixin extends AbstractContainerScre
         nemosInventorySorting$createButtonForContainer(configs, DROP_ALL_STORAGE_CONTAINER, dropAllButtonFactory, Y_OFFSET_CONTAINER);
         nemosInventorySorting$createButtonForContainer(configs, MOVE_ALL_STORAGE_CONTAINER, moveAllButtonFactory, Y_OFFSET_CONTAINER);
         nemosInventorySorting$createButtonForContainer(configs, MOVE_SAME_STORAGE_CONTAINER, moveSameButtonFactory, Y_OFFSET_CONTAINER);
-        nemosInventorySorting$createButtonForContainer(configs, SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER, sortAlphabeticallyDescendingButtonFactory, Y_OFFSET_CONTAINER);
-        nemosInventorySorting$createButtonForContainer(configs, SORT_ALPHABETICALLY_STORAGE_CONTAINER, sortAlphabeticallyButtonFactory, Y_OFFSET_CONTAINER);
+        nemosInventorySorting$createButtonForContainer(configs, SORT_STORAGE_CONTAINER, sortButtonFactory, Y_OFFSET_CONTAINER);
 
         nemosInventorySorting$createButtonForInventory(configs, DROP_ALL_STORAGE_CONTAINER_INVENTORY, dropAllButtonFactory, yOffset);
         nemosInventorySorting$createButtonForInventory(configs, MOVE_ALL_STORAGE_CONTAINER_INVENTORY, moveAllButtonFactory, yOffset);
         nemosInventorySorting$createButtonForInventory(configs, MOVE_SAME_STORAGE_CONTAINER_INVENTORY, moveSameButtonFactory, yOffset);
-        nemosInventorySorting$createButtonForInventory(configs, SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER_INVENTORY, sortAlphabeticallyDescendingButtonFactory, yOffset);
-        nemosInventorySorting$createButtonForInventory(configs, SORT_ALPHABETICALLY_STORAGE_CONTAINER_INVENTORY, sortAlphabeticallyButtonFactory, yOffset);
+        nemosInventorySorting$createButtonForInventory(configs, SORT_STORAGE_CONTAINER_INVENTORY, sortButtonFactory, yOffset);
     }
 
     @Unique

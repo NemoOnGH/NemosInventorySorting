@@ -5,7 +5,7 @@ import com.nemonotfound.nemos.inventory.sorting.gui.components.buttons.DropAllBu
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
-public class DropAllButtonFactory extends SortButtonFactory {
+public class DropAllButtonFactory extends ButtonFactory {
 
     private static DropAllButtonFactory INSTANCE;
 

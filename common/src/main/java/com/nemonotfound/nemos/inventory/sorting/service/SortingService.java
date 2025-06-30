@@ -1,48 +1,73 @@
-package com.nemonotfound.nemos.inventory.sorting.service.sorting;
+package com.nemonotfound.nemos.inventory.sorting.service;
 
 import com.nemonotfound.nemos.inventory.sorting.Constants;
+import com.nemonotfound.nemos.inventory.sorting.helper.SortOrder;
 import com.nemonotfound.nemos.inventory.sorting.model.SlotItem;
-import com.nemonotfound.nemos.inventory.sorting.service.TooltipService;
-import com.nemonotfound.nemos.inventory.sorting.service.SlotSwappingService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.nemonotfound.nemos.inventory.sorting.Constants.MAX_SORTING_CYCLES;
 
-public abstract class AbstractSortingService {
+public class SortingService {
+
+    private static SortingService INSTANCE;
 
     private final SlotSwappingService inventorySwapService;
     private final TooltipService tooltipService;
     private final Minecraft minecraft;
 
-    protected AbstractSortingService(SlotSwappingService inventorySwapService, TooltipService tooltipService, Minecraft minecraft) {
+    private SortingService(SlotSwappingService inventorySwapService, TooltipService tooltipService, Minecraft minecraft) {
         this.inventorySwapService = inventorySwapService;
         this.tooltipService = tooltipService;
         this.minecraft = minecraft;
+    }
+
+
+    public static SortingService getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new SortingService(SlotSwappingService.getInstance(), TooltipService.getInstance(), Minecraft.getInstance());
+        }
+
+        return INSTANCE;
     }
 
     public @NotNull List<SlotItem> sortSlotItems(AbstractContainerMenu menu, int startIndex, int endIndex) {
         return IntStream.range(startIndex, endIndex)
                 .mapToObj(slotIndex -> new SlotItem(slotIndex, menu.slots.get(slotIndex).getItem()))
                 .filter(slotItem -> !slotItem.itemStack().isEmpty())
-                .sorted(comparator())
+                .sorted(comparatorByItemOrder())
                 .toList();
     }
 
-    abstract Comparator<SlotItem> comparator();
+    protected Comparator<SlotItem> comparatorByItemOrder() {
+        var sortOrder = SortOrder.getSortOrder();
 
-    protected Comparator<SlotItem> comparatorByName() {
-        Comparator<SlotItem> comparator = Comparator.comparing(
+        Comparator<SlotItem> comparator = Comparator.comparingInt(
+                slotItem -> IntStream.range(0, sortOrder.size())
+                        .filter(i -> slotItem.itemStack().is(sortOrder.get(i)))
+                        .findFirst()
+                        .orElse(Integer.MAX_VALUE)
+        );
+
+        return comparatorByName(comparator);
+    }
+
+    protected Comparator<SlotItem> comparatorByName(Comparator<SlotItem> comparator) {
+        var nameComparator = comparator.thenComparing(
                 slotItem -> slotItem.itemStack()
                         .getItemName()
                         .getString()
         );
 
-        return comparatorByTooltip(comparator);
+        return comparatorByTooltip(nameComparator);
     }
 
     private Comparator<SlotItem> comparatorByTooltip(Comparator<SlotItem> comparator) {

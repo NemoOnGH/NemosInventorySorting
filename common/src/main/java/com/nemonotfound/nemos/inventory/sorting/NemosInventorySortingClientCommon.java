@@ -2,6 +2,7 @@ package com.nemonotfound.nemos.inventory.sorting;
 
 import com.nemonotfound.nemos.inventory.sorting.config.DefaultConfigs;
 import com.nemonotfound.nemos.inventory.sorting.config.service.ConfigService;
+import com.nemonotfound.nemos.inventory.sorting.helper.SortOrder;
 import com.nemonotfound.nemos.inventory.sorting.platform.IModLoaderHelper;
 import com.nemonotfound.nemos.inventory.sorting.platform.IRegistryHelper;
 
@@ -26,5 +27,7 @@ public class NemosInventorySortingClientCommon {
         if (MOD_LOADER_HELPER.isModLoaded("ironchest")) {
             ConfigService.getInstance().writeConfig(false, IRON_CHEST_COMPONENT_CONFIG_PATH, DEFAULT_IRON_CHEST_COMPONENT_CONFIGS);
         }
+
+        SortOrder.init();
     }
 }

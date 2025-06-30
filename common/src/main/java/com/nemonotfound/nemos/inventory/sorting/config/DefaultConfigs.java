@@ -23,15 +23,8 @@ public class DefaultConfigs {
 
     private static void setupDefaultComponentConfigs() {
         createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_STORAGE_CONTAINER,
-                X_OFFSET_SORT_ALPHABETICALLY_STORAGE_CONTAINER,
-                Y_OFFSET_CONTAINER,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER,
-                X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER,
+                SORT_STORAGE_CONTAINER,
+                X_OFFSET_SORT_STORAGE_CONTAINER,
                 Y_OFFSET_CONTAINER,
                 BUTTON_SIZE,
                 BUTTON_SIZE
@@ -59,15 +52,8 @@ public class DefaultConfigs {
         );
 
         createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_STORAGE_CONTAINER_INVENTORY,
-                X_OFFSET_SORT_ALPHABETICALLY_STORAGE_CONTAINER,
-                null,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER_INVENTORY,
-                X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER,
+                SORT_STORAGE_CONTAINER_INVENTORY,
+                X_OFFSET_SORT_STORAGE_CONTAINER,
                 null,
                 BUTTON_SIZE,
                 BUTTON_SIZE
@@ -95,15 +81,8 @@ public class DefaultConfigs {
         );
 
         createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_INVENTORY,
-                X_OFFSET_SORT_ALPHABETICALLY_INVENTORY,
-                Y_OFFSET_INVENTORY,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_DESCENDING_INVENTORY,
-                X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_INVENTORY,
+                SORT_INVENTORY,
+                X_OFFSET_SORT_INVENTORY,
                 Y_OFFSET_INVENTORY,
                 BUTTON_SIZE,
                 BUTTON_SIZE
@@ -117,15 +96,8 @@ public class DefaultConfigs {
         );
 
         createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_CONTAINER_INVENTORY,
-                X_OFFSET_SORT_ALPHABETICALLY_CONTAINER_INVENTORY,
-                null,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        createAndAddComponentConfig(
-                SORT_ALPHABETICALLY_DESCENDING_CONTAINER_INVENTORY,
-                X_OFFSET_SORT_ALPHABETICALLY_DESCENDING_CONTAINER_INVENTORY,
+                SORT_CONTAINER_INVENTORY,
+                X_OFFSET_SORT_CONTAINER_INVENTORY,
                 null,
                 BUTTON_SIZE,
                 BUTTON_SIZE
@@ -156,13 +128,7 @@ public class DefaultConfigs {
 
     private static void setupDefaultIronChestComponentConfigs() {
         createAndAddIronChestComponentConfig(
-                SORT_ALPHABETICALLY_STORAGE_CONTAINER,
-                Y_OFFSET_CONTAINER,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        createAndAddIronChestComponentConfig(
-                SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER,
+                SORT_STORAGE_CONTAINER,
                 Y_OFFSET_CONTAINER,
                 BUTTON_SIZE,
                 BUTTON_SIZE
@@ -187,13 +153,7 @@ public class DefaultConfigs {
         );
 
         createAndAddIronChestComponentConfig(
-                SORT_ALPHABETICALLY_STORAGE_CONTAINER_INVENTORY,
-                null,
-                BUTTON_SIZE,
-                BUTTON_SIZE
-        );
-        createAndAddIronChestComponentConfig(
-                SORT_ALPHABETICALLY_DESCENDING_STORAGE_CONTAINER_INVENTORY,
+                SORT_STORAGE_CONTAINER_INVENTORY,
                 null,
                 BUTTON_SIZE,
                 BUTTON_SIZE
