@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static com.devnemo.nemos.inventory.sorting.Constants.MOD_ID;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = MOD_ID)
 public class ClientEvents {
 
     @SubscribeEvent
