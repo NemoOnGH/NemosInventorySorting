@@ -39,9 +39,9 @@ public class SortButton extends AbstractInventoryButton {
     @Override
     protected KeyMapping getKeyMapping() {
         if (isInventoryButton) {
-            return ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get();
+            return ModKeyMappings.SORT_INVENTORY.get();
         }
 
-        return ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING.get();
+        return ModKeyMappings.SORT.get();
     }
 }
