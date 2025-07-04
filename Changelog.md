@@ -1,13 +1,7 @@
-# Changelog v1.12
+# Changelog v1.12.2
 
-## Additions
-- Added **sorting by type** to group similar items together
-  - Note: The order may not be perfect yet — feedback is welcome!
+## Fixes
+- Fixed issues with key binds
 
 ## Changes
-- Updated default config values for inventory buttons  
-  ⚠️ Delete your config file to apply the new defaults.
-
-## Removals
-- Removed **alphabetical sorting**
-- Removed buttons from the **anvil** UI due to overlapping textures
+- Improved sort order

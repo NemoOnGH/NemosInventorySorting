@@ -52,16 +52,14 @@ public class NemosInventorySortingForge {
 
     @SubscribeEvent
     public void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(ModKeyMappings.DROP_ALL.get());
-        event.register(ModKeyMappings.DROP_ALL_INVENTORY.get());
-        event.register(ModKeyMappings.MOVE_ALL.get());
-        event.register(ModKeyMappings.MOVE_ALL_INVENTORY.get());
+        event.register(ModKeyMappings.SORT.get());
+        event.register(ModKeyMappings.SORT_INVENTORY.get());
         event.register(ModKeyMappings.MOVE_SAME.get());
         event.register(ModKeyMappings.MOVE_SAME_INVENTORY.get());
-        event.register(ModKeyMappings.SORT_ALPHABETICALLY.get());
-        event.register(ModKeyMappings.SORT_ALPHABETICALLY_INVENTORY.get());
-        event.register(ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING.get());
-        event.register(ModKeyMappings.SORT_ALPHABETICALLY_DESCENDING_INVENTORY.get());
+        event.register(ModKeyMappings.MOVE_ALL.get());
+        event.register(ModKeyMappings.MOVE_ALL_INVENTORY.get());
+        event.register(ModKeyMappings.DROP_ALL.get());
+        event.register(ModKeyMappings.DROP_ALL_INVENTORY.get());
         event.register(ModKeyMappings.TOGGLE_FILTER_PERSISTENCE.get());
     }
 }

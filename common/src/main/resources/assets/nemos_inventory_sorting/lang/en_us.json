@@ -21,7 +21,7 @@
   "nemos_inventory_sorting.key.moveAllInventory": "Move All (Inventory)",
   "nemos_inventory_sorting.key.moveSame": "Move Same",
   "nemos_inventory_sorting.key.moveSameInventory": "Move Same (Inventory)",
-  "nemos_inventory_sorting.key.sortButton": "Sort",
-  "nemos_inventory_sorting.key.sortButtonInventory": "Sort (Inventory)",
+  "nemos_inventory_sorting.key.sort": "Sort",
+  "nemos_inventory_sorting.key.sortInventory": "Sort (Inventory)",
   "nemos_inventory_sorting.key.toggleFilterPersistence": "Toggle Filter Persistence"
 }
