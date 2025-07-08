@@ -6,7 +6,7 @@
 Sort your inventory, move all matching or all items, or drop everything at once — all with a single click.  
 You can even filter and highlight items in containers by typing part of their name!
 
-For more information and to see how to configure the components check the [wiki](https://github.com/NemoNotFound/NemosInventorySorting/wiki).
+For more information and to see how to configure the components check the [wiki](https://wiki.devnemo.com/projects/minecraft-mods/nemos-inventory-sorting/general).
 
 > 💡 **Tip:** If you're a dark mode enthusiast, you can use the built-in dark mode resource pack.
 
