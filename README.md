@@ -32,6 +32,10 @@ Nemo's Inventory Sorting is compatible with **Iron Chests** *(since version 1.11
 <br>
 <br>
 
+## Third-Party Components
+
+- Uses [MultiLoader‑Template (CC0-1.0)](https://github.com/jaredlll08/MultiLoader-Template) for multiple loader support.
+
 # Join my Discord!
 [![Join my Discord](https://github.com/NemoNotFound/NemoNotFound/blob/master/resources/svg/join_discord_button.svg?raw=true)](https://discord.com/invite/yxs9dga)
 <br>
