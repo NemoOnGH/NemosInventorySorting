@@ -1,7 +1,4 @@
-# Changelog v1.12.2
-
-## Fixes
-- Fixed issues with key binds
+# Changelog v1.12.3
 
 ## Changes
 - Improved sort order

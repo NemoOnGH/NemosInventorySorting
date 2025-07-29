@@ -237,6 +237,8 @@ public class SortOrder {
         addItemToList(Items.WARPED_SIGN);
         addItemToList(Items.WARPED_HANGING_SIGN);
 
+        addItemToList(Items.STICK);
+
         addItemToList(Items.CHEST);
         addItemToList(Items.BARREL);
 
@@ -249,6 +251,7 @@ public class SortOrder {
         addItemToList(Items.MYCELIUM);
         addItemToList(Items.DIRT_PATH);
         addItemToList(Items.GRAVEL);
+        addItemToList(Items.FLINT);
         addItemToList(Items.CLAY);
 
         // Mud
@@ -808,6 +811,7 @@ public class SortOrder {
         addItemToList(Items.CORNFLOWER);
         addItemToList(Items.LILY_OF_THE_VALLEY);
         addItemToList(Items.TORCHFLOWER);
+        addItemToList(Items.TORCHFLOWER_SEEDS);
         addItemToList(Items.CACTUS_FLOWER);
         addItemToList(Items.CLOSED_EYEBLOSSOM);
         addItemToList(Items.OPEN_EYEBLOSSOM);
@@ -844,12 +848,7 @@ public class SortOrder {
         addItemToList(Items.TURTLE_EGG);
         addItemToList(Items.SNIFFER_EGG);
         addItemToList(Items.DRIED_GHAST);
-        addItemToList(Items.WHEAT_SEEDS);
         addItemToList(Items.COCOA_BEANS);
-        addItemToList(Items.PUMPKIN_SEEDS);
-        addItemToList(Items.MELON_SEEDS);
-        addItemToList(Items.BEETROOT_SEEDS);
-        addItemToList(Items.TORCHFLOWER_SEEDS);
         addItemToList(Items.PITCHER_POD);
         addItemToList(Items.NETHER_WART);
         addItemToList(Items.LILY_PAD);
@@ -890,7 +889,9 @@ public class SortOrder {
         addItemToList(Items.SPONGE);
         addItemToList(Items.WET_SPONGE);
         addItemToList(Items.MELON);
+        addItemToList(Items.MELON_SEEDS);
         addItemToList(Items.PUMPKIN);
+        addItemToList(Items.PUMPKIN_SEEDS);
         addItemToList(Items.CARVED_PUMPKIN);
         addItemToList(Items.JACK_O_LANTERN);
         addItemToList(Items.HAY_BLOCK);
@@ -1166,12 +1167,14 @@ public class SortOrder {
         addItemToList(Items.GLOW_BERRIES);
         addItemToList(Items.CHORUS_FRUIT);
         addItemToList(Items.WHEAT);
+        addItemToList(Items.WHEAT_SEEDS);
         addItemToList(Items.CARROT);
         addItemToList(Items.GOLDEN_CARROT);
         addItemToList(Items.POTATO);
         addItemToList(Items.BAKED_POTATO);
         addItemToList(Items.POISONOUS_POTATO);
         addItemToList(Items.BEETROOT);
+        addItemToList(Items.BEETROOT_SEEDS);
         addItemToList(Items.DRIED_KELP);
         addItemToList(Items.BEEF);
         addItemToList(Items.COOKED_BEEF);
@@ -1237,9 +1240,6 @@ public class SortOrder {
         addItemToList(Items.GLOWSTONE);
         addItemToList(Items.GLOWSTONE_DUST);
         addItemToList(Items.QUARTZ);
-
-        addItemToList(Items.STICK);
-        addItemToList(Items.FLINT);
 
         // Heads
         addItemToList(Items.SKELETON_SKULL);
