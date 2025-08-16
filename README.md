@@ -1,33 +1,40 @@
-![Nemo's Inventory Sorting](https://github.com/NemoNotFound/NemoNotFound/blob/master/resources/png/nemos-inventory-sorting.png?raw=true)
+![Nemo's Inventory Sorting](https://github.com/NemoNotFound/NemoNotFound/blob/master/resources/minecraft_projects/titles/png/nemos_inventory_sorting.png?raw=true)
 <br><br>
 
 # Description
-Nemo's Inventory Sorting is a **client-side** mod that adds buttons to inventories for sorting items.
-Sort your inventory from A-Z, Z-A, move all items at once, or drop your entire inventory with a single button click.
-Also highlight items in containers by typing the name!
+**Nemo's Inventory Sorting** is a *client-side* mod that adds buttons to your inventory GUI.  
+Sort your inventory, move all matching or all items, or drop everything at once — all with a single click.  
+You can even filter and highlight items in containers by typing part of their name!
 
-For more information and to see how to configure the components check the [wiki](https://github.com/NemoNotFound/NemosInventorySorting/wiki).
+For more information and to see how to configure the components check the [wiki](https://wiki.devnemo.com/projects/minecraft-mods/nemos-inventory-sorting/general).
 
-**Note:** If you're a dark mode enthusiast, you can use the built-in dark mode resource pack.
-<br>
+> 💡 **Tip:** If you're a dark mode enthusiast, you can use the built-in dark mode resource pack.
 
 ### How to Use
 To sort, drop or move items, simply click the buttons or set custom key binds and press them.
 In the player inventory, clicking the buttons does not include the hotbar. To include the hotbar, Shift-click (or Shift + key bind). <br>
 To search for an item, simply click the search bar and start typing!
 
-### DISCLAIMER <br>
-This mod works on the **client side only**, which gives you an advantage over other players. <br>
-I cannot guarantee that you won’t get banned from public servers for using it. <br>
-**Use on public servers at your own risk** or ask a server admin.
-<br>
-<br>
+### ⚠ Disclaimer   
+
+This is a **client-only mod**, which means it can give you an advantage over other players.  
+Using it on public servers *may* get you banned depending on the server’s rules.  
+Use at your own risk — or check with the server admins beforehand.
+
+### Compatibility
+
+Nemo's Inventory Sorting is compatible with **Iron Chests** *(since version 1.11)*.  
+<br><br>
 
 # Downloads
 - [CurseForge](https://curseforge.com/minecraft/mc-mods/nemos-inventory-sorting)
 - [Modrinth](https://modrinth.com/mod/nemos-inventory-sorting)
 <br>
 <br>
+
+## Third-Party Components
+
+- Uses [MultiLoader‑Template (CC0-1.0)](https://github.com/jaredlll08/MultiLoader-Template) for multiple loader support.
 
 # Join my Discord!
 [![Join my Discord](https://github.com/NemoNotFound/NemoNotFound/blob/master/resources/svg/join_discord_button.svg?raw=true)](https://discord.com/invite/yxs9dga)
