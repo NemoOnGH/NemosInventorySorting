@@ -1,4 +1,4 @@
-# Changelog v1.12.3
+# Changelog v1.12.3.1
 
-## Changes
-- Improved sort order
+## Fixes
+- Instant crash was fixed

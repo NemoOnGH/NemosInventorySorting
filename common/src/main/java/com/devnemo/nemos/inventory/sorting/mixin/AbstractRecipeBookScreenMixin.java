@@ -21,14 +21,7 @@ public abstract class AbstractRecipeBookScreenMixin extends Screen {
         super(component);
     }
 
-    /**
-     * Updates the X position of all child widgets that implement {@link RecipeBookUpdatable}
-     * after the screen has finished initializing.
-     * <p>
-     * This ensures that custom widgets are correctly aligned with the final value of {@link #leftPos},
-     * when the recipe book is toggled.
-     */
-    @Inject(method = "init", at = @At("TAIL"))
+    @Inject(method = "render", at = @At("TAIL"))
     private void updateXPosition(CallbackInfo ci) {
         children().stream()
                 .filter(widget -> widget instanceof RecipeBookUpdatable)
