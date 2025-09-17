@@ -46,7 +46,7 @@ I love to create mods for Minecraft and wish to live off it one day, so I hope y
 Either way feel free to give me your feedback and suggestions, either on my Discord or the [discussions](https://github.com/NemoNotFound/NemosInventorySorting/discussions/) :)
 <br><br>
 
-[![ko-fi donation](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/nemonotfound)
+[![ko-fi donation](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.devnemo.com)
 <br>
 <br>
 

@@ -1,11 +1,17 @@
 package com.devnemo.nemos.inventory.sorting.service;
 
+import com.devnemo.nemos.inventory.sorting.NemosInventorySortingClientCommon;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+
+import static com.devnemo.nemos.inventory.sorting.Constants.NEMOS_BACKPACKS_MOD_ID;
 
 public class SlotSwappingService {
 
@@ -30,11 +36,34 @@ public class SlotSwappingService {
         var itemSlot = menu.getSlot(slot);
         var mouseButton = 0;
 
-        if ((!cursorStack.is(Items.AIR) && itemSlot.getItem().is(ItemTags.BUNDLES)) ||
-                (cursorStack.is(ItemTags.BUNDLES) && !itemSlot.getItem().is(Items.AIR))) {
+        if ((!cursorStack.is(Items.AIR) && canBeFilledWithPrimaryClick(itemSlot.getItem())) ||
+                (canBeFilledWithPrimaryClick(cursorStack) && !itemSlot.getItem().is(Items.AIR))) {
             mouseButton = 1;
         }
 
         gameMode.handleInventoryMouseClick(containerId, slot, mouseButton, ClickType.PICKUP, player);
+    }
+
+    private boolean canBeFilledWithPrimaryClick(ItemStack itemStack) {
+        return isBackpack(itemStack) || itemStack.is(ItemTags.BUNDLES);
+    }
+
+    private boolean isBackpack(ItemStack itemStack) {
+        if (!NemosInventorySortingClientCommon.MOD_LOADER_HELPER.isModLoaded(NEMOS_BACKPACKS_MOD_ID)) {
+            return false;
+        }
+
+        try {
+            var itemTagClass = Class.forName("com.devnemo.nemos.backpacks.tags.NemosBackpackItemTags");
+            var field = itemTagClass.getDeclaredField("BACKPACKS");
+
+            @SuppressWarnings("unchecked")
+            TagKey<Item> tagKey = (TagKey<Item>) field.get(null);
+
+            return itemStack.is(tagKey);
+
+        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException ignored) {
+            return false;
+        }
     }
 }

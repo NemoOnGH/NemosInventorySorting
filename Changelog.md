@@ -1,4 +1,7 @@
-# Changelog v1.12.3
+# Changelog v1.13
 
-## Changes
-- Improved sort order
+## Additions
+- Added support for Nemo's Backpacks compatibility.
+
+## Fixes
+- Fixed missing dark mode textures for the filter persistence button.

@@ -1,10 +1,12 @@
 package com.devnemo.nemos.inventory.sorting.mixin;
 
+import com.devnemo.nemos.inventory.sorting.NemosInventorySortingClientCommon;
 import com.devnemo.nemos.inventory.sorting.config.model.ComponentConfig;
 import com.devnemo.nemos.inventory.sorting.config.model.FilterConfig;
 import com.devnemo.nemos.inventory.sorting.config.service.ConfigService;
 import com.devnemo.nemos.inventory.sorting.factory.*;
 import com.devnemo.nemos.inventory.sorting.gui.components.FilterBox;
+import com.devnemo.nemos.inventory.sorting.helper.ButtonTypeMapping;
 import com.devnemo.nemos.inventory.sorting.model.FilterResult;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -27,8 +29,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static com.devnemo.nemos.inventory.sorting.Constants.MOD_ID;
+import static com.devnemo.nemos.inventory.sorting.Constants.NEMOS_BACKPACKS_MOD_ID;
 import static com.devnemo.nemos.inventory.sorting.config.DefaultConfigValues.*;
 
 //TODO: Refactor
@@ -77,29 +81,28 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         nemosInventorySorting$inventoryEndIndex = getMenu().slots.size() - 9;
 
         if (getMenu() instanceof InventoryMenu) {
-            nemosInventorySorting$inventoryEndIndex --;
+            nemosInventorySorting$inventoryEndIndex--;
         }
 
         nemosInventorySorting$containerSize = nemosInventorySorting$inventoryEndIndex - 27;
+        var componentConfigs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
 
         if (nemosInventorySorting$shouldHaveFilter()) {
-            var configs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
             nemosInventorySorting$filterConfig = nemosInventorySorting$configService.readOrGetDefaultFilterConfig();
 
-            nemosInventorySorting$initFilterBox(configs);
-            nemosInventorySorting$initFilterButtons(configs);
+            nemosInventorySorting$initFilter(componentConfigs);
         }
 
         if (nemosInventorySorting$shouldHaveStorageContainerButtons()) {
-            nemosInventorySorting$initStorageContainerButtons();
+            nemosInventorySorting$initStorageContainerButtons(componentConfigs);
         }
 
         if (nemosInventorySorting$shouldHaveInventoryButtons()) {
-            nemosInventorySorting$initInventoryButtons();
+            nemosInventorySorting$initInventoryButtons(componentConfigs);
         }
 
         if (nemosInventorySorting$shouldHaveContainerInventorySortingButtons()) {
-            nemosInventorySorting$initContainerInventoryButtons();
+            nemosInventorySorting$initContainerInventoryButtons(componentConfigs);
         }
 
         for (AbstractWidget widget : nemosInventorySorting$widgets) {
@@ -114,7 +117,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     }
 
     @Unique
-    private void nemosInventorySorting$initFilterBox(List<ComponentConfig> configs) {
+    private void nemosInventorySorting$initFilter(List<ComponentConfig> configs) {
         var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfig(configs, ITEM_FILTER);
 
         if (optionalComponentConfig.isEmpty()) {
@@ -132,35 +135,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         var yOffset = config.yOffset() != null ? config.yOffset() : Y_OFFSET_ITEM_FILTER;
 
         nemosInventorySorting$createSearchBox(xOffset, yOffset, nemosInventorySorting$filterBoxWidth, config.height(), nemosInventorySorting$filterConfig.getFilter());
-    }
-
-    @Unique
-    private void nemosInventorySorting$initFilterButtons(List<ComponentConfig> configs) {
-        var toggleFilterPersistenceButtonFactory = ToggleFilterPersistenceButtonFactory.getInstance();
-
-        nemosInventorySorting$createButton(configs, FILTER_PERSISTENCE_TOGGLE, toggleFilterPersistenceButtonFactory);
-    }
-
-    @Unique
-    private void nemosInventorySorting$createButton(List<ComponentConfig> configs, String componentName, FilterButtonCreator filterButtonCreator) {
-        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfig(configs, componentName);
-
-        if (optionalComponentConfig.isEmpty()) {
-            return;
-        }
-
-        var config = optionalComponentConfig.get();
-
-        if (!config.isEnabled()) {
-            return;
-        }
-
-        var width = config.width();
-        var xOffset = config.xOffset() != null ? config.xOffset() : imageWidth - nemosInventorySorting$filterBoxWidth - width - 5;
-        var yOffset = config.yOffset() != null ? config.yOffset() : Y_OFFSET_ITEM_FILTER;
-        var button = filterButtonCreator.createButton(leftPos, topPos, xOffset, yOffset, width, config.height(), nemosInventorySorting$filterConfig);
-
-        nemosInventorySorting$widgets.add(button);
+        nemosInventorySorting$createButton(configs, FILTER_PERSISTENCE_TOGGLE, ToggleFilterPersistenceButtonFactory.getInstance());
     }
 
     @Inject(method = "onClose", at = @At("TAIL"))
@@ -198,19 +173,15 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
         }
 
-        for (AbstractWidget widget : nemosInventorySorting$widgets) {
-            if (widget.keyPressed(keyCode, scanCode, modifiers)) {
-                cir.setReturnValue(true);
-            }
+        if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.keyPressed(keyCode, scanCode, modifiers))) {
+            cir.setReturnValue(true);
         }
     }
 
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        for (AbstractWidget widget : nemosInventorySorting$widgets) {
-            if (widget.keyReleased(keyCode, scanCode, modifiers)) {
-                return true;
-            }
+        if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.keyReleased(keyCode, scanCode, modifiers))) {
+            return true;
         }
 
         return super.keyReleased(keyCode, scanCode, modifiers);
@@ -226,11 +197,20 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
         }
 
-        for (AbstractWidget widget : nemosInventorySorting$widgets) {
-            if (widget.mouseClicked(mouseX, mouseY, button)) {
-                cir.setReturnValue(true);
+        if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.mouseClicked(mouseX, mouseY, button))) {
+            cir.setReturnValue(true);
+        }
+    }
+
+    @Unique
+    private boolean nemosInventorySorting$triggerActionOnWidget(Function<AbstractWidget, Boolean> function) {
+        for (var widget : nemosInventorySorting$widgets) {
+            if (function.apply(widget)) {
+                return true;
             }
         }
+
+        return false;
     }
 
     @Inject(method = "renderContents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderSlots(Lnet/minecraft/client/gui/GuiGraphics;)V"))
@@ -271,7 +251,21 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Unique
     private boolean nemosInventorySorting$shouldHaveStorageContainerButtons() {
-        return getMenu() instanceof ChestMenu || getMenu() instanceof ShulkerBoxMenu;
+        var menu = getMenu();
+
+        if (NemosInventorySortingClientCommon.MOD_LOADER_HELPER.isModLoaded(NEMOS_BACKPACKS_MOD_ID)) {
+            try {
+                var clazz = Class.forName("com.devnemo.nemos.backpacks.world.inventory.BackpackMenu");
+
+                if (clazz.isInstance(menu)) {
+                    return true;
+                }
+            } catch (ClassNotFoundException ignored) {
+
+            }
+        }
+
+        return menu instanceof ChestMenu || menu instanceof ShulkerBoxMenu;
     }
 
     @Unique
@@ -309,50 +303,45 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     }
 
     @Unique
-    private void nemosInventorySorting$initStorageContainerButtons() {
-        var sortButtonFactory = SortButtonFactory.getInstance();
-        var dropAllButtonFactory = DropAllButtonFactory.getInstance();
-        var moveSameButtonFactory = MoveSameButtonFactory.getInstance();
-        var moveAllButtonFactory = MoveAllButtonFactory.getInstance();
-        var configs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
-        var yOffset = getMenu() instanceof ShulkerBoxMenu ? inventoryLabelY - 1 : inventoryLabelY - 2;
+    private void nemosInventorySorting$initStorageContainerButtons(List<ComponentConfig> componentConfigs) {
+        var defaultInventoryYOffset = getMenu() instanceof ShulkerBoxMenu ? inventoryLabelY - 1 : inventoryLabelY - 2;
 
-        nemosInventorySorting$createButtonForContainer(configs, SORT_STORAGE_CONTAINER, sortButtonFactory, Y_OFFSET_CONTAINER);
-        nemosInventorySorting$createButtonForContainer(configs, MOVE_SAME_STORAGE_CONTAINER, moveSameButtonFactory, Y_OFFSET_CONTAINER);
-        nemosInventorySorting$createButtonForContainer(configs, MOVE_ALL_STORAGE_CONTAINER, moveAllButtonFactory, Y_OFFSET_CONTAINER);
-        nemosInventorySorting$createButtonForContainer(configs, DROP_ALL_STORAGE_CONTAINER, dropAllButtonFactory, Y_OFFSET_CONTAINER);
+        nemosInventorySorting$createButtons(
+                componentConfigs,
+                new ButtonTypeMapping(SORT_STORAGE_CONTAINER, SortButtonFactory.getInstance(), Y_OFFSET_CONTAINER, false),
+                new ButtonTypeMapping(MOVE_SAME_STORAGE_CONTAINER, MoveSameButtonFactory.getInstance(), Y_OFFSET_CONTAINER, false),
+                new ButtonTypeMapping(MOVE_ALL_STORAGE_CONTAINER, MoveAllButtonFactory.getInstance(), Y_OFFSET_CONTAINER, false),
+                new ButtonTypeMapping(DROP_ALL_STORAGE_CONTAINER, DropAllButtonFactory.getInstance(), Y_OFFSET_CONTAINER, false),
+                new ButtonTypeMapping(SORT_STORAGE_CONTAINER_INVENTORY, SortButtonFactory.getInstance(), defaultInventoryYOffset, true),
+                new ButtonTypeMapping(MOVE_SAME_STORAGE_CONTAINER_INVENTORY, MoveSameButtonFactory.getInstance(), defaultInventoryYOffset, true),
+                new ButtonTypeMapping(MOVE_ALL_STORAGE_CONTAINER_INVENTORY, MoveAllButtonFactory.getInstance(), defaultInventoryYOffset, true),
+                new ButtonTypeMapping(DROP_ALL_STORAGE_CONTAINER_INVENTORY, DropAllButtonFactory.getInstance(), defaultInventoryYOffset, true)
+        );
+    }
 
-        nemosInventorySorting$createButtonForInventory(configs, SORT_STORAGE_CONTAINER_INVENTORY, sortButtonFactory, yOffset);
-        nemosInventorySorting$createButtonForInventory(configs, MOVE_SAME_STORAGE_CONTAINER_INVENTORY, moveSameButtonFactory, yOffset);
-        nemosInventorySorting$createButtonForInventory(configs, MOVE_ALL_STORAGE_CONTAINER_INVENTORY, moveAllButtonFactory, yOffset);
-        nemosInventorySorting$createButtonForInventory(configs, DROP_ALL_STORAGE_CONTAINER_INVENTORY, dropAllButtonFactory, yOffset);
+
+    @Unique
+    private void nemosInventorySorting$initInventoryButtons(List<ComponentConfig> componentConfigs) {
+        nemosInventorySorting$createButtons(
+                componentConfigs,
+                new ButtonTypeMapping(SORT_INVENTORY, SortButtonFactory.getInstance(), Y_OFFSET_INVENTORY, true),
+                new ButtonTypeMapping(DROP_ALL_INVENTORY, DropAllButtonFactory.getInstance(), Y_OFFSET_INVENTORY, true)
+        );
     }
 
     @Unique
-    private void nemosInventorySorting$initInventoryButtons() {
-        var sortButtonFactory = SortButtonFactory.getInstance();
-        var dropAllButtonFactory = DropAllButtonFactory.getInstance();
+    private void nemosInventorySorting$initContainerInventoryButtons(List<ComponentConfig> componentConfigs) {
+        var defaultInventoryYOffset = inventoryLabelY - 1;
 
-        var configs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
-
-        nemosInventorySorting$createButtonForInventory(configs, SORT_INVENTORY, sortButtonFactory, Y_OFFSET_INVENTORY);
-        nemosInventorySorting$createButtonForInventory(configs, DROP_ALL_INVENTORY, dropAllButtonFactory, Y_OFFSET_INVENTORY);
+        nemosInventorySorting$createButtons(
+                componentConfigs,
+                new ButtonTypeMapping(SORT_CONTAINER_INVENTORY, SortButtonFactory.getInstance(), defaultInventoryYOffset, true),
+                new ButtonTypeMapping(DROP_ALL_CONTAINER_INVENTORY, DropAllButtonFactory.getInstance(), defaultInventoryYOffset, true)
+        );
     }
 
     @Unique
-    private void nemosInventorySorting$initContainerInventoryButtons() {
-        var sortButtonFactory = SortButtonFactory.getInstance();
-        var dropAllButtonFactory = DropAllButtonFactory.getInstance();
-        var yOffset = inventoryLabelY - 1;
-
-        var configs = nemosInventorySorting$configService.readOrGetDefaultComponentConfigs();
-
-        nemosInventorySorting$createButtonForInventory(configs, SORT_CONTAINER_INVENTORY, sortButtonFactory, yOffset);
-        nemosInventorySorting$createButtonForInventory(configs, DROP_ALL_CONTAINER_INVENTORY, dropAllButtonFactory, yOffset);
-    }
-
-    @Unique
-    private void nemosInventorySorting$createButtonForContainer(List<ComponentConfig> configs, String componentName, ButtonCreator buttonCreator, int defaultYOffset) {
+    private void nemosInventorySorting$createButton(List<ComponentConfig> configs, String componentName, FilterButtonCreator filterButtonCreator) {
         var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfig(configs, componentName);
 
         if (optionalComponentConfig.isEmpty()) {
@@ -365,36 +354,42 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             return;
         }
 
-        var yOffset = config.yOffset() != null ? config.yOffset() : defaultYOffset;
-        nemosInventorySorting$createContainerButton(buttonCreator, config.xOffset(), yOffset, config.width(), config.height());
+        var width = config.width();
+        var xOffset = config.xOffset() != null ? config.xOffset() : imageWidth - nemosInventorySorting$filterBoxWidth - width - 5;
+        var yOffset = config.yOffset() != null ? config.yOffset() : Y_OFFSET_ITEM_FILTER;
+        var button = filterButtonCreator.createButton(leftPos, topPos, xOffset, yOffset, width, config.height(), nemosInventorySorting$filterConfig);
+
+        nemosInventorySorting$widgets.add(button);
     }
 
     @Unique
-    private void nemosInventorySorting$createButtonForInventory(List<ComponentConfig> configs, String componentName, ButtonCreator buttonCreator, int defaultYOffset) {
-        var optionalComponentConfig = nemosInventorySorting$configService.getOrDefaultComponentConfig(configs, componentName);
+    private void nemosInventorySorting$createButtons(List<ComponentConfig> configs,
+                                                     ButtonTypeMapping... mappings) {
+        for (ButtonTypeMapping mapping : mappings) {
+            var optionalConfig = nemosInventorySorting$configService.getOrDefaultComponentConfig(configs, mapping.componentName());
 
-        if (optionalComponentConfig.isEmpty()) {
-            return;
+            if (optionalConfig.isEmpty()) {
+                continue;
+            }
+
+            var config = optionalConfig.get();
+
+            if (!config.isEnabled()) {
+                continue;
+            }
+
+            int yOffset = config.yOffset() != null ? config.yOffset() : mapping.defaultYOffset();
+
+            nemosInventorySorting$createButton(mapping.factory(), mapping.isInventoryButton(), config.xOffset(), yOffset, config.width(), config.height());
         }
-
-        var config = optionalComponentConfig.get();
-
-        if (!config.isEnabled()) {
-            return;
-        }
-
-        var yOffset = config.yOffset() != null ? config.yOffset() : defaultYOffset;
-        nemosInventorySorting$createInventoryButton(buttonCreator, config.xOffset(), yOffset, config.width(), config.height());
     }
 
     @Unique
-    private void nemosInventorySorting$createContainerButton(ButtonCreator buttonCreator, int xOffset, int yOffset, int width, int height) {
-        nemosInventorySorting$createButton(buttonCreator, 0, nemosInventorySorting$containerSize, xOffset, yOffset, width, height, false);
-    }
+    private void nemosInventorySorting$createButton(ButtonCreator buttonCreator, boolean isInventoryButton, int xOffset, int yOffset, int width, int height) {
+        var startIndex = isInventoryButton ? nemosInventorySorting$containerSize : 0;
+        var endIndex = isInventoryButton ? nemosInventorySorting$inventoryEndIndex : nemosInventorySorting$containerSize;
 
-    @Unique
-    private void nemosInventorySorting$createInventoryButton(ButtonCreator buttonCreator, int xOffset, int yOffset, int width, int height) {
-        nemosInventorySorting$createButton(buttonCreator, nemosInventorySorting$containerSize, nemosInventorySorting$inventoryEndIndex, xOffset, yOffset, width, height, true);
+        nemosInventorySorting$createButton(buttonCreator, startIndex, endIndex, xOffset, yOffset, width, height, isInventoryButton);
     }
 
     @Unique

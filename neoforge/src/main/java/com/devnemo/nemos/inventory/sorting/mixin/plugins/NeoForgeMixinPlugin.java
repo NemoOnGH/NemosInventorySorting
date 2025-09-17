@@ -11,10 +11,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import static com.devnemo.nemos.inventory.sorting.Constants.IRON_CHEST_MOD_ID;
+
 public class NeoForgeMixinPlugin implements IMixinConfigPlugin {
 
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
-            "com.devnemo.nemos.inventory.sorting.mixin.NeoForgeIronChestScreenMixin", () -> LoadingModList.get().getModFileById("ironchest") != null
+            "com.devnemo.nemos.inventory.sorting.mixin.NeoForgeIronChestScreenMixin", () -> LoadingModList.get().getModFileById(IRON_CHEST_MOD_ID) != null
     );
 
     @Override
