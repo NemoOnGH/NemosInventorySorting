@@ -33,7 +33,7 @@ public class NemosInventorySortingForge {
             var pathPackResources = new PathPackResources("dark_mode", resourcePath, true);
             var pack = Pack.readMetaAndCreate(
                     "builtin/dark_mode",
-                    Component.translatable("nemos_inventory_sorting.resourcePack.dark_mode.name"),
+                    Component.translatable("nemos_inventory_sorting.resourcePack.darkMode.name"),
                     false,
                     (supplier) -> pathPackResources,
                     PackType.CLIENT_RESOURCES,

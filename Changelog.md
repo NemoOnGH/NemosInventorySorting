@@ -1,4 +1,4 @@
-# Changelog v1.12.3.1
+# Changelog v1.13
 
 ## Fixes
-- Instant crash was fixed
+- Fixed missing dark mode textures for the filter persistence button.
