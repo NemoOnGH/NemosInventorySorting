@@ -1,9 +1,11 @@
 package com.devnemo.nemos.inventory.sorting.gui.components.buttons;
 
-import com.devnemo.nemos.inventory.sorting.ModKeyMappings;
+import com.devnemo.nemos.inventory.sorting.client.InventorySortingKeyMappings;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ClickType;
+import org.jetbrains.annotations.NotNull;
 
 import static com.devnemo.nemos.inventory.sorting.Constants.MOD_ID;
 
@@ -27,16 +29,16 @@ public class MoveAllButton extends AbstractSingleClickButton<MoveAllButton> {
     }
 
     @Override
-    public void onClick(double mouseX, double mouseY) {
+    public void onClick(@NotNull MouseButtonEvent mouseButtonEvent, boolean bl) {
         interactWithAllItems(ClickType.QUICK_MOVE, 0);
     }
 
     @Override
     protected KeyMapping getKeyMapping() {
         if (isInventoryButton) {
-            return ModKeyMappings.MOVE_ALL_INVENTORY.get();
+            return InventorySortingKeyMappings.MOVE_ALL_INVENTORY.get();
         }
 
-        return ModKeyMappings.MOVE_ALL.get();
+        return InventorySortingKeyMappings.MOVE_ALL.get();
     }
 }

@@ -14,10 +14,13 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.*;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -165,31 +168,31 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
-    public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    public void keyPressed(KeyEvent keyEvent, CallbackInfoReturnable<Boolean> cir) {
         if (this.nemosInventorySorting$filterBox != null) {
-            if (this.nemosInventorySorting$filterBox.isFocused() && keyCode != 256) {
-                cir.setReturnValue(this.nemosInventorySorting$filterBox.keyPressed(keyCode, scanCode, modifiers));
+            if (this.nemosInventorySorting$filterBox.isFocused() && keyEvent.key() != 256) {
+                cir.setReturnValue(this.nemosInventorySorting$filterBox.keyPressed(keyEvent));
                 return;
             }
         }
 
-        if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.keyPressed(keyCode, scanCode, modifiers))) {
+        if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.keyPressed(keyEvent))) {
             cir.setReturnValue(true);
         }
     }
 
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.keyReleased(keyCode, scanCode, modifiers))) {
+    public boolean keyReleased(@NotNull KeyEvent keyEvent) {
+        if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.keyReleased(keyEvent))) {
             return true;
         }
 
-        return super.keyReleased(keyCode, scanCode, modifiers);
+        return super.keyReleased(keyEvent);
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-    private void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        Optional<GuiEventListener> optional = this.getChildAt(mouseX, mouseY);
+    private void mouseClicked(MouseButtonEvent mouseButtonEvent, boolean bl, CallbackInfoReturnable<Boolean> cir) {
+        Optional<GuiEventListener> optional = this.getChildAt(mouseButtonEvent.x(), mouseButtonEvent.y());
 
         if (optional.isEmpty()) {
             for (GuiEventListener guiEventListener : this.children()) {
@@ -197,7 +200,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
         }
 
-        if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.mouseClicked(mouseX, mouseY, button))) {
+        if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.mouseClicked(mouseButtonEvent, bl))) {
             cir.setReturnValue(true);
         }
     }

@@ -1,12 +1,14 @@
 package com.devnemo.nemos.inventory.sorting.gui.components.buttons.filter;
 
-import com.devnemo.nemos.inventory.sorting.ModKeyMappings;
+import com.devnemo.nemos.inventory.sorting.client.InventorySortingKeyMappings;
 import com.devnemo.nemos.inventory.sorting.config.service.ConfigService;
 import com.devnemo.nemos.inventory.sorting.gui.components.buttons.AbstractFilterToggleButton;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import static com.devnemo.nemos.inventory.sorting.Constants.MOD_ID;
 import static com.devnemo.nemos.inventory.sorting.config.DefaultConfigValues.FILTER_CONFIG_PATH;
@@ -55,7 +57,7 @@ public class ToggleFilterPersistenceButton extends AbstractFilterToggleButton {
     }
 
     @Override
-    public void onClick(double mouseX, double mouseY) {
+    public void onClick(@NotNull MouseButtonEvent mouseButtonEvent, boolean bl) {
         filterConfig.toggleFilterPersistence();
 
         configService.writeConfig(true, FILTER_CONFIG_PATH, filterConfig);
@@ -64,6 +66,6 @@ public class ToggleFilterPersistenceButton extends AbstractFilterToggleButton {
 
     @Override
     protected KeyMapping getKeyMapping() {
-        return ModKeyMappings.TOGGLE_FILTER_PERSISTENCE.get();
+        return InventorySortingKeyMappings.TOGGLE_FILTER_PERSISTENCE.get();
     }
 }

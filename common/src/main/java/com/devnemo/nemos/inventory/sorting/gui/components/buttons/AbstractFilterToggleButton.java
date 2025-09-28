@@ -7,6 +7,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -47,38 +50,38 @@ public abstract class AbstractFilterToggleButton extends AbstractWidget implemen
     protected abstract void setTooltip();
 
     @Override
-    public abstract void onClick(double mouseX, double mouseY);
+    public abstract void onClick(@NotNull MouseButtonEvent mouseButtonEvent, boolean bl);
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(@NotNull KeyEvent keyEvent) {
         var minecraft = Minecraft.getInstance();
         var isKeyPressed = Arrays.stream(minecraft.options.keyMappings)
                 .filter(keyMapping -> keyMapping.same(getKeyMapping()))
-                .anyMatch(keyMapping -> keyMapping.matches(keyCode, scanCode));
+                .anyMatch(keyMapping -> keyMapping.matches(keyEvent));
 
         if (!isKeyPressed) {
-            return super.keyPressed(keyCode, scanCode, modifiers);
+            return super.keyPressed(keyEvent);
         }
 
         playDownSound(minecraft.getSoundManager());
-        onClick(0, 0);
+        onClick(new MouseButtonEvent(0, 0, new MouseButtonInfo(0, 0)), false);
 
         return true;
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(@NotNull MouseButtonEvent mouseButtonEvent, boolean bl) {
         var minecraft = Minecraft.getInstance();
         var isKeyPressed = Arrays.stream(minecraft.options.keyMappings)
                 .filter(keyMapping -> keyMapping.same(getKeyMapping()))
-                .anyMatch(keyMapping -> keyMapping.matchesMouse(button));
+                .anyMatch(keyMapping -> keyMapping.matchesMouse(mouseButtonEvent));
 
         if (!isKeyPressed) {
-            return super.mouseClicked(mouseX, mouseY, button);
+            return super.mouseClicked(mouseButtonEvent, bl);
         }
 
         playDownSound(minecraft.getSoundManager());
-        onClick(0, 0);
+        onClick(mouseButtonEvent, bl);
 
         return true;
     }

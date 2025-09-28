@@ -4,6 +4,7 @@ import com.devnemo.nemos.inventory.sorting.gui.components.FilterBox;
 import com.devnemo.nemos.inventory.sorting.gui.components.RecipeBookUpdatable;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.RecipeBookMenu;
@@ -38,13 +39,13 @@ public abstract class AbstractRecipeBookScreenMixin<T extends RecipeBookMenu> ex
      * Prevents the recipe book from handling key input when a {@link FilterBox} exists and is focused.
      */
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
-    private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    private void keyPressed(KeyEvent keyEvent, CallbackInfoReturnable<Boolean> cir) {
         var optionalFilterBox = children().stream()
                 .filter(widget -> widget instanceof FilterBox)
                 .findFirst();
 
         if (optionalFilterBox.isPresent() && optionalFilterBox.get().isFocused()) {
-            cir.setReturnValue(super.keyPressed(keyCode, scanCode, modifiers));
+            cir.setReturnValue(super.keyPressed(keyEvent));
         }
     }
 }

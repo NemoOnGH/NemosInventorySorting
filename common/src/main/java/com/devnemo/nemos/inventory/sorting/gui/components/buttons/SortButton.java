@@ -1,10 +1,12 @@
 package com.devnemo.nemos.inventory.sorting.gui.components.buttons;
 
-import com.devnemo.nemos.inventory.sorting.ModKeyMappings;
+import com.devnemo.nemos.inventory.sorting.client.InventorySortingKeyMappings;
 import com.devnemo.nemos.inventory.sorting.service.InventoryService;
 import com.devnemo.nemos.inventory.sorting.service.SortingService;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import static com.devnemo.nemos.inventory.sorting.Constants.MOD_ID;
 
@@ -28,7 +30,7 @@ public class SortButton extends AbstractInventoryButton {
     }
 
     @Override
-    public void onClick(double mouseX, double mouseY) {
+    public void onClick(@NotNull MouseButtonEvent mouseButtonEvent, boolean bl) {
         var inventoryService = InventoryService.getInstance();
         var sortingService = SortingService.getInstance();
         var endIndex = inventoryService.calculateEndIndex(isButtonShiftable(), this.endIndex);
@@ -39,9 +41,9 @@ public class SortButton extends AbstractInventoryButton {
     @Override
     protected KeyMapping getKeyMapping() {
         if (isInventoryButton) {
-            return ModKeyMappings.SORT_INVENTORY.get();
+            return InventorySortingKeyMappings.SORT_INVENTORY.get();
         }
 
-        return ModKeyMappings.SORT.get();
+        return InventorySortingKeyMappings.SORT.get();
     }
 }

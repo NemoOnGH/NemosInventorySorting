@@ -434,7 +434,7 @@ public class SortOrder {
         addItemToList(Items.IRON_DOOR);
         addItemToList(Items.IRON_TRAPDOOR);
         addItemToList(Items.HEAVY_WEIGHTED_PRESSURE_PLATE);
-        addItemToList(Items.CHAIN);
+        addItemToList(Items.IRON_CHAIN);
         addItemToList(Items.LIGHT_WEIGHTED_PRESSURE_PLATE);
         addItemToList(Items.QUARTZ_BLOCK);
         addItemToList(Items.QUARTZ_STAIRS);

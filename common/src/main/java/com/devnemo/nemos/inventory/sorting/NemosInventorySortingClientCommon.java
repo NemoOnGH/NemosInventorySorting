@@ -1,5 +1,7 @@
 package com.devnemo.nemos.inventory.sorting;
 
+import com.devnemo.nemos.inventory.sorting.client.InventorySortingCategories;
+import com.devnemo.nemos.inventory.sorting.client.InventorySortingKeyMappings;
 import com.devnemo.nemos.inventory.sorting.config.DefaultConfigs;
 import com.devnemo.nemos.inventory.sorting.config.service.ConfigService;
 import com.devnemo.nemos.inventory.sorting.helper.SortOrder;
@@ -18,7 +20,8 @@ public class NemosInventorySortingClientCommon {
 
     public static void init() {
         Constants.LOG.info("Thank you for using Nemo's Inventory Sorting!");
-        ModKeyMappings.init();
+        InventorySortingCategories.init();
+        InventorySortingKeyMappings.init();
         DefaultConfigs.setupDefaultConfigs();
 
         ConfigService.getInstance().writeConfig(false, COMPONENT_CONFIG_PATH, DEFAULT_COMPONENT_CONFIGS);
