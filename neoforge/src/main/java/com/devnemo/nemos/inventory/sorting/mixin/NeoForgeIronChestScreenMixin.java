@@ -8,8 +8,11 @@ import com.progwml6.ironchest.common.block.IronChestsTypes;
 import com.progwml6.ironchest.common.inventory.IronChestMenu;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -59,36 +62,36 @@ public abstract class NeoForgeIronChestScreenMixin extends AbstractContainerScre
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(@NotNull KeyEvent keyEvent) {
         for (AbstractWidget widget : nemosInventorySorting$widgets) {
-            if (widget.keyPressed(keyCode, scanCode, modifiers)) {
+            if (widget.keyPressed(keyEvent)) {
                 return true;
             }
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(keyEvent);
     }
 
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+    public boolean keyReleased(@NotNull KeyEvent keyEvent) {
         for (AbstractWidget widget : nemosInventorySorting$widgets) {
-            if (widget.keyReleased(keyCode, scanCode, modifiers)) {
+            if (widget.keyReleased(keyEvent)) {
                 return true;
             }
         }
 
-        return super.keyReleased(keyCode, scanCode, modifiers);
+        return super.keyReleased(keyEvent);
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(@NotNull MouseButtonEvent mouseButtonEvent, boolean bl) {
         for (AbstractWidget widget : nemosInventorySorting$widgets) {
-            if (widget.mouseClicked(mouseX, mouseY, button)) {
+            if (widget.mouseClicked(mouseButtonEvent, bl)) {
                 return true;
             }
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(mouseButtonEvent, bl);
     }
 
     @Override
