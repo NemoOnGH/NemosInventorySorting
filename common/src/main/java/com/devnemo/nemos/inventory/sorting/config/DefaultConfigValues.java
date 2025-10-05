@@ -28,11 +28,11 @@ public class DefaultConfigValues {
     public static String ITEM_FILTER = "item_filter";
     public static String FILTER_PERSISTENCE_TOGGLE = "filter_persistence_toggle";
 
-    public static int X_OFFSET_SORT_STORAGE_CONTAINER = 100;
-    public static int X_OFFSET_MOVE_SAME_STORAGE_CONTAINER = 118;
-    public static int X_OFFSET_MOVE_ALL_STORAGE_CONTAINER = 136;
-    public static int X_OFFSET_DROP_ALL_STORAGE_CONTAINER = 154;
-    public static int Y_OFFSET_CONTAINER = 5;
+    public static int RIGHT_X_OFFSET_SORT_STORAGE_CONTAINER = -61;
+    public static int RIGHT_X_OFFSET_MOVE_SAME_STORAGE_CONTAINER = -47;
+    public static int RIGHT_X_OFFSET_MOVE_ALL_STORAGE_CONTAINER = -33;
+    public static int RIGHT_X_OFFSET_DROP_ALL_STORAGE_CONTAINER = -19;
+    public static int Y_OFFSET_CONTAINER = -6;
 
     public static int X_OFFSET_SORT_INVENTORY = 136;
     public static int X_OFFSET_DROP_ALL_INVENTORY = 154;
