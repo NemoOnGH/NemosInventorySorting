@@ -177,18 +177,15 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
 
             if (!this.nemosInventorySorting$filterBox.isFocused() && keyEvent.hasControlDown() && keyEvent.key() == 70) {
-                var filterBoxX = nemosInventorySorting$filterBox.getX();
+                var filterBoxX = nemosInventorySorting$filterBox.getX() + nemosInventorySorting$filterBoxWidth;
                 var filterBoxY = nemosInventorySorting$filterBox.getY();
-                var optionalGuiEventListener = this.getChildAt(filterBoxX, filterBoxY);
 
-                if (optionalGuiEventListener.isEmpty()) {
-                    return;
-                }
-
-                this.setFocused(optionalGuiEventListener.get());
+                this.setFocused(nemosInventorySorting$filterBox);
                 this.nemosInventorySorting$filterBox.setFocused(true);
-                this.nemosInventorySorting$filterBox.onClick(new MouseButtonEvent(filterBoxX + nemosInventorySorting$filterBoxWidth, nemosInventorySorting$filterBox.getY(), new MouseButtonInfo(0, 0)), false);
+                this.nemosInventorySorting$filterBox.onClick(new MouseButtonEvent(filterBoxX, filterBoxY, new MouseButtonInfo(0, 0)), false);
+
                 cir.setReturnValue(true);
+                return;
             }
         }
 
@@ -218,6 +215,10 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
         if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.mouseClicked(mouseButtonEvent, bl))) {
             cir.setReturnValue(true);
+        }
+
+        if (!nemosInventorySorting$filterBox.mouseClicked(mouseButtonEvent, bl)) {
+            this.setFocused(null);
         }
     }
 
