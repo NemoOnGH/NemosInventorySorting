@@ -34,8 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static com.devnemo.nemos.inventory.sorting.Constants.MOD_ID;
-import static com.devnemo.nemos.inventory.sorting.Constants.NEMOS_BACKPACKS_MOD_ID;
+import static com.devnemo.nemos.inventory.sorting.Constants.*;
 import static com.devnemo.nemos.inventory.sorting.config.DefaultConfigValues.*;
 
 //TODO: Refactor
@@ -52,7 +51,8 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Shadow
     protected int inventoryLabelY;
-    @Shadow protected int imageWidth;
+    @Shadow
+    protected int imageWidth;
     @Unique
     private FilterBox nemosInventorySorting$filterBox;
     @Unique
@@ -134,7 +134,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         }
 
         nemosInventorySorting$filterBoxWidth = config.width();
-        var xOffset = config.xOffset() != null ? config.xOffset() : imageWidth - nemosInventorySorting$filterBoxWidth - 3;
+        var xOffset = config.xOffset() != null ? config.xOffset() : 1;
         var yOffset = config.yOffset() != null ? config.yOffset() : Y_OFFSET_ITEM_FILTER;
 
         nemosInventorySorting$createSearchBox(xOffset, yOffset, nemosInventorySorting$filterBoxWidth, config.height(), nemosInventorySorting$filterConfig.getFilter());
@@ -173,6 +173,21 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             if (this.nemosInventorySorting$filterBox.isFocused() && keyEvent.key() != 256) {
                 cir.setReturnValue(this.nemosInventorySorting$filterBox.keyPressed(keyEvent));
                 return;
+            }
+
+            if (!this.nemosInventorySorting$filterBox.isFocused() && hasControlDown() && keyCode == 70) {
+                var filterBoxX = nemosInventorySorting$filterBox.getX();
+                var filterBoxY = nemosInventorySorting$filterBox.getY();
+                var optionalGuiEventListener = this.getChildAt(filterBoxX, filterBoxY);
+
+                if (optionalGuiEventListener.isEmpty()) {
+                    return;
+                }
+
+                this.setFocused(optionalGuiEventListener.get());
+                this.nemosInventorySorting$filterBox.setFocused(true);
+                this.nemosInventorySorting$filterBox.onClick(filterBoxX + nemosInventorySorting$filterBoxWidth, nemosInventorySorting$filterBox.getY());
+                cir.setReturnValue(true);
             }
         }
 
@@ -268,7 +283,28 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
         }
 
-        return menu instanceof ChestMenu || menu instanceof ShulkerBoxMenu;
+        return menu instanceof ChestMenu ||
+                menu instanceof ShulkerBoxMenu ||
+                nemosInventorySorting$isModdedContainerMenu(menu, NEMOS_BACKPACKS_MOD_ID, "com.devnemo.nemos.backpacks.world.inventory.BackpackMenu") ||
+                nemosInventorySorting$isModdedContainerMenu(menu, REINFORCED_CHESTS_MOD_ID, "atonkish.reinfcore.screen.ReinforcedStorageScreenHandler") ||
+                nemosInventorySorting$isModdedContainerMenu(menu, REINFORCED_BARRELS_MOD_ID, "atonkish.reinfcore.screen.ReinforcedStorageScreenHandler") ||
+                nemosInventorySorting$isModdedContainerMenu(menu, REINFORCED_SHULKER_BOXES_MOD_ID, "atonkish.reinfcore.screen.ReinforcedStorageScreenHandler");
+    }
+
+    @Unique
+    private boolean nemosInventorySorting$isModdedContainerMenu(AbstractContainerMenu menu, String modId, String className) {
+        if (NemosInventorySortingClientCommon.MOD_LOADER_HELPER.isModLoaded(modId)) {
+            try {
+                var clazz = Class.forName(className);
+
+                if (clazz.isInstance(menu)) {
+                    return true;
+                }
+            } catch (ClassNotFoundException ignored) {
+            }
+        }
+
+        return false;
     }
 
     @Unique
@@ -358,7 +394,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         }
 
         var width = config.width();
-        var xOffset = config.xOffset() != null ? config.xOffset() : imageWidth - nemosInventorySorting$filterBoxWidth - width - 5;
+        var xOffset = config.xOffset() != null ? config.xOffset() : nemosInventorySorting$filterBoxWidth + 3;
         var yOffset = config.yOffset() != null ? config.yOffset() : Y_OFFSET_ITEM_FILTER;
         var button = filterButtonCreator.createButton(leftPos, topPos, xOffset, yOffset, width, config.height(), nemosInventorySorting$filterConfig);
 
@@ -381,9 +417,10 @@ public abstract class AbstractContainerScreenMixin extends Screen {
                 continue;
             }
 
-            int yOffset = config.yOffset() != null ? config.yOffset() : mapping.defaultYOffset();
+            var yOffset = config.yOffset() != null ? config.yOffset() : mapping.defaultYOffset();
+            var xOffset = config.xOffset() != null ? config.xOffset() : imageWidth + config.rightXOffset();
 
-            nemosInventorySorting$createButton(mapping.factory(), mapping.isInventoryButton(), config.xOffset(), yOffset, config.width(), config.height());
+            nemosInventorySorting$createButton(mapping.factory(), mapping.isInventoryButton(), xOffset, yOffset, config.width(), config.height());
         }
     }
 
