@@ -16,6 +16,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -175,7 +176,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
                 return;
             }
 
-            if (!this.nemosInventorySorting$filterBox.isFocused() && hasControlDown() && keyCode == 70) {
+            if (!this.nemosInventorySorting$filterBox.isFocused() && keyEvent.hasControlDown() && keyEvent.key() == 70) {
                 var filterBoxX = nemosInventorySorting$filterBox.getX();
                 var filterBoxY = nemosInventorySorting$filterBox.getY();
                 var optionalGuiEventListener = this.getChildAt(filterBoxX, filterBoxY);
@@ -186,7 +187,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
                 this.setFocused(optionalGuiEventListener.get());
                 this.nemosInventorySorting$filterBox.setFocused(true);
-                this.nemosInventorySorting$filterBox.onClick(filterBoxX + nemosInventorySorting$filterBoxWidth, nemosInventorySorting$filterBox.getY());
+                this.nemosInventorySorting$filterBox.onClick(new MouseButtonEvent(filterBoxX + nemosInventorySorting$filterBoxWidth, nemosInventorySorting$filterBox.getY(), new MouseButtonInfo(0, 0)), false);
                 cir.setReturnValue(true);
             }
         }
