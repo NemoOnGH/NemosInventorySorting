@@ -1,4 +1,4 @@
-# Changelog v1.14.1
+# Changelog v1.14.2
 
 ## Fixes
-- Fixed possible NullPointer
+- Fixed issues with fast trading

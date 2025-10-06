@@ -217,7 +217,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             cir.setReturnValue(true);
         }
 
-        if (nemosInventorySorting$filterBox != null && !nemosInventorySorting$filterBox.mouseClicked(mouseButtonEvent, bl)) {
+        if (nemosInventorySorting$filterBox != null && !nemosInventorySorting$filterBox.mouseClicked(mouseButtonEvent, bl) && this.getFocused() == nemosInventorySorting$filterBox) {
             this.setFocused(null);
         }
     }
