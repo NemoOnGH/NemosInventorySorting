@@ -36,6 +36,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static com.devnemo.nemos.inventory.sorting.Constants.*;
+import static com.devnemo.nemos.inventory.sorting.client.InventorySortingKeyMappings.QUICK_SEARCH;
 import static com.devnemo.nemos.inventory.sorting.config.DefaultConfigValues.*;
 
 //TODO: Refactor
@@ -176,7 +177,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
                 return;
             }
 
-            if (!this.nemosInventorySorting$filterBox.isFocused() && keyEvent.hasControlDown() && keyEvent.key() == 70) {
+            if (!this.nemosInventorySorting$filterBox.isFocused() && keyEvent.hasControlDown() && QUICK_SEARCH.get().matches(keyEvent)) {
                 var filterBoxX = nemosInventorySorting$filterBox.getX() + nemosInventorySorting$filterBoxWidth;
                 var filterBoxY = nemosInventorySorting$filterBox.getY();
 

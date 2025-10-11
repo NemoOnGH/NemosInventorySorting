@@ -26,6 +26,7 @@ public class SortOrder {
         addItemToList(Items.OAK_TRAPDOOR);
         addItemToList(Items.OAK_PRESSURE_PLATE);
         addItemToList(Items.OAK_BUTTON);
+        addItemToList(Items.OAK_SHELF);
         addItemToList(Items.OAK_SIGN);
         addItemToList(Items.OAK_HANGING_SIGN);
         addItemToList(Items.OAK_BOAT);
@@ -45,6 +46,7 @@ public class SortOrder {
         addItemToList(Items.SPRUCE_TRAPDOOR);
         addItemToList(Items.SPRUCE_PRESSURE_PLATE);
         addItemToList(Items.SPRUCE_BUTTON);
+        addItemToList(Items.SPRUCE_SHELF);
         addItemToList(Items.SPRUCE_SIGN);
         addItemToList(Items.SPRUCE_HANGING_SIGN);
         addItemToList(Items.SPRUCE_BOAT);
@@ -64,6 +66,7 @@ public class SortOrder {
         addItemToList(Items.BIRCH_TRAPDOOR);
         addItemToList(Items.BIRCH_PRESSURE_PLATE);
         addItemToList(Items.BIRCH_BUTTON);
+        addItemToList(Items.BIRCH_SHELF);
         addItemToList(Items.BIRCH_SIGN);
         addItemToList(Items.BIRCH_HANGING_SIGN);
         addItemToList(Items.BIRCH_BOAT);
@@ -83,6 +86,7 @@ public class SortOrder {
         addItemToList(Items.JUNGLE_TRAPDOOR);
         addItemToList(Items.JUNGLE_PRESSURE_PLATE);
         addItemToList(Items.JUNGLE_BUTTON);
+        addItemToList(Items.JUNGLE_SHELF);
         addItemToList(Items.JUNGLE_SIGN);
         addItemToList(Items.JUNGLE_HANGING_SIGN);
         addItemToList(Items.JUNGLE_BOAT);
@@ -102,6 +106,7 @@ public class SortOrder {
         addItemToList(Items.ACACIA_TRAPDOOR);
         addItemToList(Items.ACACIA_PRESSURE_PLATE);
         addItemToList(Items.ACACIA_BUTTON);
+        addItemToList(Items.ACACIA_SHELF);
         addItemToList(Items.ACACIA_SIGN);
         addItemToList(Items.ACACIA_HANGING_SIGN);
         addItemToList(Items.ACACIA_BOAT);
@@ -121,6 +126,7 @@ public class SortOrder {
         addItemToList(Items.DARK_OAK_TRAPDOOR);
         addItemToList(Items.DARK_OAK_PRESSURE_PLATE);
         addItemToList(Items.DARK_OAK_BUTTON);
+        addItemToList(Items.DARK_OAK_SHELF);
         addItemToList(Items.DARK_OAK_SIGN);
         addItemToList(Items.DARK_OAK_HANGING_SIGN);
         addItemToList(Items.DARK_OAK_BOAT);
@@ -140,6 +146,7 @@ public class SortOrder {
         addItemToList(Items.MANGROVE_TRAPDOOR);
         addItemToList(Items.MANGROVE_PRESSURE_PLATE);
         addItemToList(Items.MANGROVE_BUTTON);
+        addItemToList(Items.MANGROVE_SHELF);
         addItemToList(Items.MANGROVE_SIGN);
         addItemToList(Items.MANGROVE_HANGING_SIGN);
         addItemToList(Items.MANGROVE_BOAT);
@@ -159,6 +166,7 @@ public class SortOrder {
         addItemToList(Items.CHERRY_TRAPDOOR);
         addItemToList(Items.CHERRY_PRESSURE_PLATE);
         addItemToList(Items.CHERRY_BUTTON);
+        addItemToList(Items.CHERRY_SHELF);
         addItemToList(Items.CHERRY_SIGN);
         addItemToList(Items.CHERRY_HANGING_SIGN);
         addItemToList(Items.CHERRY_BOAT);
@@ -178,6 +186,7 @@ public class SortOrder {
         addItemToList(Items.PALE_OAK_TRAPDOOR);
         addItemToList(Items.PALE_OAK_PRESSURE_PLATE);
         addItemToList(Items.PALE_OAK_BUTTON);
+        addItemToList(Items.PALE_OAK_SHELF);
         addItemToList(Items.PALE_OAK_SIGN);
         addItemToList(Items.PALE_OAK_HANGING_SIGN);
         addItemToList(Items.PALE_OAK_BOAT);
@@ -198,6 +207,7 @@ public class SortOrder {
         addItemToList(Items.BAMBOO_TRAPDOOR);
         addItemToList(Items.BAMBOO_PRESSURE_PLATE);
         addItemToList(Items.BAMBOO_BUTTON);
+        addItemToList(Items.BAMBOO_SHELF);
         addItemToList(Items.BAMBOO_SIGN);
         addItemToList(Items.BAMBOO_HANGING_SIGN);
         addItemToList(Items.BAMBOO_RAFT);
@@ -217,6 +227,7 @@ public class SortOrder {
         addItemToList(Items.CRIMSON_TRAPDOOR);
         addItemToList(Items.CRIMSON_PRESSURE_PLATE);
         addItemToList(Items.CRIMSON_BUTTON);
+        addItemToList(Items.CRIMSON_SHELF);
         addItemToList(Items.CRIMSON_SIGN);
         addItemToList(Items.CRIMSON_HANGING_SIGN);
 
@@ -234,6 +245,7 @@ public class SortOrder {
         addItemToList(Items.WARPED_TRAPDOOR);
         addItemToList(Items.WARPED_PRESSURE_PLATE);
         addItemToList(Items.WARPED_BUTTON);
+        addItemToList(Items.WARPED_SHELF);
         addItemToList(Items.WARPED_SIGN);
         addItemToList(Items.WARPED_HANGING_SIGN);
 
@@ -454,6 +466,9 @@ public class SortOrder {
         addItemToList(Items.COPPER_DOOR);
         addItemToList(Items.COPPER_TRAPDOOR);
         addItemToList(Items.COPPER_BULB);
+        addItemToList(Items.COPPER_LANTERN.unaffected());
+        addItemToList(Items.COPPER_CHEST);
+        addItemToList(Items.COPPER_GOLEM_STATUE);
         addItemToList(Items.EXPOSED_COPPER);
         addItemToList(Items.EXPOSED_CHISELED_COPPER);
         addItemToList(Items.EXPOSED_COPPER_GRATE);
@@ -463,6 +478,9 @@ public class SortOrder {
         addItemToList(Items.EXPOSED_COPPER_DOOR);
         addItemToList(Items.EXPOSED_COPPER_TRAPDOOR);
         addItemToList(Items.EXPOSED_COPPER_BULB);
+        addItemToList(Items.COPPER_LANTERN.exposed());
+        addItemToList(Items.EXPOSED_COPPER_CHEST);
+        addItemToList(Items.EXPOSED_COPPER_GOLEM_STATUE);
         addItemToList(Items.WEATHERED_COPPER);
         addItemToList(Items.WEATHERED_CHISELED_COPPER);
         addItemToList(Items.WEATHERED_COPPER_GRATE);
@@ -472,6 +490,9 @@ public class SortOrder {
         addItemToList(Items.WEATHERED_COPPER_DOOR);
         addItemToList(Items.WEATHERED_COPPER_TRAPDOOR);
         addItemToList(Items.WEATHERED_COPPER_BULB);
+        addItemToList(Items.COPPER_LANTERN.weathered());
+        addItemToList(Items.WEATHERED_COPPER_CHEST);
+        addItemToList(Items.WEATHERED_COPPER_GOLEM_STATUE);
         addItemToList(Items.OXIDIZED_COPPER);
         addItemToList(Items.OXIDIZED_CHISELED_COPPER);
         addItemToList(Items.OXIDIZED_COPPER_GRATE);
@@ -481,6 +502,9 @@ public class SortOrder {
         addItemToList(Items.OXIDIZED_COPPER_DOOR);
         addItemToList(Items.OXIDIZED_COPPER_TRAPDOOR);
         addItemToList(Items.OXIDIZED_COPPER_BULB);
+        addItemToList(Items.COPPER_LANTERN.oxidized());
+        addItemToList(Items.OXIDIZED_COPPER_CHEST);
+        addItemToList(Items.OXIDIZED_COPPER_GOLEM_STATUE);
         addItemToList(Items.WAXED_CHISELED_COPPER);
         addItemToList(Items.WAXED_COPPER_GRATE);
         addItemToList(Items.WAXED_CUT_COPPER);
@@ -489,6 +513,9 @@ public class SortOrder {
         addItemToList(Items.WAXED_COPPER_DOOR);
         addItemToList(Items.WAXED_COPPER_TRAPDOOR);
         addItemToList(Items.WAXED_COPPER_BULB);
+        addItemToList(Items.COPPER_LANTERN.waxed());
+        addItemToList(Items.WAXED_COPPER_CHEST);
+        addItemToList(Items.WAXED_COPPER_GOLEM_STATUE);
         addItemToList(Items.WAXED_EXPOSED_COPPER);
         addItemToList(Items.WAXED_EXPOSED_CHISELED_COPPER);
         addItemToList(Items.WAXED_EXPOSED_COPPER_GRATE);
@@ -498,6 +525,9 @@ public class SortOrder {
         addItemToList(Items.WAXED_EXPOSED_COPPER_DOOR);
         addItemToList(Items.WAXED_EXPOSED_COPPER_TRAPDOOR);
         addItemToList(Items.WAXED_EXPOSED_COPPER_BULB);
+        addItemToList(Items.COPPER_LANTERN.waxedExposed());
+        addItemToList(Items.WAXED_EXPOSED_COPPER_CHEST);
+        addItemToList(Items.WAXED_EXPOSED_COPPER_GOLEM_STATUE);
         addItemToList(Items.WAXED_WEATHERED_COPPER);
         addItemToList(Items.WAXED_WEATHERED_CHISELED_COPPER);
         addItemToList(Items.WAXED_WEATHERED_COPPER_GRATE);
@@ -507,6 +537,9 @@ public class SortOrder {
         addItemToList(Items.WAXED_WEATHERED_COPPER_DOOR);
         addItemToList(Items.WAXED_WEATHERED_COPPER_TRAPDOOR);
         addItemToList(Items.WAXED_WEATHERED_COPPER_BULB);
+        addItemToList(Items.COPPER_LANTERN.waxedWeathered());
+        addItemToList(Items.WAXED_WEATHERED_COPPER_CHEST);
+        addItemToList(Items.WAXED_WEATHERED_COPPER_GOLEM_STATUE);
         addItemToList(Items.WAXED_OXIDIZED_COPPER);
         addItemToList(Items.WAXED_OXIDIZED_CHISELED_COPPER);
         addItemToList(Items.WAXED_OXIDIZED_COPPER_GRATE);
@@ -516,6 +549,9 @@ public class SortOrder {
         addItemToList(Items.WAXED_OXIDIZED_COPPER_DOOR);
         addItemToList(Items.WAXED_OXIDIZED_COPPER_TRAPDOOR);
         addItemToList(Items.WAXED_OXIDIZED_COPPER_BULB);
+        addItemToList(Items.COPPER_LANTERN.waxedOxidized());
+        addItemToList(Items.WAXED_OXIDIZED_COPPER_CHEST);
+        addItemToList(Items.WAXED_OXIDIZED_COPPER_GOLEM_STATUE);
         addItemToList(Items.WHITE_WOOL);
         addItemToList(Items.LIGHT_GRAY_WOOL);
         addItemToList(Items.GRAY_WOOL);
@@ -911,6 +947,7 @@ public class SortOrder {
         addItemToList(Items.COBWEB);
         addItemToList(Items.BEDROCK);
         addItemToList(Items.TORCH);
+        addItemToList(Items.COPPER_TORCH);
         addItemToList(Items.SOUL_TORCH);
         addItemToList(Items.REDSTONE_TORCH);
         addItemToList(Items.LANTERN);
@@ -1000,30 +1037,35 @@ public class SortOrder {
         // Tools
         addItemToList(Items.WOODEN_SWORD);
         addItemToList(Items.STONE_SWORD);
+        addItemToList(Items.COPPER_SWORD);
         addItemToList(Items.IRON_SWORD);
         addItemToList(Items.GOLDEN_SWORD);
         addItemToList(Items.DIAMOND_SWORD);
         addItemToList(Items.NETHERITE_SWORD);
         addItemToList(Items.WOODEN_PICKAXE);
         addItemToList(Items.STONE_PICKAXE);
+        addItemToList(Items.COPPER_PICKAXE);
         addItemToList(Items.IRON_PICKAXE);
         addItemToList(Items.GOLDEN_PICKAXE);
         addItemToList(Items.DIAMOND_PICKAXE);
         addItemToList(Items.NETHERITE_PICKAXE);
         addItemToList(Items.WOODEN_AXE);
         addItemToList(Items.STONE_AXE);
+        addItemToList(Items.COPPER_AXE);
         addItemToList(Items.IRON_AXE);
         addItemToList(Items.GOLDEN_AXE);
         addItemToList(Items.DIAMOND_AXE);
         addItemToList(Items.NETHERITE_AXE);
         addItemToList(Items.WOODEN_SHOVEL);
         addItemToList(Items.STONE_SHOVEL);
+        addItemToList(Items.COPPER_SHOVEL);
         addItemToList(Items.IRON_SHOVEL);
         addItemToList(Items.GOLDEN_SHOVEL);
         addItemToList(Items.DIAMOND_SHOVEL);
         addItemToList(Items.NETHERITE_SHOVEL);
         addItemToList(Items.WOODEN_HOE);
         addItemToList(Items.STONE_HOE);
+        addItemToList(Items.COPPER_HOE);
         addItemToList(Items.IRON_HOE);
         addItemToList(Items.GOLDEN_HOE);
         addItemToList(Items.DIAMOND_HOE);
@@ -1122,6 +1164,7 @@ public class SortOrder {
         // Armor
         addItemToList(Items.LEATHER_HELMET);
         addItemToList(Items.CHAINMAIL_HELMET);
+        addItemToList(Items.COPPER_HELMET);
         addItemToList(Items.IRON_HELMET);
         addItemToList(Items.GOLDEN_HELMET);
         addItemToList(Items.DIAMOND_HELMET);
@@ -1129,24 +1172,28 @@ public class SortOrder {
         addItemToList(Items.TURTLE_HELMET);
         addItemToList(Items.LEATHER_CHESTPLATE);
         addItemToList(Items.CHAINMAIL_CHESTPLATE);
+        addItemToList(Items.COPPER_CHESTPLATE);
         addItemToList(Items.IRON_CHESTPLATE);
         addItemToList(Items.GOLDEN_CHESTPLATE);
         addItemToList(Items.DIAMOND_CHESTPLATE);
         addItemToList(Items.NETHERITE_CHESTPLATE);
         addItemToList(Items.LEATHER_LEGGINGS);
         addItemToList(Items.CHAINMAIL_LEGGINGS);
+        addItemToList(Items.COPPER_LEGGINGS);
         addItemToList(Items.IRON_LEGGINGS);
         addItemToList(Items.GOLDEN_LEGGINGS);
         addItemToList(Items.DIAMOND_LEGGINGS);
         addItemToList(Items.NETHERITE_LEGGINGS);
         addItemToList(Items.LEATHER_BOOTS);
         addItemToList(Items.CHAINMAIL_BOOTS);
+        addItemToList(Items.COPPER_BOOTS);
         addItemToList(Items.IRON_BOOTS);
         addItemToList(Items.GOLDEN_BOOTS);
         addItemToList(Items.DIAMOND_BOOTS);
         addItemToList(Items.NETHERITE_BOOTS);
 
         addItemToList(Items.LEATHER_HORSE_ARMOR);
+        addItemToList(Items.COPPER_HORSE_ARMOR);
         addItemToList(Items.IRON_HORSE_ARMOR);
         addItemToList(Items.GOLDEN_HORSE_ARMOR);
         addItemToList(Items.DIAMOND_HORSE_ARMOR);
@@ -1213,6 +1260,7 @@ public class SortOrder {
         addItemToList(Items.COPPER_BLOCK);
         addItemToList(Items.WAXED_COPPER_BLOCK);
         addItemToList(Items.COPPER_INGOT);
+        addItemToList(Items.COPPER_NUGGET);
         addItemToList(Items.RAW_COPPER_BLOCK);
         addItemToList(Items.RAW_COPPER);
         addItemToList(Items.IRON_BLOCK);
@@ -1399,6 +1447,7 @@ public class SortOrder {
         addItemToList(Items.CAVE_SPIDER_SPAWN_EGG);
         addItemToList(Items.CHICKEN_SPAWN_EGG);
         addItemToList(Items.COD_SPAWN_EGG);
+        addItemToList(Items.COPPER_GOLEM_SPAWN_EGG);
         addItemToList(Items.COW_SPAWN_EGG);
         addItemToList(Items.CREAKING_SPAWN_EGG);
         addItemToList(Items.CREEPER_SPAWN_EGG);

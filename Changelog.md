@@ -1,4 +1,4 @@
-# Changelog v1.14.2
+# Changelog v1.14.3
 
-## Fixes
-- Fixed issues with fast trading
+## Changes
+- Adapted sort order to include 1.21.10 items

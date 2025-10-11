@@ -56,6 +56,11 @@ public class InventorySortingKeyMappings {
             GLFW.GLFW_KEY_UNKNOWN,
             NEMOS_INVENTORY_SORTING
     ));
+    public static Supplier<KeyMapping> QUICK_SEARCH = registerKeyMapping(new KeyMapping(
+            String.format("%s.key.quickSearch", MOD_ID),
+            GLFW.GLFW_KEY_F,
+            NEMOS_INVENTORY_SORTING
+    ));
 
     private static Supplier<KeyMapping> registerKeyMapping(KeyMapping keyMapping) {
         return NemosInventorySortingClientCommon.REGISTRY_HELPER.registerKeyMapping(keyMapping);
