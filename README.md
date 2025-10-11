@@ -2,18 +2,21 @@
 <br><br>
 
 # Description
-**Nemo's Inventory Sorting** is a *client-side* mod that adds buttons to your inventory GUI.  
-Sort your inventory, move all matching or all items, or drop everything at once — all with a single click.  
+**Nemo's Inventory Sorting** is a _client-side_ mod that adds buttons to your inventory GUI.  
+Sort your inventory, move all matching or all items, or drop everything at once — all with a single click.
+
 You can even filter and highlight items in containers by typing part of their name!
+Quickly filter items by pressing **Ctrl + F** (or **Command + F** on macOS).    
+You can change the key binding in the settings.
 
 For more information and to see how to configure the components check the [wiki](https://wiki.devnemo.com/projects/minecraft-mods/nemos-inventory-sorting/general).
 
 > 💡 **Tip:** If you're a dark mode enthusiast, you can use the built-in dark mode resource pack.
 
 ### How to Use
-To sort, drop or move items, simply click the buttons or set custom key binds and press them.
-In the player inventory, clicking the buttons does not include the hotbar. To include the hotbar, Shift-click (or Shift + key bind). <br>
-To search for an item, simply click the search bar and start typing!
+To sort, drop or move items, simply click the buttons or set custom key binds and press them.   
+In the player inventory, clicking the buttons does not include the hotbar. To include the hotbar, Shift-click (or Shift + key bind).    
+To search for an item, simply click the search bar or press **Ctrl + [Key Bind]** (or **Command + [Key Bind]** on macOS), then start typing!
 
 ### ⚠ Disclaimer   
 
@@ -23,7 +26,9 @@ Use at your own risk — or check with the server admins beforehand.
 
 ### Compatibility
 
-Nemo's Inventory Sorting is compatible with **Iron Chests** *(since version 1.11)*.  
+Nemo's Inventory Sorting is compatible with:
+- **Iron Chests** *(since version 1.11)*
+- **Better Chests, Barrels & Shulker Boxes** *(since version 1.14)*
 <br><br>
 
 # Downloads

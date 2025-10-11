@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static com.devnemo.nemos.inventory.sorting.Constants.MOD_ID;
+import static com.devnemo.nemos.inventory.sorting.ModKeyMappings.QUICK_SEARCH;
 import static com.devnemo.nemos.inventory.sorting.config.DefaultConfigValues.*;
 
 //TODO: Refactor
@@ -172,18 +173,9 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
 
             if (!this.nemosInventorySorting$filterBox.isFocused() && hasControlDown() && keyCode == 70) {
-                var filterBoxX = nemosInventorySorting$filterBox.getX();
-                var filterBoxY = nemosInventorySorting$filterBox.getY();
-                var optionalGuiEventListener = this.getChildAt(filterBoxX, filterBoxY);
+                nemosInventorySorting$handleQuickSearch(cir);
 
-                if (optionalGuiEventListener.isEmpty()) {
-                    return;
-                }
-
-                this.setFocused(optionalGuiEventListener.get());
-                this.nemosInventorySorting$filterBox.setFocused(true);
-                this.nemosInventorySorting$filterBox.onClick(filterBoxX + nemosInventorySorting$filterBoxWidth, nemosInventorySorting$filterBox.getY());
-                cir.setReturnValue(true);
+                return;
             }
         }
 
@@ -211,9 +203,31 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
         }
 
+        if (!this.nemosInventorySorting$filterBox.isFocused() && hasControlDown() && QUICK_SEARCH.get().matchesMouse(button)) {
+            nemosInventorySorting$handleQuickSearch(cir);
+
+            return;
+        }
+
         if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.mouseClicked(mouseX, mouseY, button))) {
             cir.setReturnValue(true);
         }
+    }
+
+    @Unique
+    private void nemosInventorySorting$handleQuickSearch(CallbackInfoReturnable<Boolean> cir) {
+        var filterBoxX = nemosInventorySorting$filterBox.getX();
+        var filterBoxY = nemosInventorySorting$filterBox.getY();
+        var optionalGuiEventListener = this.getChildAt(filterBoxX, filterBoxY);
+
+        if (optionalGuiEventListener.isEmpty()) {
+            return;
+        }
+
+        this.setFocused(optionalGuiEventListener.get());
+        this.nemosInventorySorting$filterBox.setFocused(true);
+        this.nemosInventorySorting$filterBox.onClick(filterBoxX + nemosInventorySorting$filterBoxWidth, nemosInventorySorting$filterBox.getY());
+        cir.setReturnValue(true);
     }
 
     @Unique
