@@ -23,5 +23,6 @@
   "nemos_inventory_sorting.key.moveSameInventory": "Move Same (Inventory)",
   "nemos_inventory_sorting.key.sort": "Sort",
   "nemos_inventory_sorting.key.sortInventory": "Sort (Inventory)",
-  "nemos_inventory_sorting.key.toggleFilterPersistence": "Toggle Filter Persistence"
+  "nemos_inventory_sorting.key.toggleFilterPersistence": "Toggle Filter Persistence",
+  "nemos_inventory_sorting.key.quickSearch": "Quick Search (Ctrl/Command + Key Bind)"
 }
