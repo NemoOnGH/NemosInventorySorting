@@ -2,3 +2,4 @@
 
 ## Changes
 - Adapted sort order to include 1.21.10 items
+- Made the Quick Search key configurable via key binding
