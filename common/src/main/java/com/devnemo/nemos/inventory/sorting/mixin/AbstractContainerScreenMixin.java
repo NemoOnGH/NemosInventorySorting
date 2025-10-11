@@ -178,14 +178,8 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
 
             if (!this.nemosInventorySorting$filterBox.isFocused() && keyEvent.hasControlDown() && QUICK_SEARCH.get().matches(keyEvent)) {
-                var filterBoxX = nemosInventorySorting$filterBox.getX() + nemosInventorySorting$filterBoxWidth;
-                var filterBoxY = nemosInventorySorting$filterBox.getY();
+                nemosInventorySorting$handleQuickSearch(cir);
 
-                this.setFocused(nemosInventorySorting$filterBox);
-                this.nemosInventorySorting$filterBox.setFocused(true);
-                this.nemosInventorySorting$filterBox.onClick(new MouseButtonEvent(filterBoxX, filterBoxY, new MouseButtonInfo(0, 0)), false);
-
-                cir.setReturnValue(true);
                 return;
             }
         }
@@ -214,6 +208,12 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
         }
 
+        if (!this.nemosInventorySorting$filterBox.isFocused() && mouseButtonEvent.hasControlDown() && QUICK_SEARCH.get().matchesMouse(mouseButtonEvent)) {
+            nemosInventorySorting$handleQuickSearch(cir);
+
+            return;
+        }
+
         if (nemosInventorySorting$triggerActionOnWidget(widget -> widget.mouseClicked(mouseButtonEvent, bl))) {
             cir.setReturnValue(true);
         }
@@ -221,6 +221,22 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         if (nemosInventorySorting$filterBox != null && !nemosInventorySorting$filterBox.mouseClicked(mouseButtonEvent, bl) && this.getFocused() == nemosInventorySorting$filterBox) {
             this.setFocused(null);
         }
+    }
+
+    @Unique
+    private void nemosInventorySorting$handleQuickSearch(CallbackInfoReturnable<Boolean> cir) {
+        var filterBoxX = nemosInventorySorting$filterBox.getX();
+        var filterBoxY = nemosInventorySorting$filterBox.getY();
+        var optionalGuiEventListener = this.getChildAt(filterBoxX, filterBoxY);
+
+        if (optionalGuiEventListener.isEmpty()) {
+            return;
+        }
+
+        this.setFocused(optionalGuiEventListener.get());
+        this.nemosInventorySorting$filterBox.setFocused(true);
+        this.nemosInventorySorting$filterBox.onClick(new MouseButtonEvent(filterBoxX, filterBoxY, new MouseButtonInfo(0, 0)), false);
+        cir.setReturnValue(true);
     }
 
     @Unique

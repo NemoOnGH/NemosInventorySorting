@@ -59,5 +59,6 @@ public class NemosInventorySortingForge {
         event.register(InventorySortingKeyMappings.DROP_ALL.get());
         event.register(InventorySortingKeyMappings.DROP_ALL_INVENTORY.get());
         event.register(InventorySortingKeyMappings.TOGGLE_FILTER_PERSISTENCE.get());
+        event.register(InventorySortingKeyMappings.QUICK_SEARCH.get());
     }
 }
