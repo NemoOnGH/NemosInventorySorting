@@ -1,5 +1,6 @@
 package com.devnemo.nemos.inventory.sorting;
 
+import com.devnemo.nemos.inventory.sorting.client.InventorySortingKeyMappings;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackSelectionConfig;
@@ -11,7 +12,6 @@ import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.Optional;
@@ -21,14 +21,13 @@ import static com.devnemo.nemos.inventory.sorting.Constants.MOD_ID;
 @Mod(MOD_ID)
 public class NemosInventorySortingForge {
 
-    public NemosInventorySortingForge(FMLJavaModLoadingContext context) {
+    public NemosInventorySortingForge() {
         if (FMLEnvironment.dist.isClient()) {
             NemosInventorySortingClientCommon.init();
         }
 
-        var modBusGroup = context.getModBusGroup();
-        AddPackFindersEvent.getBus(modBusGroup).addListener(this::addBuiltInResourcePack);
-        RegisterKeyMappingsEvent.getBus(modBusGroup).addListener(this::registerKeyMappings);
+        AddPackFindersEvent.BUS.addListener(this::addBuiltInResourcePack);
+        RegisterKeyMappingsEvent.BUS.addListener(this::registerKeyMappings);
     }
 
     private void addBuiltInResourcePack(AddPackFindersEvent event) {
@@ -51,14 +50,14 @@ public class NemosInventorySortingForge {
     }
 
     private void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(ModKeyMappings.SORT.get());
-        event.register(ModKeyMappings.SORT_INVENTORY.get());
-        event.register(ModKeyMappings.MOVE_SAME.get());
-        event.register(ModKeyMappings.MOVE_SAME_INVENTORY.get());
-        event.register(ModKeyMappings.MOVE_ALL.get());
-        event.register(ModKeyMappings.MOVE_ALL_INVENTORY.get());
-        event.register(ModKeyMappings.DROP_ALL.get());
-        event.register(ModKeyMappings.DROP_ALL_INVENTORY.get());
-        event.register(ModKeyMappings.TOGGLE_FILTER_PERSISTENCE.get());
+        event.register(InventorySortingKeyMappings.SORT.get());
+        event.register(InventorySortingKeyMappings.SORT_INVENTORY.get());
+        event.register(InventorySortingKeyMappings.MOVE_SAME.get());
+        event.register(InventorySortingKeyMappings.MOVE_SAME_INVENTORY.get());
+        event.register(InventorySortingKeyMappings.MOVE_ALL.get());
+        event.register(InventorySortingKeyMappings.MOVE_ALL_INVENTORY.get());
+        event.register(InventorySortingKeyMappings.DROP_ALL.get());
+        event.register(InventorySortingKeyMappings.DROP_ALL_INVENTORY.get());
+        event.register(InventorySortingKeyMappings.TOGGLE_FILTER_PERSISTENCE.get());
     }
 }
