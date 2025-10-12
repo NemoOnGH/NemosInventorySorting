@@ -204,7 +204,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
         }
 
-        if (!this.nemosInventorySorting$filterBox.isFocused() && hasControlDown() && QUICK_SEARCH.get().matchesMouse(button)) {
+        if (this.nemosInventorySorting$filterBox != null && !this.nemosInventorySorting$filterBox.isFocused() && hasControlDown() && QUICK_SEARCH.get().matchesMouse(button)) {
             nemosInventorySorting$handleQuickSearch(cir);
 
             return;
