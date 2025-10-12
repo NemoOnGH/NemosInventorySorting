@@ -1,59 +1,59 @@
-plugins {
-    id 'multiloader-loader'
-    id 'fabric-loom'
-}
-
-repositories {
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
-            }
-        }
-        filter {
-            includeGroup "maven.modrinth"
-        }
-    }
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.layered {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
-    }
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-    modCompileOnly("maven.modrinth:nemos-backpacks:${nemos_backpacks_version}")
-}
-
-base {
-    archivesName = "${mod_id_jar}-Fabric"
-}
-
-loom {
-    def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
-    if (aw.exists()) {
-        accessWidenerPath.set(aw)
-    }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
-    }
-    runs {
-        client {
-            client()
-            setConfigName('Fabric Client')
-            ideConfigGenerated(true)
-            runDir('runs/client')
-        }
-        server {
-            server()
-            setConfigName('Fabric Server')
-            ideConfigGenerated(true)
-            runDir('runs/server')
-        }
-    }
-}
-
-sourceSets.main.resources { srcDir project.project(':common').file('src/generated/resources/').getAbsolutePath() }
+//plugins {
+//    id 'multiloader-loader'
+//    id 'fabric-loom'
+//}
+//
+//repositories {
+//    exclusiveContent {
+//        forRepository {
+//            maven {
+//                name = "Modrinth"
+//                url = "https://api.modrinth.com/maven"
+//            }
+//        }
+//        filter {
+//            includeGroup "maven.modrinth"
+//        }
+//    }
+//}
+//
+//dependencies {
+//    minecraft "com.mojang:minecraft:${minecraft_version}"
+//    mappings loom.layered {
+//        officialMojangMappings()
+//        parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
+//    }
+//    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+//    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+//    modCompileOnly("maven.modrinth:nemos-backpacks:${nemos_backpacks_version}")
+//}
+//
+//base {
+//    archivesName = "${mod_id_jar}-Fabric"
+//}
+//
+//loom {
+//    def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
+//    if (aw.exists()) {
+//        accessWidenerPath.set(aw)
+//    }
+//    mixin {
+//        defaultRefmapName.set("${mod_id}.refmap.json")
+//    }
+//    runs {
+//        client {
+//            client()
+//            setConfigName('Fabric Client')
+//            ideConfigGenerated(true)
+//            runDir('runs/client')
+//        }
+//        server {
+//            server()
+//            setConfigName('Fabric Server')
+//            ideConfigGenerated(true)
+//            runDir('runs/server')
+//        }
+//    }
+//}
+//
+//sourceSets.main.resources { srcDir project.project(':common').file('src/generated/resources/').getAbsolutePath() }
