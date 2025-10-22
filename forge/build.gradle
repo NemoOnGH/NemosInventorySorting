@@ -1,7 +1,10 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 plugins {
     id 'multiloader-loader'
     id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
+    id("com.modrinth.minotaur")
 }
 
 base {
@@ -116,3 +119,28 @@ sourceSets.each {
     it.output.resourcesDir = dir
     it.java.destinationDirectory = dir
 }
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    dependsOn(tasks.jarJar)
+    apiToken = System.getenv("CURSEFORGE_TOKEN")
+
+    def projectId = findProperty('curseforge_project_id')
+
+    def mainFile = upload(projectId, tasks.jarJar.archiveFile)
+    mainFile.changelog = file('../changelog.md')
+    mainFile.displayName = findProperty('mod_name') + ' Forge ' + findProperty('version')
+    mainFile.releaseType = 'release'
+}
+
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set(findProperty('modrinth_project_id'))
+    changelog.set(file('../changelog.md').text)
+    versionName.set(findProperty('mod_name') + ' Forge ' + findProperty('version'))
+    versionType.set("release")
+    uploadFile.set(tasks.jarJar)
+    dependencies {
+
+    }
+}
+tasks.modrinth.dependsOn(tasks.jarJar)
