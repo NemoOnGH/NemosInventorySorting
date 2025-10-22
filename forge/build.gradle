@@ -129,6 +129,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     def mainFile = upload(projectId, tasks.jarJar.archiveFile)
     mainFile.changelog = file('../changelog.md')
     mainFile.displayName = findProperty('mod_name') + ' Forge ' + findProperty('version')
+    mainFile.addEnvironment("Client")
     mainFile.releaseType = 'release'
 }
 

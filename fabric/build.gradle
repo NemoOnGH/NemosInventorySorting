@@ -71,7 +71,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     mainFile.changelog = file('../changelog.md')
     mainFile.displayName = findProperty('mod_name') + ' Fabric ' + findProperty('version')
     mainFile.releaseType = 'release'
-    mainFile.addEnvironment("Client", "Server")
+    mainFile.addEnvironment("Client")
     mainFile.addJavaVersion("Java 21")
 }
 
