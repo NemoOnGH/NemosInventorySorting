@@ -1,4 +1,4 @@
-# Changelog v1.14.4
+# Changelog v1.14.5
 
 ## Fixes
-- Fixed possible NullPointer
+- Fixed issues with sorting
